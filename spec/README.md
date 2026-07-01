@@ -28,3 +28,5 @@ The scoreboard will be done using a simple JSON serializer, so it can be stored 
 
 Functionality of is this game fun will be tested by everyone that is unfortunately in my vicinity while I need testers. Other then that there will be an ability to pause or play at a slower speed (an argument), so we can see if the hitreg works as intended. There will also be a setting (an argument) that allows the player to see hitboxes of all enemies and even himself.
 
+As for the advanced features, there will be extension methods used for the physical simulation library, Interface method overloada for the updating and drawing of entities (im not sure if that is advanced or normal c#) and I wanted to have the update of the background stars flickering be done in parallel on another thread with everything else, since I am pretty sure it won't be very efficient.
+
