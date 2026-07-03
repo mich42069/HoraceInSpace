@@ -5,43 +5,28 @@
 (Change `[ ]` to `[x]` for the courses you plan to use this final project for.)
 
 - [x] NPRG035 (Programming in C# language | Programování v jazyce C#)
-- [ ] NPRG038 (Advanced C# Programming | Pokročilé programování v jazyce C#)
+- [x] NPRG038 (Advanced C# Programming | Pokročilé programování v jazyce C#)
 - [ ] NPRG057 (Advanced .NET Programming II | Pokročilé programování pro .NET II)
 - [ ] NPRG064 (Programming user interfaces in .NET | Programování uživatelských rozhraní v .NET)
 
 ## Specification
 
-### Title (replace this heading with an actual title)
----
-(Remove this section.)
-
-Give your project a meaningful title, i.e., several words that briefly describe what the project is about.
-
-These are considered good titles:
- - Task Scheduler with Recurring Events and Notifications
- - Personal Budget Tracker with Categorization and Reports
- - Maze Generator and Solver with Visual Animation
- - 2D Top-Down Shooter Game with Procedural Level Generation
-
-On the other hand, these would not be good titles:
- - Game with Enemies
- - Project for Files
- - Tool for API
----
-(Replace this section with the actual specification.)
-
-The actual specification follows. Make sure to thoroughly specify what your application will do and how. Most of the ReCodEx assignments are examples of detailed specifications. It is not necessary to explicitly specify every single corner case scenario. Here you can find a few bullets on what to describe:
- - Motivation: Why is the application useful (apart from getting credit for the course)?
- - Use case scenarios: Who will use this app? For what purpose?
- - Main Features: What does the application do? What buttons/options/arguments will be available?
- - UI/UX: How will the application look (CLI, TUI, GUI, Web, Library, ...)? How will the user interact with the application?
- - Persistence: Will there be some data stored somewhere? (SQL, TXT, JSON, ...)? What data will be stored?
- - Libraries/Technologies: What other libraries will be used, if any? (WinForms, WPF, ASP.NET, Unity, ...)
- - Testing: How will the application be tested? How will the functionality be evaluated?
-
-Note that the specification is *binding*, i.e., you will be required to implement all features from the specification.
+### Horace in space (Asteroids) (with Enemies (Asteroids and UFOs))
 
 ---
-(Remove this section after integrating it into the specification.)
+A physical continuous simulation of asteroids and UFOs and Horace's spaceship in fullscreen, with local score keeping system and stars in the background.
 
-Note that passing the final project requirements for the advanced courses requires non-trivial usage of some of the C#/.NET features taught in those courses. Make sure to include the expected features used in the specification. For more information about these features, check the website of the relevant courses. If you are unsure whether the usage of a specific advanced feature is reasonable, ask your teacher.
+---
+
+The game will have the already mentioned enemies, a background separate from the playing area with flickering stars, horace, main menu where we can see our best score.
+
+I want the game to feel actually playable but still a bit challanging. The ideal usecase for this game is to play it on lectures that aren't fun.
+
+The GUI and all enemies etc. will be done using the Monogame library. 
+
+The scoreboard will be done using a simple JSON serializer, so it can be stored as an object and be easily loaded and updated as needed.
+
+Functionality of is this game fun will be tested by everyone that is unfortunately in my vicinity while I need testers. Other then that there will be an ability to pause or play at a slower speed (an argument), so we can see if the hitreg works as intended. There will also be a setting (an argument) that allows the player to see hitboxes of all enemies and even himself.
+
+As for the advanced features, there will be extension methods used for the physical simulation library, Interface method overloada for the updating and drawing of entities (im not sure if that is advanced or normal c#) and I wanted to have the update of the background stars flickering be done in parallel on another thread with everything else, since I am pretty sure it won't be very efficient.
+
