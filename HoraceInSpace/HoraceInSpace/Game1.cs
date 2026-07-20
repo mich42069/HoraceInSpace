@@ -6,18 +6,30 @@ namespace HoraceInSpace;
 
 public class Game1 : Game
 {
+    private const int NumberOfStars = 512;
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
+    private StarsBackground _starsBackground;
+    private Vector2 _screenSize;
 
     public Game1()
     {
         _graphics = new GraphicsDeviceManager(this);
+
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
+
+        _graphics.HardwareModeSwitch = false; // Borderless fullscreen
+        _graphics.IsFullScreen = true;
+        _graphics.ApplyChanges();
     }
 
     protected override void Initialize()
     {
+        _screenSize = new Vector2(
+            GraphicsDevice.Viewport.Width,
+            GraphicsDevice.Viewport.Height);
+        _starsBackground = new StarsBackground(GraphicsDevice, _screenSize, NumberOfStars);
         base.Initialize();
     }
 
@@ -32,15 +44,17 @@ public class Game1 : Game
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
             Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
-
+        _starsBackground.Update(gameTime);
 
         base.Update(gameTime);
     }
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Color.CornflowerBlue);
-
+        _spriteBatch.Begin();
+        GraphicsDevice.Clear(Color.Black);
+        _starsBackground.Draw(_spriteBatch);
         base.Draw(gameTime);
+        _spriteBatch.End();
     }
 }
