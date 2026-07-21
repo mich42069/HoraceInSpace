@@ -38,10 +38,10 @@ public struct momentum(double value)
        left.Value != right.Value;
 
     // momentum / weight = speed
-    public static speed operator /(momentum m, weight w) =>
+    public static speed operator /(momentum m, mass w) =>
        new speed(m.Value / w.Value);
 
     // momentum / speed = weight
-    public static weight operator /(momentum m, speed s) =>
-       new weight(m.Value / s.Value);
+    public static mass operator /(momentum m, speed s) =>
+       new mass(m.Value / s.Value);
 }

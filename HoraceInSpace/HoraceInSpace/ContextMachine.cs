@@ -19,8 +19,8 @@ public class ContextMachine : IContextMachine
     public void Update(GameTime gameTime)
     {
         _starsBackground.Update(gameTime);
-        _currentState.Update(gameTime);
         _currentState.CheckInputs();
+        _currentState.Update(gameTime);
         if (_currentState.SwitchState) 
             SwitchState(_currentState.NewState());
     }
@@ -28,7 +28,7 @@ public class ContextMachine : IContextMachine
     public void Draw(GameTime gameTime)
     {
         _starsBackground.Draw(_spriteBatch);
-        _currentState.Draw(gameTime);
+        _currentState.Draw(_spriteBatch);
     }
 
     

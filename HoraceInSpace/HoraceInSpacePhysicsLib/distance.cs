@@ -26,9 +26,15 @@ public struct distance(double value)
 
     public static bool operator >(distance left, distance right) =>
        left.Value > right.Value;
+    
+    public static bool operator >=(distance left, distance right) =>
+       left.Value > right.Value;
 
     public static bool operator <(distance left, distance right) =>
        left.Value < right.Value;
+    
+    public static bool operator <=(distance left, distance right) =>
+       left.Value <= right.Value;
 
     public static bool operator ==(distance left, distance right) =>
        left.Value == right.Value;
@@ -39,4 +45,8 @@ public struct distance(double value)
     // distance / time = speed
     public static speed operator /(distance dist, time t) =>
        new speed(dist.Value / t.Value);
+    
+    // distance * distance = area
+    public static area operator *(distance left, distance right) =>
+       new area(left.Value * right.Value);
 }

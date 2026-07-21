@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -48,6 +49,8 @@ public class Game1 : Game
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
+        using var stream = File.OpenRead(Path.Combine("Content", "horace.png"));
+        Textures.Horace = Texture2D.FromStream(GraphicsDevice, stream);
         _contextMachine.SetSpriteBatch(_spriteBatch);
     }
 

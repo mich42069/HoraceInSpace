@@ -48,9 +48,9 @@ public struct speed(double value)
        new acceleration(s.Value / t.Value);
 
     // weight * speed = momentum
-    public static momentum operator *(speed s, weight w) =>
+    public static momentum operator *(speed s, mass w) =>
        new momentum(s.Value * w.Value);
 
-    public static momentum operator *(weight w, speed s) =>
+    public static momentum operator *(mass w, speed s) =>
        new momentum(s.Value * w.Value);
 }
