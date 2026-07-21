@@ -1,11 +1,21 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Runtime.InteropServices;
 
 namespace HoraceInSpace;
 
 public class Game1 : Game
 {
+    // No sleep when app
+    [DllImport("kernel32.dll")]
+    private static extern uint SetThreadExecutionState(uint esFlags);
+
+    private const uint ES_CONTINUOUS = 0x80000000;
+    private const uint ES_SYSTEM_REQUIRED = 0x00000001;
+    private const uint ES_DISPLAY_REQUIRED = 0x00000002;
+
     private const int NumberOfStars = 512;
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
@@ -56,5 +66,24 @@ public class Game1 : Game
         _starsBackground.Draw(_spriteBatch);
         base.Draw(gameTime);
         _spriteBatch.End();
+    }
+    
+    // Handling that the PC won't go to sleep when focused
+    protected override void OnActivated(object sender, EventArgs args)
+    {
+        SetThreadExecutionState(
+            ES_CONTINUOUS |
+            ES_SYSTEM_REQUIRED |
+            ES_DISPLAY_REQUIRED);
+
+        base.OnActivated(sender, args);
+    }
+
+    // Re-enables sleep functionality
+    protected override void OnDeactivated(object sender, EventArgs args)
+    {
+        SetThreadExecutionState(ES_CONTINUOUS);
+
+        base.OnDeactivated(sender, args);
     }
 }
