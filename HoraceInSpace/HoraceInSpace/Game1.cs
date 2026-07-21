@@ -16,7 +16,7 @@ public class Game1 : Game
     private const uint ES_SYSTEM_REQUIRED = 0x00000001;
     private const uint ES_DISPLAY_REQUIRED = 0x00000002;
 
-    private const int NumberOfStars = 512;
+    private const int NumberOfStars = 1024;
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
     private StarsBackground _starsBackground;
