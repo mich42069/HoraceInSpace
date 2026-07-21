@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -19,8 +20,9 @@ public class Game1 : Game
     private const int NumberOfStars = 1024;
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
-    private StarsBackground _starsBackground;
     private Vector2 _screenSize;
+    
+    private IContextMachine _contextMachine;
 
     public Game1()
     {
@@ -39,23 +41,20 @@ public class Game1 : Game
         _screenSize = new Vector2(
             GraphicsDevice.Viewport.Width,
             GraphicsDevice.Viewport.Height);
-        _starsBackground = new StarsBackground(GraphicsDevice, _screenSize, NumberOfStars);
+        _contextMachine = new ContextMachine(GraphicsDevice, _screenSize, NumberOfStars);
         base.Initialize();
     }
 
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
-
+        _contextMachine.SetSpriteBatch(_spriteBatch);
     }
 
     protected override void Update(GameTime gameTime)
     {
-        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
-            Keyboard.GetState().IsKeyDown(Keys.Escape))
-            Exit();
-        _starsBackground.Update(gameTime);
-
+        if (_contextMachine.CanExit()) Exit();
+        _contextMachine.Update(gameTime);
         base.Update(gameTime);
     }
 
@@ -63,7 +62,7 @@ public class Game1 : Game
     {
         _spriteBatch.Begin();
         GraphicsDevice.Clear(Color.Black);
-        _starsBackground.Draw(_spriteBatch);
+        _contextMachine.Draw(gameTime);
         base.Draw(gameTime);
         _spriteBatch.End();
     }

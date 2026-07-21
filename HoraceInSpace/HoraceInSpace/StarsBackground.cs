@@ -12,10 +12,11 @@ public class StarsBackground
     private List<IStar> _stars = new();
     private readonly int _numberOfStars;
     private readonly double _nonFlickerChance;
+    private const int SpecialEffectCoefficient = 10;
     public StarsBackground(GraphicsDevice device, Vector2 screenSize, int count)
     {
         _numberOfStars = count;
-        _nonFlickerChance = 1 - 2 / (double)_numberOfStars;
+        _nonFlickerChance = 1 - SpecialEffectCoefficient / (double)_numberOfStars;
         for (int i = 0; i < count; i++)
         {
             Vector2 position = new Vector2(_random.Next(0, (int)screenSize.X), _random.Next(0, (int)screenSize.Y));
@@ -47,6 +48,6 @@ public class StarsBackground
 
         float IntensityCalculation() => _random.NextSingle() + _random.NextSingle() - 1;
         // float IntensityCalculation() => 1;
-        time TimeCalculation() => _random.NextSingle().Seconds() * 4;
+        time TimeCalculation() => _random.NextSingle().Seconds() * 3;
     }
 }
