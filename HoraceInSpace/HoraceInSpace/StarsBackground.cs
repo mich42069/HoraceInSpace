@@ -48,6 +48,6 @@ public class StarsBackground
 
         float IntensityCalculation() => _random.NextSingle() + _random.NextSingle() - 1;
         // float IntensityCalculation() => 1;
-        time TimeCalculation() => _random.NextSingle().Seconds() * 3;
+        TimeSpan TimeCalculation() => _random.NextSingle().Seconds() * 3;
     }
 }

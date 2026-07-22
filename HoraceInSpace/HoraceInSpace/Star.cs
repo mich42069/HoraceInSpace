@@ -19,8 +19,8 @@ public class Star : IStar
     private Color _color = new (DefaultColor, DefaultColor, DefaultColor);
     private Color _flickerColor;
     private bool _flicker = false;
-    private double _flickerTime = 0;
-    private time _flickerLength; // Milliseconds
+    private TimeSpan _flickerTime = 0.Seconds();
+    private TimeSpan _flickerLength; // Milliseconds
 
     public Star(GraphicsDevice graphicsDevice, Vector2 position)
     {
@@ -29,7 +29,7 @@ public class Star : IStar
         _pixel.SetData(new[] { Color.White });
     }
 
-    public void SpecialEffect(GameTime gameTime, float intensity, time length)
+    public void SpecialEffect(GameTime gameTime, float intensity, TimeSpan length)
     {
         if (_flicker) return;
         
@@ -40,7 +40,7 @@ public class Star : IStar
         _flickerColor = new (newFlickerColor, newFlickerColor, newFlickerColor);
         
         _flicker = true;
-        _flickerTime = gameTime.TotalGameTime.TotalMilliseconds;
+        _flickerTime = gameTime.TotalGameTime;
     }
 
     public void Draw(SpriteBatch spriteBatch)
@@ -52,7 +52,7 @@ public class Star : IStar
     {
         if (_flicker)
         {
-            time elapsed = (gameTime.TotalGameTime.TotalMilliseconds - _flickerTime).Milliseconds();
+            TimeSpan elapsed = gameTime.TotalGameTime - _flickerTime;
             float t = MathHelper.Clamp((float)(elapsed / _flickerLength), 0f, 1f);
 
             _color = Color.Lerp(_flickerColor, _defaultColor, t);

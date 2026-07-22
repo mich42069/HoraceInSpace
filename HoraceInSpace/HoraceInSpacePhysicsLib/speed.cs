@@ -37,15 +37,15 @@ public struct speed(double value)
        left.Value != right.Value;
 
     // speed * time = distance
-    public static distance operator *(speed s, time t) =>
-       new distance(s.Value * t.Value);
+    public static distance operator *(speed s, TimeSpan t) =>
+       new distance(s.Value * t.TotalSeconds);
 
-    public static distance operator *(time t, speed s) =>
-       new distance(s.Value * t.Value);
+    public static distance operator *(TimeSpan t, speed s) =>
+       new distance(s.Value * t.TotalSeconds);
 
     // speed / time = acceleration
-    public static acceleration operator /(speed s, time t) =>
-       new acceleration(s.Value / t.Value);
+    public static acceleration operator /(speed s, TimeSpan t) =>
+       new acceleration(s.Value / t.TotalSeconds);
 
     // weight * speed = momentum
     public static momentum operator *(speed s, mass w) =>

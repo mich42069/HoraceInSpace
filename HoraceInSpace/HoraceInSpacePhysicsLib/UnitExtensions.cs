@@ -6,13 +6,13 @@ public static class UnitExtensions
     public static distance Meters(this float meters) => new distance(meters);
     public static distance Meters(this int meters) => new distance(meters);
 
-    public static time Seconds(this double seconds) => new time(seconds);
-    public static time Seconds(this float seconds) => new time(seconds);
-    public static time Seconds(this int seconds) => new time(seconds);
+    public static TimeSpan Seconds(this double seconds) => TimeSpan.FromSeconds(seconds);
+    public static TimeSpan Seconds(this float seconds) => TimeSpan.FromSeconds(seconds);
+    public static TimeSpan Seconds(this int seconds) => TimeSpan.FromSeconds(seconds);
 
-    public static time Milliseconds(this double milliseconds) => new time(milliseconds / 1000);
-    public static time Milliseconds(this float milliseconds) => new time(milliseconds / 1000);
-    public static time Milliseconds(this int milliseconds) => new time((double)milliseconds / 1000);
+    public static TimeSpan Milliseconds(this double milliseconds) => TimeSpan.FromMilliseconds(milliseconds);
+    public static TimeSpan Milliseconds(this float milliseconds) => TimeSpan.FromMilliseconds(milliseconds);
+    public static TimeSpan Milliseconds(this int milliseconds) => TimeSpan.FromMilliseconds(milliseconds);
 
     public static speed MetersPerSecond(this double mps) => new speed(mps);
     public static speed MetersPerSecond(this float mps) => new speed(mps);

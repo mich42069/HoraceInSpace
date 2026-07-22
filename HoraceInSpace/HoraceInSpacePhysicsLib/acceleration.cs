@@ -37,11 +37,11 @@ public struct acceleration(double value)
        left.Value != right.Value;
 
     // acceleration * time = speed
-    public static speed operator *(acceleration a, time t) =>
-       new speed(a.Value * t.Value);
+    public static speed operator *(acceleration a, TimeSpan t) =>
+       new speed(a.Value * t.TotalSeconds);
 
-    public static speed operator *(time t, acceleration a) =>
-       new speed(a.Value * t.Value);
+    public static speed operator *(TimeSpan t, acceleration a) =>
+       new speed(a.Value * t.TotalSeconds);
 
     // weight * acceleration = force (represented in newtons via momentum-style struct not needed here)
 }

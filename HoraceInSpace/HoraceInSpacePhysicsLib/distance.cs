@@ -43,8 +43,8 @@ public struct distance(double value)
        left.Value != right.Value;
 
     // distance / time = speed
-    public static speed operator /(distance dist, time t) =>
-       new speed(dist.Value / t.Value);
+    public static speed operator /(distance dist, TimeSpan t) =>
+       new speed(dist.Value / t.TotalSeconds);
     
     // distance * distance = area
     public static area operator *(distance left, distance right) =>

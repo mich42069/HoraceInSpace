@@ -37,13 +37,13 @@ public class Horace : AEntity
         acceleration negativeDragAcceleration = force.AtmosphericDrag(SpaceValues.AtmosphericDensity, SpaceValues.DragCoefficient, Area, Speed) / Mass;
         Acceleration -= negativeDragAcceleration;
         
-        time frameTime = gameTime.ElapsedGameTime.Milliseconds.Milliseconds();
+        TimeSpan frameTime = gameTime.ElapsedGameTime;
         Speed += frameTime * Acceleration;
     }
     
     private void UpdatePosition(GameTime gameTime)
     {
-        time dt = gameTime.ElapsedGameTime.TotalSeconds.Seconds();
+        TimeSpan dt = gameTime.ElapsedGameTime;
 
         Position = new position(
             Position.X + Speed * dt * AngleOfMotion.Cos(),
