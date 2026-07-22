@@ -12,15 +12,20 @@ public class Ingame : AState
     private Horace _horace;
     private List<AEntity> _entities = new List<AEntity>();
     private position _screenSize;
-    public Ingame(position screenSize)
+    private readonly double _timeScale;
+    
+    public Ingame(position screenSize, GameArguments arguments)
     {
+        _timeScale = arguments.TimeScale;
+        AEntity.DrawHitbox = arguments.ShowHitboxes;
         _screenSize = screenSize;
         _horace = new Horace(screenSize);
     }
     
     public override void Update(GameTime gameTime)
     {
-        _horace.Update(gameTime);
+        GameTime adjustedGameTime = new GameTime(gameTime.TotalGameTime * _timeScale, gameTime.ElapsedGameTime * _timeScale);
+        _horace.Update(adjustedGameTime);
         foreach (AEntity entity in _entities)
         {
             if (_horace.CheckHit(entity))
@@ -29,7 +34,7 @@ public class Ingame : AState
                 break;
             }
         }
-        foreach (AEntity entity in _entities) entity.Update(gameTime);
+        foreach (AEntity entity in _entities) entity.Update(adjustedGameTime);
     }
 
     public override void Draw(SpriteBatch spriteBatch)

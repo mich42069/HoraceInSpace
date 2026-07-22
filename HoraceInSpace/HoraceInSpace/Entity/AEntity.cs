@@ -7,7 +7,7 @@ namespace HoraceInSpace;
 
 public abstract class AEntity
 {   
-    protected bool DrawHitbox = true;
+    public static bool DrawHitbox = false;
     protected position MapBoundingBox;
     public IHitBox HitBox;
     protected position Position;

@@ -22,11 +22,14 @@ public class Game1 : Game
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
     private Vector2 _screenSize;
+
+    private GameArguments _arguments;
     
     private IContextMachine _contextMachine;
 
-    public Game1()
+    public Game1(string[] args)
     {
+        _arguments = GameArguments.Parse(args);
         _graphics = new GraphicsDeviceManager(this);
 
         Content.RootDirectory = "Content";
@@ -42,7 +45,7 @@ public class Game1 : Game
         _screenSize = new Vector2(
             GraphicsDevice.Viewport.Width,
             GraphicsDevice.Viewport.Height);
-        _contextMachine = new ContextMachine(GraphicsDevice, _screenSize, NumberOfStars);
+        _contextMachine = new ContextMachine(GraphicsDevice, _screenSize, NumberOfStars, _arguments);
         Textures.Initialize(GraphicsDevice);
         base.Initialize();
     }

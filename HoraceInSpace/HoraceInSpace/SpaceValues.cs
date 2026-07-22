@@ -4,6 +4,6 @@ namespace HoraceInSpace;
 
 public static class SpaceValues
 {
-    public static dragCoefficient DragCoefficient => 1.DragCoefficient();
-    public static density AtmosphericDensity => 0.000001.KilogramsPerCubicMeter() * 1000;
+    public static dragCoefficient DragCoefficient => 2.DragCoefficient();
+    public static density AtmosphericDensity => 1.KilogramsPerCubicMeter();
 }
