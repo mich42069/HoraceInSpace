@@ -12,9 +12,8 @@ public class Horace : AEntity
 {
     private readonly force AccelerationForce = 1_000_000.Newtons();
     private List<(acceleration, angle)> _accelerationControl = new ();
-    public Horace(position screenSize)
+    public Horace()
     {
-        MapBoundingBox = screenSize;
         Radius = 20.Meters();
         Position = (1000, 1000).At();
         HitBox = new CircleHitBox(Position, Radius);

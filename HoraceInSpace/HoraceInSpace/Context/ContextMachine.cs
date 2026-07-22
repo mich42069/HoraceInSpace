@@ -16,7 +16,8 @@ public class ContextMachine : IContextMachine
     {
         _arguments = arguments;
         position screenSizeInMeters = ((double)screenSize.X, (double)screenSize.Y).At();
-        _currentState = new Ingame(screenSizeInMeters, _arguments);
+        SpaceValues.WorldSize = screenSizeInMeters;
+        _currentState = new Ingame(_arguments);
         _starsBackground = new StarsBackground(device, screenSize, count);
     }
     

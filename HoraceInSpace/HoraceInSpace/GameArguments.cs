@@ -12,7 +12,7 @@ public class GameArguments
 
         foreach (string arg in args)
         {
-            if (arg == "--hitboxes")
+            if (arg == "--hitboxes" || arg == "-h")
             {
                 showHitboxes = true;
             }

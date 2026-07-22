@@ -8,7 +8,6 @@ namespace HoraceInSpace;
 public abstract class AEntity
 {   
     public static bool DrawHitbox = false;
-    protected position MapBoundingBox;
     public IHitBox HitBox;
     protected position Position;
     protected speed Speed;
@@ -33,14 +32,18 @@ public abstract class AEntity
     {
         HitBox.SetPosition(Position);
     }
-    protected virtual void UpdatePosition(GameTime gameTime){
+
+    protected virtual void UpdatePosition(GameTime gameTime)
+    {
         TimeSpan dt = gameTime.ElapsedGameTime;
 
         Position = new position(
             Position.X + Speed * dt * AngleOfMotion.Cos(),
             Position.Y + Speed * dt * AngleOfMotion.Sin());
 
-        Position %= MapBoundingBox;}
+        Position %= SpaceValues.WorldSize;
+    }
+
     protected virtual void UpdateRotation() {}
     protected virtual void UpdateAcceleration() {}
     protected virtual void UpdateSpeed(GameTime gameTime) {}
@@ -55,16 +58,16 @@ public abstract class AEntity
         Draw(Position, spriteBatch);
 
         if (Position.X < Radius)
-            Draw(Position + (MapBoundingBox.X, 0.Meters()).At(), spriteBatch);
+            Draw(Position + (SpaceValues.WorldSize.X, 0.Meters()).At(), spriteBatch);
 
-        if (Position.X > MapBoundingBox.X - Radius)
-            Draw(Position - (MapBoundingBox.X, 0.Meters()).At(), spriteBatch);
+        if (Position.X > SpaceValues.WorldSize.X - Radius)
+            Draw(Position - (SpaceValues.WorldSize.X, 0.Meters()).At(), spriteBatch);
 
         if (Position.Y < Radius)
-            Draw(Position + (0.Meters(), MapBoundingBox.Y).At(), spriteBatch);
+            Draw(Position + (0.Meters(), SpaceValues.WorldSize.Y).At(), spriteBatch);
 
-        if (Position.Y > MapBoundingBox.Y - Radius)
-            Draw(Position - (0.Meters(), MapBoundingBox.Y).At(), spriteBatch);
+        if (Position.Y > SpaceValues.WorldSize.Y - Radius)
+            Draw(Position - (0.Meters(), SpaceValues.WorldSize.Y).At(), spriteBatch);
 
         if (DrawHitbox)
         {

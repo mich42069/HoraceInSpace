@@ -11,15 +11,13 @@ public class Ingame : AState
 {
     private Horace _horace;
     private List<AEntity> _entities = new List<AEntity>();
-    private position _screenSize;
     private readonly double _timeScale;
     
-    public Ingame(position screenSize, GameArguments arguments)
+    public Ingame(GameArguments arguments)
     {
         _timeScale = arguments.TimeScale;
         AEntity.DrawHitbox = arguments.ShowHitboxes;
-        _screenSize = screenSize;
-        _horace = new Horace(screenSize);
+        _horace = new Horace();
     }
     
     public override void Update(GameTime gameTime)
@@ -56,7 +54,7 @@ public class Ingame : AState
         if (Keyboard.GetState().IsKeyDown(Keys.A))
             _horace.Left();
         if (Keyboard.GetState().IsKeyDown(Keys.Q))
-            _entities.Add(AsteroidFactory.CreateAsteroid(_screenSize));
+            _entities.Add(AsteroidFactory.CreateAsteroid());
     }
 
     public override StateEnum NewState()

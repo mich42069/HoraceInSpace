@@ -5,6 +5,8 @@ public struct distance(double value)
 {
     public double Value = value;
     public override string ToString() => $"{Value} m";
+    
+    public bool Negative => Value < 0;
 
     public static distance operator /(distance dist, double scalar) =>
        new(dist.Value / scalar);
@@ -41,6 +43,10 @@ public struct distance(double value)
 
     public static bool operator !=(distance left, distance right) =>
        left.Value != right.Value;
+    
+    public static distance operator -(distance dist) =>
+       new distance(-dist.Value);
+    
 
     public static distance operator %(distance left, distance right)
     {
