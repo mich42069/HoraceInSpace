@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using HoraceInSpacePhysicsLib;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -7,9 +8,9 @@ namespace HoraceInSpace;
 public class Ingame : AState
 {
     private Horace _horace;
-    public Ingame()
+    public Ingame(position screenSize)
     {
-        _horace = new Horace();
+        _horace = new Horace(screenSize);
     }
     
     public override void Update(GameTime gameTime)
@@ -30,6 +31,10 @@ public class Ingame : AState
             _horace.Forward();
         if (Keyboard.GetState().IsKeyDown(Keys.S))
             _horace.Back();
+        if (Keyboard.GetState().IsKeyDown(Keys.D))
+            _horace.Right();
+        if (Keyboard.GetState().IsKeyDown(Keys.A))
+            _horace.Left();
     }
 
     public override StateEnum NewState()

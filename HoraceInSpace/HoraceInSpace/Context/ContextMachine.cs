@@ -1,4 +1,5 @@
 ﻿using System;
+using HoraceInSpacePhysicsLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -12,7 +13,8 @@ public class ContextMachine : IContextMachine
 
     public ContextMachine(GraphicsDevice device, Vector2 screenSize, int count)
     {
-        _currentState = new Ingame();
+        position screenSizeInMeters = ((double)screenSize.X, (double)screenSize.Y).At();
+        _currentState = new Ingame(screenSizeInMeters);
         _starsBackground = new StarsBackground(device, screenSize, count);
     }
     

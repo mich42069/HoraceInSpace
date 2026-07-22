@@ -5,6 +5,11 @@ public struct angle(double value)
 {
     public double Value = value;
 
+    public static angle Zero => new(0);
+    public static angle Deg90 => FromDegrees(90);
+    public static angle Deg180 => FromDegrees(180);
+    public static angle Deg270 => FromDegrees(270);
+    
     public override string ToString() => $"{Value} rad";
 
     public static angle operator +(angle left, angle right) =>

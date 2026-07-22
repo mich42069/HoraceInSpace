@@ -31,6 +31,7 @@ public static class UnitExtensions
     public static mass Kilograms(this int kg) => new mass(kg);
     
     public static position At(this (double x, double y) coords) => new position(coords.x.Meters(), coords.y.Meters());
+    public static position At(this (distance x, distance y) coords) => new position(coords.x, coords.y);
     public static position At(this (int x, int y) coords) => new position(coords.x.Meters(), coords.y.Meters());
     
     public static area SquareMeters(this double sqm) => new area(sqm);

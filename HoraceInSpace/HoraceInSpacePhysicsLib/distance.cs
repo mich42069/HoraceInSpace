@@ -42,6 +42,12 @@ public struct distance(double value)
     public static bool operator !=(distance left, distance right) =>
        left.Value != right.Value;
 
+    public static distance operator %(distance left, distance right)
+    {
+       while (left.Value < 0) left.Value += right.Value;
+       return new(left.Value % right.Value);
+    }
+
     // distance / time = speed
     public static speed operator /(distance dist, TimeSpan t) =>
        new speed(dist.Value / t.TotalSeconds);

@@ -28,6 +28,9 @@ public struct position(distance x, distance y)
     public static bool operator !=(position left, position right) =>
         !(left == right);
  
+    public static position operator %(position left, position right) =>
+        new position(left.X % right.X, left.Y % right.Y);
+ 
     // straight-line distance between two points
     public distance DistanceTo(position other)
     {
