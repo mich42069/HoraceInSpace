@@ -25,16 +25,8 @@ public class Horace : AEntity
         AngleOfMotion = 0.Degrees();
         AngleOfRotation = 90.Degrees();
     }
-    
-    public override void Update(GameTime gameTime)
-    {
-        UpdateRotation();
-        UpdateAcceleration();
-        UpdateSpeed(gameTime);
-        UpdatePosition(gameTime);
-    }
 
-    private void UpdateAcceleration()
+    protected override void UpdateAcceleration()
     {
         acceleration negativeDragAcceleration = force.AtmosphericDrag(SpaceValues.AtmosphericDensity, SpaceValues.DragCoefficient, Area, Speed) / Mass;
         _accelerationControl.Append((negativeDragAcceleration, AngleOfMotion));
@@ -57,7 +49,7 @@ public class Horace : AEntity
         return (new acceleration(Math.Sqrt(x * x + y * y)), new angle(Math.Atan2(y, x)));
     }
 
-    private void UpdateSpeed(GameTime gameTime)
+    protected override void UpdateSpeed(GameTime gameTime)
     {
         var dt = gameTime.ElapsedGameTime;
 
@@ -74,18 +66,8 @@ public class Horace : AEntity
         AngleOfMotion = new angle(Math.Atan2(sy, sx));
     }
     
-    private void UpdatePosition(GameTime gameTime)
-    {
-        TimeSpan dt = gameTime.ElapsedGameTime;
 
-        Position = new position(
-            Position.X + Speed * dt * AngleOfMotion.Cos(),
-            Position.Y + Speed * dt * AngleOfMotion.Sin());
-
-        Position %= MapBoundingBox;
-    }
-
-    private void UpdateRotation()
+    protected override void UpdateRotation()
     {
         var mouse = Mouse.GetState();
 
@@ -109,9 +91,9 @@ public class Horace : AEntity
             0f);
     }
 
-    public override bool CheckHit()
+    public override bool CheckHit(AEntity entity)
     {
-        throw new System.NotImplementedException();
+        return HitBox.CheckHit(entity.HitBox);
     }
 
     public void Forward()

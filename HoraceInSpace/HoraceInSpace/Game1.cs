@@ -43,15 +43,29 @@ public class Game1 : Game
             GraphicsDevice.Viewport.Width,
             GraphicsDevice.Viewport.Height);
         _contextMachine = new ContextMachine(GraphicsDevice, _screenSize, NumberOfStars);
+        Textures.Initialize(GraphicsDevice);
         base.Initialize();
     }
 
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
-        using var stream = File.OpenRead(Path.Combine("Content", "horace.png"));
-        Textures.Horace = Texture2D.FromStream(GraphicsDevice, stream);
+
+        Textures.Horace = LoadTexture("horace.png");
+        Textures.AsteroidSmall = LoadTexture("asteroid_small.png");
+        Textures.AsteroidMedium = LoadTexture("asteroid_medium.png");
+        Textures.AsteroidBig = LoadTexture("asteroid_big.png");
+        Textures.Ufo = LoadTexture("ufo.png");
+
         _contextMachine.SetSpriteBatch(_spriteBatch);
+    }
+
+    private Texture2D LoadTexture(string fileName)
+    {
+        string path = Path.Combine("Content", fileName);
+
+        using FileStream stream = File.OpenRead(path);
+        return Texture2D.FromStream(GraphicsDevice, stream);
     }
 
     protected override void Update(GameTime gameTime)

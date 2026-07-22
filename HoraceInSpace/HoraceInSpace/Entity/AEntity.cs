@@ -1,13 +1,15 @@
-﻿using HoraceInSpacePhysicsLib;
+﻿using System;
+using HoraceInSpacePhysicsLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace HoraceInSpace;
 
 public abstract class AEntity
-{
+{   
+    protected bool DrawHitbox = true;
     protected position MapBoundingBox;
-    protected IHitBox HitBox;
+    public IHitBox HitBox;
     protected position Position;
     protected speed Speed;
     protected acceleration Acceleration;
@@ -17,10 +19,36 @@ public abstract class AEntity
     protected angle AngleOfMotion;
     protected angle AngleOfRotation;
     protected distance Radius;
-    
-    public abstract void Update(GameTime gameTime);
 
-    public abstract bool CheckHit();
+    public virtual void Update(GameTime gameTime)
+    {
+        UpdateRotation();
+        UpdateAcceleration();
+        UpdateSpeed(gameTime);
+        UpdatePosition(gameTime);
+        UpdateHitbox();
+    }
+
+    protected virtual void UpdateHitbox()
+    {
+        HitBox.SetPosition(Position);
+    }
+    protected virtual void UpdatePosition(GameTime gameTime){
+        TimeSpan dt = gameTime.ElapsedGameTime;
+
+        Position = new position(
+            Position.X + Speed * dt * AngleOfMotion.Cos(),
+            Position.Y + Speed * dt * AngleOfMotion.Sin());
+
+        Position %= MapBoundingBox;}
+    protected virtual void UpdateRotation() {}
+    protected virtual void UpdateAcceleration() {}
+    protected virtual void UpdateSpeed(GameTime gameTime) {}
+
+    public virtual bool CheckHit(AEntity entity)
+    {
+        return false;
+    }
     
     public virtual void Draw(SpriteBatch spriteBatch)
     {
@@ -37,6 +65,11 @@ public abstract class AEntity
 
         if (Position.Y > MapBoundingBox.Y - Radius)
             Draw(Position - (0.Meters(), MapBoundingBox.Y).At(), spriteBatch);
+
+        if (DrawHitbox)
+        {
+            HitBox.Draw(spriteBatch);
+        }
     }
     protected virtual void Draw(position pos, SpriteBatch spriteBatch)
     {
