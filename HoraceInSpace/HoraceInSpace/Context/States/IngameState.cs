@@ -10,16 +10,23 @@ namespace HoraceInSpace.Context.States;
 
 public class IngameState : AState
 {
-    private Horace _horace;
-    private List<AEntity> _entities = new();
-    private List<Bullet> _bullets = new();
+    private readonly TimeSpan _easyDifficultyTimeTreshold = 20.Seconds();
+    private readonly TimeSpan _mediumDifficultyTimeTreshold = 40.Seconds();
+    private readonly TimeSpan _hardDifficultyTimeTreshold = 60.Seconds();
+    private readonly TimeSpan _invincibilityLength = 2.Seconds();
+    private const int MaxBullets = 10;
+    
+    private readonly Horace _horace;
+    private readonly List<AEntity> _entities = new();
+    private readonly List<Bullet> _bullets = new();
+    
     private readonly double _timeScale;
-    private Button _shootButton = new();
+    private readonly Button _shootButton = new();
     private int _totalScore = 0;
     private bool _invincible = false;
     private TimeSpan _startInvincibility;
-    private readonly TimeSpan _invincibilityLength = 2.Seconds();
     private AState _newState;
+    private int _wave = 0;
     
     public IngameState(GameArguments arguments) : base(arguments)
     {
@@ -36,6 +43,8 @@ public class IngameState : AState
         
         HitregHorace(adjustedGameTime);
 
+        TryKillBullets(adjustedGameTime);
+        
         (HashSet<int>, HashSet<int>) hitBulletsEntities = HitregBullets();
 
         int newScore = GetScoreForHits(hitBulletsEntities.Item2);
@@ -48,12 +57,39 @@ public class IngameState : AState
         _bullets.MassDeleteFromHashset(hitBulletsEntities.Item1);
         _entities.MassDeleteFromHashset(hitBulletsEntities.Item2);
 
-        TrySpawn();
+        TrySpawn(adjustedGameTime);
     }
 
-    private void TrySpawn()
+    private void TryKillBullets(GameTime gameTime)
     {
-        
+        HashSet<int> bulletsToDelete = new();
+        for (int i = 0; i < _bullets.Count; i++)
+            if (_bullets[i].LifeTimeOver(gameTime)) bulletsToDelete.Add(i);
+        _bullets.MassDeleteFromHashset(bulletsToDelete);
+    }
+
+    private Difficulty GetDifficulty(GameTime gameTime)
+    {
+        TimeSpan diff = gameTime.ElapsedGameTime;
+        if (diff > _hardDifficultyTimeTreshold) return Difficulty.Extreme;
+        if (diff > _mediumDifficultyTimeTreshold) return Difficulty.Hard;
+        if (diff > _easyDifficultyTimeTreshold) return Difficulty.Medium;
+        return Difficulty.Easy;
+    }
+    
+    private void TrySpawn(GameTime gameTime)
+    {
+        if (_entities.Count != 0)
+            return;
+        _wave++;
+        Difficulty difficulty = GetDifficulty(gameTime);
+
+        int enemyCount = 3 + _wave;
+
+        for (int i = 0; i < enemyCount; i++)
+        {
+            _entities.Add(EntityFactory.CreateEntity(difficulty, _horace.Position));
+        }
     }
 
     private List<AEntity> SplitUpHitAsteroids(HashSet<int> hits)
@@ -176,9 +212,10 @@ public class IngameState : AState
             _horace.Right();
         if (Keyboard.GetState().IsKeyDown(Keys.A))
             _horace.Left();
-        if (Keyboard.GetState().IsKeyDown(Keys.Q))
-            _entities.Add(AsteroidFactory.CreateAsteroid());
-        if (_shootButton.Update(Mouse.GetState().LeftButton == ButtonState.Pressed, gameTime))
+        // if (Keyboard.GetState().IsKeyDown(Keys.Q))
+        //     _entities.Add(AEntityFactory.CreateEntity());
+        if (_shootButton.Update(Mouse.GetState().LeftButton == ButtonState.Pressed, gameTime) &&
+            _bullets.Count < MaxBullets)
             _bullets.Add(_horace.Shoot());
     }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using HoraceInSpace.Entity.Hitbox;
 using HoraceInSpacePhysicsLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,7 +13,7 @@ public class Horace : AEntity
 {
     private int _lifes = 3;
     private readonly force AccelerationForce = 1_000_000.Newtons();
-    private List<(acceleration, angle)> _accelerationControl = new ();
+    private readonly List<(acceleration, angle)> _accelerationControl = new ();
     
     private TimeSpan _invincibilityTime = TimeSpan.Zero;
     public Horace()

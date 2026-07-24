@@ -1,7 +1,7 @@
 ﻿using HoraceInSpacePhysicsLib;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace HoraceInSpace.Entity;
+namespace HoraceInSpace.Entity.Hitbox;
 
 public interface IHitBox
 {

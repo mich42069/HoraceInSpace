@@ -10,9 +10,9 @@ namespace HoraceInSpace.Context;
 public class ContextMachine : IContextMachine
 {
     private AState _currentState;
-    private StarsBackground _starsBackground;
+    private readonly StarsBackground _starsBackground;
     private SpriteBatch _spriteBatch;
-    private GameArguments _arguments;
+    private readonly GameArguments _arguments;
 
     public ContextMachine(GraphicsDevice device, Vector2 screenSize, int count, GameArguments arguments)
     {
@@ -36,7 +36,10 @@ public class ContextMachine : IContextMachine
         _currentState.CheckInputs(gameTime);
         _currentState.Update(gameTime);
         if (_currentState.SwitchState)
+        {
+            KeyboardInput.Clear();
             _currentState = _currentState.NewState();
+        }
     }
 
     public void Draw(GameTime gameTime)

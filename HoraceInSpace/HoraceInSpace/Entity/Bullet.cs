@@ -1,4 +1,5 @@
 ﻿using System;
+using HoraceInSpace.Entity.Hitbox;
 using HoraceInSpacePhysicsLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -7,6 +8,8 @@ namespace HoraceInSpace.Entity;
 
 public class Bullet : AEntity
 {
+    private readonly TimeSpan _lifeTime = TimeSpan.FromSeconds(5);
+    private TimeSpan? _timeOfCreation = null;
     public Bullet(position initialPosition, angle angleOfMotion, angle angleOfRotation, speed initialSpeed)
     {
         Position = initialPosition;
@@ -20,7 +23,19 @@ public class Bullet : AEntity
         Mass = 3500.Kilograms();
         Area = Radius * Radius * Math.PI;
     }
-    
+
+    public bool LifeTimeOver(GameTime gameTime)
+    {
+        if (!_timeOfCreation.HasValue) return false;
+        return gameTime.TotalGameTime - _timeOfCreation.Value > _lifeTime;
+    }
+
+    public override void Update(GameTime gameTime)
+    {
+        _timeOfCreation ??= gameTime.TotalGameTime;
+        base.Update(gameTime);
+    }
+
     protected override void Draw(position pos, SpriteBatch spriteBatch)
     {
         spriteBatch.Draw(

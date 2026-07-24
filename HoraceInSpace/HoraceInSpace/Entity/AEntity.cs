@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using HoraceInSpace.Entity.Hitbox;
 using HoraceInSpacePhysicsLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,7 +12,7 @@ public abstract class AEntity
     public int Score { get; protected set; }
     public static bool DrawHitbox = false;
     public IHitBox Hitbox;
-    protected position Position;
+    public position Position;
     protected speed Speed;
     protected acceleration Acceleration;
     protected mass Mass;

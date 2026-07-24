@@ -1,6 +1,6 @@
 ﻿using HoraceInSpacePhysicsLib;
 
-namespace HoraceInSpace.Entity;
+namespace HoraceInSpace.Entity.Hitbox;
 
 public class PointHitbox(distance radius) : Hitbox(radius)
 {

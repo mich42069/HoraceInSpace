@@ -20,11 +20,11 @@ public class Game1 : Game
     private const uint ES_DISPLAY_REQUIRED = 0x00000002;
 
     private const int NumberOfStars = 1024;
-    private GraphicsDeviceManager _graphics;
+    private readonly GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
     private Vector2 _screenSize;
 
-    private GameArguments _arguments;
+    private readonly GameArguments _arguments;
     
     private IContextMachine _contextMachine;
 

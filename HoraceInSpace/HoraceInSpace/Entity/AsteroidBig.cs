@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using HoraceInSpace.Entity.Hitbox;
 using HoraceInSpacePhysicsLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

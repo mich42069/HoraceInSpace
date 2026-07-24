@@ -1,11 +1,12 @@
 ﻿using System;
+using HoraceInSpace.Entity.Hitbox;
 using HoraceInSpacePhysicsLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace HoraceInSpace.Entity;
 
-public class Ufo : AAsteroid
+public class Ufo : AUfo
 {
     public Ufo(position initialPosition, angle angleOfMotion, angle angleOfRotation, speed initialSpeed) : base(initialPosition, angleOfMotion, angleOfRotation, initialSpeed)
     {

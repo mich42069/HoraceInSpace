@@ -8,8 +8,8 @@ namespace HoraceInSpace.Background;
 
 public class StarsBackground
 {
-    private Random _random = new Random();
-    private List<IStar> _stars = new();
+    private readonly Random _random = new Random();
+    private readonly List<IStar> _stars = new();
     private readonly int _numberOfStars;
     private readonly double _nonFlickerChance;
     private const int SpecialEffectCoefficient = 10;
