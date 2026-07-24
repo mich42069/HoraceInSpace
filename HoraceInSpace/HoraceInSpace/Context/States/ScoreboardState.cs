@@ -31,7 +31,7 @@ public class ScoreboardState : AState
             title,
             new Vector2(
                 center.X - titleSize.X / 2,
-                center.Y - 180
+                180
             ),
             Color.Cyan
         );
@@ -46,7 +46,7 @@ public class ScoreboardState : AState
             int score = _scores[i].Item1;
             string name = _scores[i].Item2;
 
-            float y = center.Y - 100 + i * 30;
+            float y = 260 + i * 30;
 
             // Rank + name
             spriteBatch.DrawString(

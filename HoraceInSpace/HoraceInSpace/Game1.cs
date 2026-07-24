@@ -68,6 +68,7 @@ public class Game1 : Game
         Textures.AsteroidSmall = LoadTexture("asteroid_small.png");
         Textures.AsteroidMedium = LoadTexture("asteroid_medium.png");
         Textures.AsteroidBig = LoadTexture("asteroid_big.png");
+        Textures.AsteroidGiant = LoadTexture("asteroid_giant.png");
         Textures.Ufo = LoadTexture("ufo.png");
         Textures.Bullet = LoadTexture("bullet.png");
         Textures.Thruster = LoadTexture("thruster.png");

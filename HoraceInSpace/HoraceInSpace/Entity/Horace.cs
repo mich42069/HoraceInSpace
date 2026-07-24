@@ -11,11 +11,13 @@ namespace HoraceInSpace.Entity;
 
 public class Horace : AEntity
 {
+    private bool _isInvincible;
+    private TimeSpan _invincibleUntil;
+    public bool Invincible => _isInvincible;
     private int _lifes = 3;
     private readonly force AccelerationForce = 20_000_000_000.0.Newtons();
     private readonly List<(acceleration, angle)> _accelerationControl = new ();
     
-    private TimeSpan _invincibilityTime = TimeSpan.Zero;
     public Horace()
     {
         Radius = 20.Meters();
@@ -24,13 +26,32 @@ public class Horace : AEntity
         ResetMovementAndPosition();
     }
 
+    public override void Update(GameTime gameTime)
+    {
+        if (_isInvincible && gameTime.TotalGameTime >= _invincibleUntil)
+        {
+            _isInvincible = false;
+        }
+        base.Update(gameTime);
+    }
+
     private void ResetMovementAndPosition()
     {
         Position = (1000, 1000).At();
         Speed = 0.MetersPerSecond();
         Acceleration = 0.MetersPerSecondSquared();
         AngleOfMotion = 0.Degrees();
-        AngleOfRotation = 90.Degrees();
+        AngleOfRotation = AngleToMouse();
+    }
+
+    private angle AngleToMouse()
+    {
+        var mouse = Mouse.GetState();
+
+        double dx = mouse.X - Position.X.Value;
+        double dy = mouse.Y - Position.Y.Value;
+
+        return Math.Atan2(dy, dx).Radians();
     }
 
     protected override void UpdateAcceleration()
@@ -76,12 +97,7 @@ public class Horace : AEntity
 
     protected override void UpdateRotation()
     {
-        var mouse = Mouse.GetState();
-
-        double dx = mouse.X - Position.X.Value;
-        double dy = mouse.Y - Position.Y.Value;
-
-        AngleOfRotation = Math.Atan2(dy, dx).Radians();
+        AngleOfRotation = AngleToMouse();
     }
 
     public bool GetHit()
@@ -89,19 +105,24 @@ public class Horace : AEntity
         return (--_lifes < 1);
     }
 
-    public void Respawn(bool isInvincible, TimeSpan invincibilityTime)
+    public void Respawn(bool isInvincible, TimeSpan invincibilityLength, TimeSpan currentGameTime)
     {
-        // TODO invincible effect
+        _isInvincible = isInvincible;
+        _invincibleUntil = currentGameTime + invincibilityLength;
         ResetMovementAndPosition();
     }
     
     protected override void Draw(position pos, SpriteBatch spriteBatch)
     {
+        Color color = _isInvincible 
+            ? Color.White * 0.5f 
+            : Color.White;
+        
         spriteBatch.Draw(
             Textures.Horace,
             pos.ToVector2(),
             null,
-            Color.White,
+            color,
             (float)AngleOfRotation.Value,
             Textures.HoraceOrigin,
             1f,

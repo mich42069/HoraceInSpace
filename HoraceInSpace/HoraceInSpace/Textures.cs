@@ -13,6 +13,8 @@ public static class Textures
     public static Vector2 AsteroidMediumOrigin => new(AsteroidMedium.Bounds.Center.X, AsteroidMedium.Bounds.Center.Y);
     public static Texture2D AsteroidBig { get; set; }
     public static Vector2 AsteroidBigOrigin => new(AsteroidBig.Bounds.Center.X, AsteroidBig.Bounds.Center.Y);
+    public static Texture2D AsteroidGiant { get; set; }
+    public static Vector2 AsteroidGiantOrigin => new(AsteroidGiant.Bounds.Center.X, AsteroidGiant.Bounds.Center.Y);
     public static Texture2D Ufo { get; set; }
     public static Vector2 UfoOrigin => new(Ufo.Bounds.Center.X, Ufo.Bounds.Center.Y);
     public static Texture2D Bullet { get; set; }

@@ -11,5 +11,6 @@ public static class SpaceValues
     public static distance SmallAsteroidRadius => 20.Meters();
     public static distance MediumAsteroidRadius => 40.Meters();
     public static distance BigAsteroidRadius => 80.Meters();
+    public static distance GiantAsteroidRadius => 120.Meters();
     public static distance UfoRadius => 30.Meters();
 }

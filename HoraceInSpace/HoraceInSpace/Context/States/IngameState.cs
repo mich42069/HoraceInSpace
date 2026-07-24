@@ -167,7 +167,7 @@ public class IngameState : AState
 
     private void HitregHorace(GameTime gameTime)
     {
-        if (_invincible)
+        if (_horace.Invincible)
         {
             if (gameTime.TotalGameTime - _startInvincibility > _invincibilityLength)
                 _invincible = false;
@@ -200,8 +200,7 @@ public class IngameState : AState
                 Death();
             }
             _invincible = true;
-            _horace.Respawn(_invincible, _invincibilityLength);
-            _startInvincibility = gameTime.TotalGameTime;
+            _horace.Respawn(_invincible, _invincibilityLength, gameTime.TotalGameTime);
         }
     }
 
