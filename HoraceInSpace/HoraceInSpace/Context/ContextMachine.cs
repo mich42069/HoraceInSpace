@@ -24,7 +24,7 @@ public class ContextMachine : IContextMachine
     public void Update(GameTime gameTime)
     {
         _starsBackground.Update(gameTime);
-        _currentState.CheckInputs();
+        _currentState.CheckInputs(gameTime);
         _currentState.Update(gameTime);
         if (_currentState.SwitchState) 
             SwitchState(_currentState.NewState());

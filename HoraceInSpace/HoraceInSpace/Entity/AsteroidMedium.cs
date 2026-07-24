@@ -7,14 +7,14 @@ namespace HoraceInSpace;
 
 public class AsteroidMedium : AAsteroid
 {
-
-    public AsteroidMedium(position screenSize, position initialPosition, angle angleOfMotion, angle angleOfRotation, speed initialSpeed) : base(screenSize, initialPosition, angleOfMotion, angleOfRotation, initialSpeed)
+    public AsteroidMedium(position initialPosition, angle angleOfMotion, angle angleOfRotation, speed initialSpeed) : base(initialPosition, angleOfMotion, angleOfRotation, initialSpeed)
     {
         Acceleration = 0.MetersPerSecondSquared();
         Radius = 40.Meters();
-        HitBox = new CircleHitBox(Position, Radius);
+        Hitbox = new CircleHitbox(Radius);
         Mass = 16_000.Kilograms();
         Area = Radius * Radius * Math.PI;
+        Score = 250;
     }
     
     

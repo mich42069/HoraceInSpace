@@ -8,14 +8,14 @@ using Microsoft.Xna.Framework.Graphics;
 
 public class AsteroidBig : AAsteroid
 {
-
-    public AsteroidBig(position screenSize, position initialPosition, angle angleOfMotion, angle angleOfRotation, speed initialSpeed) : base(screenSize, initialPosition, angleOfMotion, angleOfRotation, initialSpeed)
+    public AsteroidBig(position initialPosition, angle angleOfMotion, angle angleOfRotation, speed initialSpeed) : base(initialPosition, angleOfMotion, angleOfRotation, initialSpeed)
     {
         Acceleration = 0.MetersPerSecondSquared();
         Radius = 80.Meters();
-        HitBox = new CircleHitBox(Position, Radius);
+        Hitbox = new CircleHitbox(Radius);
         Mass = 64_000.Kilograms();
         Area = Radius * Radius * Math.PI;
+        Score = 500;
     }
     
     

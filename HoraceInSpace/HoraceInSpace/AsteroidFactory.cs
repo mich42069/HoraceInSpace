@@ -14,10 +14,10 @@ public class AsteroidFactory
         angle angleOfMotion = (_random.NextSingle() * 360).Degrees();
         angle angleOfRotation = (_random.NextSingle() * 360).Degrees();
         speed initialSpeed = _random.NextSingle() * 200.MetersPerSecond();
-        if (whatToSpawn < 0.25) return new AsteroidSmall(worldSize, spawnPosition, angleOfMotion, angleOfRotation, initialSpeed);
-        if (whatToSpawn < 0.5) return new AsteroidMedium(worldSize, spawnPosition, angleOfMotion, angleOfRotation, initialSpeed);
-        if (whatToSpawn < 0.75) return new AsteroidBig(worldSize, spawnPosition, angleOfMotion, angleOfRotation, initialSpeed);
-        return new Ufo(worldSize, spawnPosition, angleOfMotion, angleOfRotation, initialSpeed);
+        if (whatToSpawn < 0.25) return new AsteroidSmall(spawnPosition, angleOfMotion, angleOfRotation, initialSpeed);
+        if (whatToSpawn < 0.5) return new AsteroidMedium(spawnPosition, angleOfMotion, angleOfRotation, initialSpeed);
+        if (whatToSpawn < 0.75) return new AsteroidBig(spawnPosition, angleOfMotion, angleOfRotation, initialSpeed);
+        return new Ufo(spawnPosition, angleOfMotion, angleOfRotation, initialSpeed);
 
     }
 }

@@ -7,8 +7,9 @@ namespace HoraceInSpace;
 
 public abstract class AEntity
 {   
+    public int Score { get; protected set; }
     public static bool DrawHitbox = false;
-    public IHitBox HitBox;
+    public IHitBox Hitbox;
     protected position Position;
     protected speed Speed;
     protected acceleration Acceleration;
@@ -30,7 +31,7 @@ public abstract class AEntity
 
     protected virtual void UpdateHitbox()
     {
-        HitBox.SetPosition(Position);
+        Hitbox.SetPosition(Position);
     }
 
     protected virtual void UpdatePosition(GameTime gameTime)
@@ -50,7 +51,7 @@ public abstract class AEntity
 
     public virtual bool CheckHit(AEntity entity)
     {
-        return false;
+        return Hitbox.CheckHit(entity.Hitbox);
     }
     
     public virtual void Draw(SpriteBatch spriteBatch)
@@ -71,7 +72,7 @@ public abstract class AEntity
 
         if (DrawHitbox)
         {
-            HitBox.Draw(spriteBatch);
+            Hitbox.Draw(spriteBatch);
         }
     }
     protected virtual void Draw(position pos, SpriteBatch spriteBatch)

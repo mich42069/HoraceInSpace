@@ -10,17 +10,25 @@ namespace HoraceInSpace;
 
 public class Horace : AEntity
 {
+    private int _lifes = 3;
     private readonly force AccelerationForce = 1_000_000.Newtons();
     private List<(acceleration, angle)> _accelerationControl = new ();
+    
+    private TimeSpan _invincibilityTime = TimeSpan.Zero;
     public Horace()
     {
         Radius = 20.Meters();
-        Position = (1000, 1000).At();
-        HitBox = new CircleHitBox(Position, Radius);
-        Speed = 0.MetersPerSecond();
-        Acceleration = 0.MetersPerSecondSquared();
+        Hitbox = new CircleHitbox(Radius);
         Mass = 3500.Kilograms();
         Area = Radius * Radius * Math.PI;
+        ResetMovementAndPosition();
+    }
+
+    private void ResetMovementAndPosition()
+    {
+        Position = (1000, 1000).At();
+        Speed = 0.MetersPerSecond();
+        Acceleration = 0.MetersPerSecondSquared();
         AngleOfMotion = 0.Degrees();
         AngleOfRotation = 90.Degrees();
     }
@@ -75,6 +83,17 @@ public class Horace : AEntity
 
         AngleOfRotation = Math.Atan2(dy, dx).Radians();
     }
+
+    public bool GetHit()
+    {
+        return (--_lifes < 1);
+    }
+
+    public void Respawn(bool isInvincible, TimeSpan invincibilityTime)
+    {
+        // TODO invincible effect
+        ResetMovementAndPosition();
+    }
     
     protected override void Draw(position pos, SpriteBatch spriteBatch)
     {
@@ -90,9 +109,14 @@ public class Horace : AEntity
             0f);
     }
 
+    public Bullet Shoot()
+    {
+        return new Bullet(Position, AngleOfRotation, AngleOfRotation, 1500.MetersPerSecond());
+    }
+
     public override bool CheckHit(AEntity entity)
     {
-        return HitBox.CheckHit(entity.HitBox);
+        return Hitbox.CheckHit(entity.Hitbox);
     }
 
     public void Forward()

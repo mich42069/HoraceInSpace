@@ -5,28 +5,31 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace HoraceInSpace;
 
-public class Ufo : AAsteroid
+public class Bullet : AEntity
 {
-    public Ufo(position initialPosition, angle angleOfMotion, angle angleOfRotation, speed initialSpeed) : base(initialPosition, angleOfMotion, angleOfRotation, initialSpeed)
+    public Bullet(position initialPosition, angle angleOfMotion, angle angleOfRotation, speed initialSpeed)
     {
+        Position = initialPosition;
+        AngleOfMotion = angleOfMotion;
+        AngleOfRotation = angleOfRotation;
+        Speed = initialSpeed;
+        
         Acceleration = 0.MetersPerSecondSquared();
-        Radius = 30.Meters();
-        Hitbox = new CircleHitbox(Radius);
-        Mass = 16_000.Kilograms();
+        Radius = 1.Meters();
+        Hitbox = new PointHitbox(Radius);
+        Mass = 3500.Kilograms();
         Area = Radius * Radius * Math.PI;
-        Score = 1000;
     }
-    
     
     protected override void Draw(position pos, SpriteBatch spriteBatch)
     {
         spriteBatch.Draw(
-            Textures.Ufo,
+            Textures.Bullet,
             pos.ToVector2(),
             null,
             Color.White,
             (float)AngleOfRotation.Value,
-            Textures.UfoOrigin,
+            Textures.BulletOrigin,
             1f,
             SpriteEffects.None,
             0f);
