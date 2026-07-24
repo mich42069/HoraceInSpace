@@ -8,17 +8,16 @@ namespace HoraceInSpace.Entity;
 
 public class Ufo : AUfo
 {
+    
     public Ufo(position initialPosition, angle angleOfMotion, angle angleOfRotation, speed initialSpeed) : base(initialPosition, angleOfMotion, angleOfRotation, initialSpeed)
     {
         Acceleration = 0.MetersPerSecondSquared();
-        Radius = 30.Meters();
+        Radius = SpaceValues.UfoRadius;
         Hitbox = new CircleHitbox(Radius);
-        Mass = 16_000.Kilograms();
-        Area = Radius * Radius * Math.PI;
         Score = 1000;
+        Density = 2000.KilogramsPerCubicMeter();
     }
-    
-    
+
     protected override void Draw(position pos, SpriteBatch spriteBatch)
     {
         spriteBatch.Draw(

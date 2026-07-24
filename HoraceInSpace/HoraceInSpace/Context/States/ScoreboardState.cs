@@ -13,7 +13,7 @@ public class ScoreboardState : AState
 
     public ScoreboardState(GameArguments arguments) : base(arguments)
     {
-        _scores = Scoreboard.GetTopX(10);
+        _scores = Scoreboard.GetTopX(15);
     }
 
     public override void Draw(SpriteBatch spriteBatch)

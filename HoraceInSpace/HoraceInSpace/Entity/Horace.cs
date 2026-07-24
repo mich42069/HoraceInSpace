@@ -12,7 +12,7 @@ namespace HoraceInSpace.Entity;
 public class Horace : AEntity
 {
     private int _lifes = 3;
-    private readonly force AccelerationForce = 1_000_000.Newtons();
+    private readonly force AccelerationForce = 20_000_000_000.0.Newtons();
     private readonly List<(acceleration, angle)> _accelerationControl = new ();
     
     private TimeSpan _invincibilityTime = TimeSpan.Zero;
@@ -20,8 +20,7 @@ public class Horace : AEntity
     {
         Radius = 20.Meters();
         Hitbox = new CircleHitbox(Radius);
-        Mass = 3500.Kilograms();
-        Area = Radius * Radius * Math.PI;
+        Density = 2000.KilogramsPerCubicMeter();
         ResetMovementAndPosition();
     }
 
@@ -62,16 +61,16 @@ public class Horace : AEntity
         var dt = gameTime.ElapsedGameTime;
 
         // Current speed
-        double sx = Speed.Value * AngleOfMotion.Cos();
-        double sy = Speed.Value * AngleOfMotion.Sin();
+        speed sx = Speed * AngleOfMotion.Cos();
+        speed sy = Speed * AngleOfMotion.Sin();
 
         // Change in speed
-        sx += Acceleration.Value * AngleOfAcceleration.Cos() * dt.TotalSeconds;
-        sy += Acceleration.Value * AngleOfAcceleration.Sin() * dt.TotalSeconds;
+        sx += Acceleration * AngleOfAcceleration.Cos() * dt;
+        sy += Acceleration * AngleOfAcceleration.Sin() * dt;
 
         // Convert back to polar form
-        Speed = new speed(Math.Sqrt(sx * sx + sy * sy));
-        AngleOfMotion = new angle(Math.Atan2(sy, sx));
+        Speed = Math.Sqrt(sx.Value * sx.Value + sy.Value * sy.Value).MetersPerSecond();
+        AngleOfMotion = Math.Atan2(sy.Value, sx.Value).Radians();
     }
     
 

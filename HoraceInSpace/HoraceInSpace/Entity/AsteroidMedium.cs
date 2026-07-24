@@ -12,19 +12,20 @@ public class AsteroidMedium : AAsteroid
     public AsteroidMedium(position initialPosition, angle angleOfMotion, angle angleOfRotation, speed initialSpeed) : base(initialPosition, angleOfMotion, angleOfRotation, initialSpeed)
     {
         Acceleration = 0.MetersPerSecondSquared();
-        Radius = 40.Meters();
+        Radius = SpaceValues.MediumAsteroidRadius;
         Hitbox = new CircleHitbox(Radius);
-        Mass = SpaceValues.MediumAsteroidMass;
-        Area = Radius * Radius * Math.PI;
         Score = 250;
     }
     
     public override List<AEntity> SplitUp()
     {
         List<AEntity> newAsteroids = new();
-        speed newAsteroidsSpeed = Momentum / 2 / SpaceValues.SmallAsteroidMass;
-        newAsteroids.Add(new AsteroidSmall(Position, AngleOfMotion + 30.Degrees(), AngleOfRotation, newAsteroidsSpeed));
+        int numberOfNewAsteroids = 3;
+        speed newAsteroidsSpeed = CalculateNewAsteroidSpeed(SpaceValues.SmallAsteroidRadius);
+        newAsteroidsSpeed /= numberOfNewAsteroids;
         newAsteroids.Add(new AsteroidSmall(Position, AngleOfMotion - 30.Degrees(), AngleOfRotation, newAsteroidsSpeed));
+        newAsteroids.Add(new AsteroidSmall(Position, AngleOfMotion, AngleOfRotation, newAsteroidsSpeed));
+        newAsteroids.Add(new AsteroidSmall(Position, AngleOfMotion + 30.Degrees(), AngleOfRotation, newAsteroidsSpeed));
         return newAsteroids;
     }
     

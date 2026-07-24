@@ -12,22 +12,25 @@ public class AsteroidBig : AAsteroid
     public AsteroidBig(position initialPosition, angle angleOfMotion, angle angleOfRotation, speed initialSpeed) : base(initialPosition, angleOfMotion, angleOfRotation, initialSpeed)
     {
         Acceleration = 0.MetersPerSecondSquared();
-        Radius = 80.Meters();
+        Radius = SpaceValues.BigAsteroidRadius;
         Hitbox = new CircleHitbox(Radius);
-        Mass = SpaceValues.BigAsteroidMass;
-        Area = Radius * Radius * Math.PI;
         Score = 500;
     }
 
     public override List<AEntity> SplitUp()
     {
         List<AEntity> newAsteroids = new();
-        speed newAsteroidsSpeed = Momentum / 3 / SpaceValues.MediumAsteroidMass;
+        int numberOfNewAsteroids = 5;
+        speed newAsteroidsSpeed = CalculateNewAsteroidSpeed(SpaceValues.MediumAsteroidRadius);
+        newAsteroidsSpeed /= numberOfNewAsteroids;
+        newAsteroids.Add(new AsteroidMedium(Position, AngleOfMotion - 144.Degrees(), AngleOfRotation, newAsteroidsSpeed));
+        newAsteroids.Add(new AsteroidMedium(Position, AngleOfMotion - 72.Degrees(), AngleOfRotation, newAsteroidsSpeed));
         newAsteroids.Add(new AsteroidMedium(Position, AngleOfMotion, AngleOfRotation, newAsteroidsSpeed));
-        newAsteroids.Add(new AsteroidMedium(Position, AngleOfMotion + 120.Degrees(), AngleOfRotation, newAsteroidsSpeed));
-        newAsteroids.Add(new AsteroidMedium(Position, AngleOfMotion - 120.Degrees(), AngleOfRotation, newAsteroidsSpeed));
+        newAsteroids.Add(new AsteroidMedium(Position, AngleOfMotion + 72.Degrees(), AngleOfRotation, newAsteroidsSpeed));
+        newAsteroids.Add(new AsteroidMedium(Position, AngleOfMotion + 144.Degrees(), AngleOfRotation, newAsteroidsSpeed));
         return newAsteroids;
     }
+
 
     protected override void Draw(position pos, SpriteBatch spriteBatch)
     {

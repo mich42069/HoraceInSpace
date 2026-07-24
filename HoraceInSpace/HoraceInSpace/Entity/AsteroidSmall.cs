@@ -11,10 +11,8 @@ public class AsteroidSmall : AAsteroid
     public AsteroidSmall(position initialPosition, angle angleOfMotion, angle angleOfRotation, speed initialSpeed) : base(initialPosition, angleOfMotion, angleOfRotation, initialSpeed)
     {
         Acceleration = 0.MetersPerSecondSquared();
-        Radius = 20.Meters();
+        Radius = SpaceValues.SmallAsteroidRadius;
         Hitbox = new CircleHitbox(Radius);
-        Mass = SpaceValues.SmallAsteroidMass;
-        Area = Radius * Radius * Math.PI;
         Score = 125;
     }
     

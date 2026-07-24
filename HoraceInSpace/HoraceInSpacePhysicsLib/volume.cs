@@ -46,4 +46,12 @@ public struct volume(double value)
     // density = mass / volume
     public static density operator /(mass m, volume v) =>
         new(m.Value / v.Value);
+    
+    // mass = density * volume
+    public static mass operator *(density d, volume v) =>
+        new(d.Value * v.Value);
+    
+    // mass = volume * density
+    public static mass operator *(volume v, density d) =>
+        new(d.Value * v.Value);
 }

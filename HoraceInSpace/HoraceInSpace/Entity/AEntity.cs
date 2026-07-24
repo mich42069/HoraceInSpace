@@ -15,12 +15,14 @@ public abstract class AEntity
     public position Position;
     protected speed Speed;
     protected acceleration Acceleration;
-    protected mass Mass;
-    protected area Area;
+    protected mass Mass => Density * Volume;
+    protected area Area => Radius * Radius * Math.PI;
+    protected volume Volume => 4/(double)3*Double.Pi*Radius*Radius*Radius;
     protected angle AngleOfAcceleration;
     protected angle AngleOfMotion;
     protected angle AngleOfRotation;
     protected distance Radius;
+    protected density Density;
     protected momentum Momentum => Mass * Speed;
 
     public virtual List<AEntity> SplitUp() => new ();
