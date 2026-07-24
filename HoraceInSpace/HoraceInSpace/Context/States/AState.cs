@@ -5,12 +5,22 @@ namespace HoraceInSpace.Context.States;
 
 public abstract class AState
 {
-    public abstract void Update(GameTime gameTime);
-    public abstract void Draw(SpriteBatch spriteBatch);
-    public abstract void CheckInputs(GameTime gameTime);
+    public virtual void Update(GameTime gameTime) {}
+    public virtual void Draw(SpriteBatch spriteBatch) {}
+    public virtual void CheckInputs(GameTime gameTime) {}
     public bool SwitchState = false;
     public bool Exit = false;
-    public abstract StateEnum NewState();
+    protected GameArguments Arguments;
+    public abstract AState NewState();
+
+    protected AState(GameArguments arguments)
+    {
+        Arguments = arguments;
+    }
+    
+    public virtual void TextInput(char c)
+    {
+    }
 }
 
 public enum StateEnum

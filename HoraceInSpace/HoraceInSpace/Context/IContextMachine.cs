@@ -9,4 +9,5 @@ public interface IContextMachine
     public void Draw(GameTime gameTime);
     public bool CanExit();
     public void SetSpriteBatch(SpriteBatch spriteBatch);
+    public void TextInput(char character);
 }

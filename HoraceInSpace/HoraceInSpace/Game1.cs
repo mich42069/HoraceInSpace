@@ -43,18 +43,27 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
+        Window.TextInput += TextInput;
         _screenSize = new Vector2(
             GraphicsDevice.Viewport.Width,
             GraphicsDevice.Viewport.Height);
         _contextMachine = new ContextMachine(GraphicsDevice, _screenSize, NumberOfStars, _arguments);
         Textures.Initialize(GraphicsDevice);
+        Assets.Initialize(GraphicsDevice);
         base.Initialize();
+    }
+    
+    private void TextInput(object sender, TextInputEventArgs e)
+    {
+        _contextMachine.TextInput(e.Character);
     }
 
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+        Assets.Font = Content.Load<SpriteFont>("Minecraft");
+        
         Textures.Horace = LoadTexture("horace.png");
         Textures.AsteroidSmall = LoadTexture("asteroid_small.png");
         Textures.AsteroidMedium = LoadTexture("asteroid_medium.png");
@@ -76,6 +85,7 @@ public class Game1 : Game
 
     protected override void Update(GameTime gameTime)
     {
+        KeyboardInput.Update(gameTime);
         if (_contextMachine.CanExit()) Exit();
         _contextMachine.Update(gameTime);
         base.Update(gameTime);

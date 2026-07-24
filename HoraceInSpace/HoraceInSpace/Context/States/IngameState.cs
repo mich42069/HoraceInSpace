@@ -15,14 +15,13 @@ public class IngameState : AState
     private List<Bullet> _bullets = new();
     private readonly double _timeScale;
     private Button _shootButton = new();
-    private int TotalScore = 0;
+    private int _totalScore = 0;
     private bool _invincible = false;
     private TimeSpan _startInvincibility;
     private readonly TimeSpan _invincibilityLength = 2.Seconds();
-    private StateEnum _nextState;
     private AState _newState;
     
-    public IngameState(GameArguments arguments)
+    public IngameState(GameArguments arguments) : base(arguments)
     {
         _timeScale = arguments.TimeScale;
         AEntity.DrawHitbox = arguments.ShowHitboxes;
@@ -41,13 +40,20 @@ public class IngameState : AState
 
         int newScore = GetScoreForHits(hitBulletsEntities.Item2);
 
-        TotalScore += newScore;
+        _totalScore += newScore;
 
         List<AEntity> newAsteroids = SplitUpHitAsteroids(hitBulletsEntities.Item2);
         _entities.AddRange(newAsteroids);
         
         _bullets.MassDeleteFromHashset(hitBulletsEntities.Item1);
         _entities.MassDeleteFromHashset(hitBulletsEntities.Item2);
+
+        TrySpawn();
+    }
+
+    private void TrySpawn()
+    {
+        
     }
 
     private List<AEntity> SplitUpHitAsteroids(HashSet<int> hits)
@@ -140,9 +146,9 @@ public class IngameState : AState
     private void Death()
     {
         SwitchState = true;
-        _nextState = StateEnum.Death;
-        _newState = new DeathState();
+        _newState = new DeathState(_totalScore, Arguments);
     }
+    
     
     private void UpdateEntities(GameTime gameTime)
     {
@@ -176,8 +182,8 @@ public class IngameState : AState
             _bullets.Add(_horace.Shoot());
     }
 
-    public override StateEnum NewState()
+    public override AState NewState()
     {
-        return _nextState;
+        return _newState;
     }
 }

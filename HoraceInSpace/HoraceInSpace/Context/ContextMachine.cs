@@ -19,17 +19,24 @@ public class ContextMachine : IContextMachine
         _arguments = arguments;
         position screenSizeInMeters = ((double)screenSize.X, (double)screenSize.Y).At();
         SpaceValues.WorldSize = screenSizeInMeters;
-        _currentState = new IngameState(_arguments);
+        _currentState = new MenuState(_arguments);
         _starsBackground = new StarsBackground(device, screenSize, count);
+    }
+    
+
+    public void TextInput(char character)
+    {
+        _currentState.TextInput(character);
     }
     
     public void Update(GameTime gameTime)
     {
         _starsBackground.Update(gameTime);
+        
         _currentState.CheckInputs(gameTime);
         _currentState.Update(gameTime);
-        if (_currentState.SwitchState) 
-            SwitchState(_currentState.NewState());
+        if (_currentState.SwitchState)
+            _currentState = _currentState.NewState();
     }
 
     public void Draw(GameTime gameTime)
@@ -41,7 +48,7 @@ public class ContextMachine : IContextMachine
     
     private void SwitchState(StateEnum newState)
     {
-        throw new NotImplementedException();
+        
     }
 
 
