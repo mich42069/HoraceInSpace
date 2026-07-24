@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using HoraceInSpacePhysicsLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace HoraceInSpace;
+namespace HoraceInSpace.Entity;
 
 public abstract class AEntity
 {   
@@ -19,7 +20,9 @@ public abstract class AEntity
     protected angle AngleOfMotion;
     protected angle AngleOfRotation;
     protected distance Radius;
+    protected momentum Momentum => Mass * Speed;
 
+    public virtual List<AEntity> SplitUp() => new ();
     public virtual void Update(GameTime gameTime)
     {
         UpdateRotation();

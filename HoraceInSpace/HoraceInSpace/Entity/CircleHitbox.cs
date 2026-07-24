@@ -1,16 +1,10 @@
-﻿namespace HoraceInSpace;
-
-using System;
+﻿using System;
 using HoraceInSpacePhysicsLib;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+
+namespace HoraceInSpace.Entity;
 
 public class CircleHitbox(distance radius) : Hitbox(radius)
 {
-    private position Position { get; set; }
-    private distance Radius { get; set; } = radius;
-
-
     public override bool CheckHit(IHitBox hitBox)
     {
         if (hitBox is PointHitbox point) return CheckHit(point.GetPosition());

@@ -3,7 +3,7 @@ using HoraceInSpacePhysicsLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace HoraceInSpace;
+namespace HoraceInSpace.Entity;
 
 public class Bullet : AEntity
 {

@@ -1,6 +1,6 @@
 ﻿using HoraceInSpacePhysicsLib;
 
-namespace HoraceInSpace;
+namespace HoraceInSpace.Entity;
 
 public abstract class AAsteroid : AEntity
 {

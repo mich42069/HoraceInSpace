@@ -1,10 +1,10 @@
-﻿namespace HoraceInSpace;
-
-using System;
+﻿using System;
+using System.Collections.Generic;
 using HoraceInSpacePhysicsLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+namespace HoraceInSpace.Entity;
 
 public class AsteroidBig : AAsteroid
 {
@@ -13,12 +13,21 @@ public class AsteroidBig : AAsteroid
         Acceleration = 0.MetersPerSecondSquared();
         Radius = 80.Meters();
         Hitbox = new CircleHitbox(Radius);
-        Mass = 64_000.Kilograms();
+        Mass = SpaceValues.BigAsteroidMass;
         Area = Radius * Radius * Math.PI;
         Score = 500;
     }
-    
-    
+
+    public override List<AEntity> SplitUp()
+    {
+        List<AEntity> newAsteroids = new();
+        speed newAsteroidsSpeed = Momentum / 3 / SpaceValues.MediumAsteroidMass;
+        newAsteroids.Add(new AsteroidMedium(Position, AngleOfMotion, AngleOfRotation, newAsteroidsSpeed));
+        newAsteroids.Add(new AsteroidMedium(Position, AngleOfMotion + 120.Degrees(), AngleOfRotation, newAsteroidsSpeed));
+        newAsteroids.Add(new AsteroidMedium(Position, AngleOfMotion - 120.Degrees(), AngleOfRotation, newAsteroidsSpeed));
+        return newAsteroids;
+    }
+
     protected override void Draw(position pos, SpriteBatch spriteBatch)
     {
         spriteBatch.Draw(

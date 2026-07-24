@@ -3,7 +3,7 @@ using HoraceInSpacePhysicsLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace HoraceInSpace;
+namespace HoraceInSpace.Entity;
 
 public class AsteroidSmall : AAsteroid
 {
@@ -12,7 +12,7 @@ public class AsteroidSmall : AAsteroid
         Acceleration = 0.MetersPerSecondSquared();
         Radius = 20.Meters();
         Hitbox = new CircleHitbox(Radius);
-        Mass = 3500.Kilograms();
+        Mass = SpaceValues.SmallAsteroidMass;
         Area = Radius * Radius * Math.PI;
         Score = 125;
     }

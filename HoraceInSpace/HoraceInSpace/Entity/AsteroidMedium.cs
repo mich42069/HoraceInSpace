@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using HoraceInSpacePhysicsLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace HoraceInSpace;
+namespace HoraceInSpace.Entity;
 
 public class AsteroidMedium : AAsteroid
 {
@@ -12,11 +13,19 @@ public class AsteroidMedium : AAsteroid
         Acceleration = 0.MetersPerSecondSquared();
         Radius = 40.Meters();
         Hitbox = new CircleHitbox(Radius);
-        Mass = 16_000.Kilograms();
+        Mass = SpaceValues.MediumAsteroidMass;
         Area = Radius * Radius * Math.PI;
         Score = 250;
     }
     
+    public override List<AEntity> SplitUp()
+    {
+        List<AEntity> newAsteroids = new();
+        speed newAsteroidsSpeed = Momentum / 2 / SpaceValues.SmallAsteroidMass;
+        newAsteroids.Add(new AsteroidSmall(Position, AngleOfMotion + 30.Degrees(), AngleOfRotation, newAsteroidsSpeed));
+        newAsteroids.Add(new AsteroidSmall(Position, AngleOfMotion - 30.Degrees(), AngleOfRotation, newAsteroidsSpeed));
+        return newAsteroids;
+    }
     
     protected override void Draw(position pos, SpriteBatch spriteBatch)
     {

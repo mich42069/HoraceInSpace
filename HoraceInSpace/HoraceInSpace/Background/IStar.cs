@@ -1,10 +1,8 @@
 ﻿using System;
-using HoraceInSpacePhysicsLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
-namespace HoraceInSpace;
+namespace HoraceInSpace.Background;
 
 public interface IStar
 {

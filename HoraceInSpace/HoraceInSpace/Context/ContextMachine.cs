@@ -1,9 +1,11 @@
 ﻿using System;
+using HoraceInSpace.Background;
+using HoraceInSpace.Context.States;
 using HoraceInSpacePhysicsLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace HoraceInSpace;
+namespace HoraceInSpace.Context;
 
 public class ContextMachine : IContextMachine
 {
@@ -17,7 +19,7 @@ public class ContextMachine : IContextMachine
         _arguments = arguments;
         position screenSizeInMeters = ((double)screenSize.X, (double)screenSize.Y).At();
         SpaceValues.WorldSize = screenSizeInMeters;
-        _currentState = new Ingame(_arguments);
+        _currentState = new IngameState(_arguments);
         _starsBackground = new StarsBackground(device, screenSize, count);
     }
     

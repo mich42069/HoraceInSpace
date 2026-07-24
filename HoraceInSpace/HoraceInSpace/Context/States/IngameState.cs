@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
+using HoraceInSpace.Entity;
 using HoraceInSpacePhysicsLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace HoraceInSpace;
+namespace HoraceInSpace.Context.States;
 
-public class Ingame : AState
+public class IngameState : AState
 {
     private Horace _horace;
     private List<AEntity> _entities = new();
@@ -21,8 +20,9 @@ public class Ingame : AState
     private TimeSpan _startInvincibility;
     private readonly TimeSpan _invincibilityLength = 2.Seconds();
     private StateEnum _nextState;
+    private AState _newState;
     
-    public Ingame(GameArguments arguments)
+    public IngameState(GameArguments arguments)
     {
         _timeScale = arguments.TimeScale;
         AEntity.DrawHitbox = arguments.ShowHitboxes;
@@ -42,11 +42,25 @@ public class Ingame : AState
         int newScore = GetScoreForHits(hitBulletsEntities.Item2);
 
         TotalScore += newScore;
+
+        List<AEntity> newAsteroids = SplitUpHitAsteroids(hitBulletsEntities.Item2);
+        _entities.AddRange(newAsteroids);
         
         _bullets.MassDeleteFromHashset(hitBulletsEntities.Item1);
         _entities.MassDeleteFromHashset(hitBulletsEntities.Item2);
     }
 
+    private List<AEntity> SplitUpHitAsteroids(HashSet<int> hits)
+    {
+        List<AEntity> newAsteroids = new();
+        foreach (int i in hits)
+        {
+            List<AEntity> splitUpAsteroid = _entities[i].SplitUp();
+            newAsteroids.AddRange(splitUpAsteroid);
+        }
+        
+        return newAsteroids;
+    }
 
     private int GetScoreForHits(HashSet<int> entities)
     {
@@ -103,6 +117,7 @@ public class Ingame : AState
         {
             if (gameTime.TotalGameTime - _startInvincibility > _invincibilityLength)
                 _invincible = false;
+            return;
         }
         
         foreach (AEntity entity in _entities)
@@ -111,8 +126,8 @@ public class Ingame : AState
             {
                 if (_horace.GetHit())
                 {
-                    SwitchState = true;
-                    _nextState = StateEnum.Death;
+                    Death();
+                    return;
                 }
                 _invincible = true;
                 _horace.Respawn(_invincible, _invincibilityLength);
@@ -120,6 +135,13 @@ public class Ingame : AState
                 break;
             }
         }
+    }
+
+    private void Death()
+    {
+        SwitchState = true;
+        _nextState = StateEnum.Death;
+        _newState = new DeathState();
     }
     
     private void UpdateEntities(GameTime gameTime)

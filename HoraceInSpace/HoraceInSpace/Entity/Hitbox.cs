@@ -3,10 +3,7 @@ using HoraceInSpacePhysicsLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace HoraceInSpace;
-
-
-using Microsoft.Xna.Framework;
+namespace HoraceInSpace.Entity;
 
 public abstract class Hitbox(distance radius) : IHitBox
 {

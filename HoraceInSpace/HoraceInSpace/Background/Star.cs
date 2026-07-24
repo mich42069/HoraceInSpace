@@ -1,12 +1,10 @@
 ﻿using System;
 using HoraceInSpacePhysicsLib;
-using SharpDX.Direct2D1;
-
-namespace HoraceInSpace;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+using SpriteBatch = Microsoft.Xna.Framework.Graphics.SpriteBatch;
 
+namespace HoraceInSpace.Background;
 
 public class Star : IStar
 {
