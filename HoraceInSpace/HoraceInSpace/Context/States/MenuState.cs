@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.IO;
 
 namespace HoraceInSpace.Context.States;
 
@@ -100,6 +101,10 @@ public class MenuState(GameArguments arguments) : AState(arguments)
         {
             SelectOption();
         }
+        if (KeyboardInput.Pressed(Keys.Escape))
+        {
+            Exit = true;
+        }
     }
 
     private void SelectOption()
@@ -117,7 +122,7 @@ public class MenuState(GameArguments arguments) : AState(arguments)
                 break;
 
             case 2:
-                Environment.Exit(0);
+                Exit = true;
                 break;
         }
     }

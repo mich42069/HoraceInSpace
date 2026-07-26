@@ -13,8 +13,15 @@ public static class Textures
     public static Vector2 AsteroidMediumOrigin => new(AsteroidMedium.Bounds.Center.X, AsteroidMedium.Bounds.Center.Y);
     public static Texture2D AsteroidBig { get; set; }
     public static Vector2 AsteroidBigOrigin => new(AsteroidBig.Bounds.Center.X, AsteroidBig.Bounds.Center.Y);
+    public static Texture2D AsteroidEnormous { get; set; }
+    public static Vector2 AsteroidEnormousOrigin => new(AsteroidEnormous.Bounds.Center.X, AsteroidEnormous.Bounds.Center.Y);
     public static Texture2D AsteroidGiant { get; set; }
     public static Vector2 AsteroidGiantOrigin => new(AsteroidGiant.Bounds.Center.X, AsteroidGiant.Bounds.Center.Y);
+    public static Texture2D ShadowOverlaySmall { get; set; }
+    public static Texture2D ShadowOverlayMedium { get; set; }
+    public static Texture2D ShadowOverlayBig { get; set; }
+    public static Texture2D ShadowOverlayGiant { get; set; }
+    public static Texture2D ShadowOverlayEnormous { get; set; }
     public static Texture2D Ufo { get; set; }
     public static Vector2 UfoOrigin => new(Ufo.Bounds.Center.X, Ufo.Bounds.Center.Y);
     public static Texture2D Bullet { get; set; }
@@ -23,6 +30,7 @@ public static class Textures
     public static Vector2 ThrusterOrigin => new(Thruster.Bounds.Center.X, Thruster.Bounds.Center.Y);
     
     public static Texture2D Pixel;
+
     public static void Initialize(GraphicsDevice graphicsDevice){
         Pixel = new Texture2D(graphicsDevice, 1, 1);
         Pixel.SetData(new[] { Color.LightCyan });

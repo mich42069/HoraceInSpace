@@ -15,6 +15,7 @@ public static class EntityFactory
         public float MediumAsteroid;
         public float BigAsteroid;
         public float GiantAsteroid;
+        public float EnormousAsteroid;
         public float Ufo;
     }
     
@@ -27,16 +28,27 @@ public static class EntityFactory
                 SmallAsteroid = 0.65f,
                 MediumAsteroid = 0.20f,
                 BigAsteroid = 0.10f,
-                GiantAsteroid = 0.05f,
+                GiantAsteroid = 0.025f,
+                EnormousAsteroid = 0.025f,
                 Ufo = 0f
             },
+            // Difficulty.Easy => new SpawnWeights
+            // {
+            //     SmallAsteroid = 0f,
+            //     MediumAsteroid = 0f,
+            //     BigAsteroid = 0f,
+            //     GiantAsteroid = 0f,
+            //     EnormousAsteroid = 1f,
+            //     Ufo = 0f
+            // },
 
             Difficulty.Medium => new SpawnWeights
             {
                 SmallAsteroid = 0.45f,
                 MediumAsteroid = 0.30f,
                 BigAsteroid = 0.15f,
-                GiantAsteroid = 0.05f,
+                GiantAsteroid = 0.025f,
+                EnormousAsteroid = 0.025f,
                 Ufo = 0.05f
             },
 
@@ -45,7 +57,8 @@ public static class EntityFactory
                 SmallAsteroid = 0.30f,
                 MediumAsteroid = 0.30f,
                 BigAsteroid = 0.20f,
-                GiantAsteroid = 0.10f,
+                GiantAsteroid = 0.075f,
+                EnormousAsteroid = 0.025f,
                 Ufo = 0.10f
             },
 
@@ -54,7 +67,8 @@ public static class EntityFactory
                 SmallAsteroid = 0.10f,
                 MediumAsteroid = 0.30f,
                 BigAsteroid = 0.25f,
-                GiantAsteroid = 0.15f,
+                GiantAsteroid = 0.10f,
+                EnormousAsteroid = 0.05f,
                 Ufo = 0.20f
             },
 
@@ -90,15 +104,28 @@ public static class EntityFactory
             initialSpeed);
     }
 
-    private static Ufo CreateUfo(position position) => CreateEntity(position, (p, m, r, s) => new Ufo(p, m, r, s));
+    private static Ufo CreateUfo(position position) => 
+        CreateEntity(position, (p, m, r, s) => 
+            new Ufo(p, m, r, s));
+    private static AsteroidEnormous CreateEnormousAsteroid(position position) => 
+        CreateEntity(position, (p, m, r, s) => 
+            new AsteroidEnormous(p, m, r, s));
 
-    private static AsteroidGiant CreateGiantAsteroid(position position) => CreateEntity(position, (p, m, r, s) => new AsteroidGiant(p, m, r, s));
+    private static AsteroidGiant CreateGiantAsteroid(position position) => 
+        CreateEntity(position, (p, m, r, s) => 
+            new AsteroidGiant(p, m, r, s));
 
-    private static AsteroidBig CreateBigAsteroid(position position) => CreateEntity(position, (p, m, r, s) => new AsteroidBig(p, m, r, s));
+    private static AsteroidBig CreateBigAsteroid(position position) => 
+        CreateEntity(position, (p, m, r, s) => 
+            new AsteroidBig(p, m, r, s));
 
-    private static AsteroidMedium CreateMediumAsteroid(position position) => CreateEntity(position, (p, m, r, s) => new AsteroidMedium(p, m, r, s));
+    private static AsteroidMedium CreateMediumAsteroid(position position) => 
+        CreateEntity(position, (p, m, r, s) => 
+            new AsteroidMedium(p, m, r, s));
 
-    private static AsteroidSmall CreateSmallAsteroid(position position) => CreateEntity(position, (p, m, r, s) => new AsteroidSmall(p, m, r, s));
+    private static AsteroidSmall CreateSmallAsteroid(position position) => 
+        CreateEntity(position, (p, m, r, s) => 
+            new AsteroidSmall(p, m, r, s));
 
     public static AEntity CreateEntity(Difficulty difficulty, position avoidPosition)
     {
@@ -110,6 +137,7 @@ public static class EntityFactory
             (GetWeights(difficulty).MediumAsteroid, () => CreateMediumAsteroid(spawnPosition)),
             (GetWeights(difficulty).BigAsteroid, () => CreateBigAsteroid(spawnPosition)),
             (GetWeights(difficulty).GiantAsteroid, () => CreateGiantAsteroid(spawnPosition)),
+            (GetWeights(difficulty).EnormousAsteroid, () => CreateEnormousAsteroid(spawnPosition)),
             (GetWeights(difficulty).Ufo, () => CreateUfo(spawnPosition))
         };
 

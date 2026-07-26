@@ -11,6 +11,8 @@ namespace HoraceInSpace.Entity;
 
 public class Horace : AEntity
 {
+    protected override Texture2D Texture => Textures.Horace;
+    protected override Vector2 TextureOrigin => Textures.HoraceOrigin;
     private bool _isInvincible;
     private TimeSpan _invincibleUntil;
     public bool Invincible => _isInvincible;
@@ -20,11 +22,12 @@ public class Horace : AEntity
     
     public Horace()
     {
-        Radius = 20.Meters();
         Hitbox = new CircleHitbox(Radius);
-        Density = 2000.KilogramsPerCubicMeter();
         ResetMovementAndPosition();
     }
+
+    protected override distance Radius => SpaceValues.HoraceRadius;
+    protected override density Density => SpaceValues.HoraceDensity;
 
     public override void Update(GameTime gameTime)
     {
@@ -119,13 +122,13 @@ public class Horace : AEntity
             : Color.White;
         
         spriteBatch.Draw(
-            Textures.Horace,
+            Texture,
             pos.ToVector2(),
             null,
             color,
             (float)AngleOfRotation.Value,
-            Textures.HoraceOrigin,
-            1f,
+            TextureOrigin,
+            TextureScale,
             SpriteEffects.None,
             0f);
     }

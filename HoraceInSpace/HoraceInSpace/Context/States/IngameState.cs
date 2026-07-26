@@ -122,23 +122,9 @@ public class IngameState : AState
         foreach (int i in entities)
         {
             AEntity hitEntity = _entities[i];
-            switch (hitEntity)
+            if (hitEntity is IScore scorableEntity)
             {
-                case AsteroidSmall asteroid:
-                    totalScore += asteroid.Score;
-                    break;
-
-                case AsteroidMedium asteroid:
-                    totalScore += asteroid.Score;
-                    break;
-
-                case AsteroidBig asteroid:
-                    totalScore += asteroid.Score;
-                    break;
-
-                case Ufo ufo:
-                    totalScore += ufo.Score;
-                    break;
+                totalScore += scorableEntity.Score;
             }
         }
 
@@ -229,7 +215,7 @@ public class IngameState : AState
     public override void CheckInputs(GameTime gameTime)
     {
         if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-            Exit = true;
+            Death();
         if (Keyboard.GetState().IsKeyDown(Keys.W))
             _horace.Forward();
         if (Keyboard.GetState().IsKeyDown(Keys.S))

@@ -107,6 +107,6 @@ public class ScoreboardState : AState
 
     public override AState NewState()
     {
-        return _nextState ?? this;
+        return _nextState;
     }
 }

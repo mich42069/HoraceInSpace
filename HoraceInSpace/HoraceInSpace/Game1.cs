@@ -69,6 +69,12 @@ public class Game1 : Game
         Textures.AsteroidMedium = LoadTexture("asteroid_medium.png");
         Textures.AsteroidBig = LoadTexture("asteroid_big.png");
         Textures.AsteroidGiant = LoadTexture("asteroid_giant.png");
+        Textures.AsteroidEnormous = LoadTexture("asteroid_enormous.png");
+        Textures.ShadowOverlaySmall = LoadTexture("shadow_overlay_small.png");
+        Textures.ShadowOverlayMedium = LoadTexture("shadow_overlay_medium.png");
+        Textures.ShadowOverlayBig = LoadTexture("shadow_overlay_big.png");
+        Textures.ShadowOverlayGiant = LoadTexture("shadow_overlay_giant.png");
+        Textures.ShadowOverlayEnormous = LoadTexture("shadow_overlay_enormous.png");
         Textures.Ufo = LoadTexture("ufo.png");
         Textures.Bullet = LoadTexture("bullet.png");
         Textures.Thruster = LoadTexture("thruster.png");
@@ -94,7 +100,8 @@ public class Game1 : Game
 
     protected override void Draw(GameTime gameTime)
     {
-        _spriteBatch.Begin();
+        _spriteBatch.Begin(
+            samplerState: SamplerState.PointClamp);
         GraphicsDevice.Clear(Color.Black);
         _contextMachine.Draw(gameTime);
         base.Draw(gameTime);

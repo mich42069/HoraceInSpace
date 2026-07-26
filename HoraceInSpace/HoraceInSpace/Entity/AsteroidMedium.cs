@@ -7,16 +7,21 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace HoraceInSpace.Entity;
 
-public class AsteroidMedium : AAsteroid
+public class AsteroidMedium : AAsteroid, IScore
 {
+    protected override Texture2D Texture => Textures.AsteroidMedium;
+    protected override Texture2D ShadowTexture => Textures.ShadowOverlayMedium;
+    protected override Vector2 TextureOrigin => Textures.AsteroidMediumOrigin;
+    public int Score => 250;
+
     public AsteroidMedium(position initialPosition, angle angleOfMotion, angle angleOfRotation, speed initialSpeed) : base(initialPosition, angleOfMotion, angleOfRotation, initialSpeed)
     {
         Acceleration = 0.MetersPerSecondSquared();
-        Radius = SpaceValues.MediumAsteroidRadius;
         Hitbox = new CircleHitbox(Radius);
-        Score = 250;
     }
-    
+
+    protected override distance Radius => SpaceValues.MediumAsteroidRadius;
+
     public override List<AEntity> SplitUp()
     {
         List<AEntity> newAsteroids = new();
@@ -28,19 +33,4 @@ public class AsteroidMedium : AAsteroid
         newAsteroids.Add(new AsteroidSmall(Position, AngleOfMotion + 30.Degrees(), AngleOfRotation, newAsteroidsSpeed));
         return newAsteroids;
     }
-    
-    protected override void Draw(position pos, SpriteBatch spriteBatch)
-    {
-        spriteBatch.Draw(
-            Textures.AsteroidMedium,
-            pos.ToVector2(),
-            null,
-            Color.White,
-            (float)AngleOfRotation.Value,
-            Textures.AsteroidMediumOrigin,
-            1f,
-            SpriteEffects.None,
-            0f);
-    }
-
 }

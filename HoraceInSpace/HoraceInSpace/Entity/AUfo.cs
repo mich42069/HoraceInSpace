@@ -2,11 +2,17 @@
 using System.DirectoryServices.ActiveDirectory;
 using HoraceInSpacePhysicsLib;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace HoraceInSpace.Entity;
 
-public class AUfo : AEntity
+public abstract class AUfo : AEntity
 {
+    protected override Texture2D Texture => Textures.Ufo;
+    protected override Vector2 TextureOrigin => Textures.UfoOrigin;
+    protected abstract TimeSpan MinimalShootTime { get; }
+    protected abstract TimeSpan ShootTimeVariation { get; }
+    
     private static readonly Random Random = new();
     private bool _readyToShoot = false;
     public bool IsReadyToShoot
@@ -18,9 +24,6 @@ public class AUfo : AEntity
             return temp;
         }
     }
-
-    private readonly TimeSpan _minimalShootTime = 3.Seconds();
-    private readonly TimeSpan _shootTimeVariation = 3.Seconds();
     private TimeSpan? _nextShootTime = null;
     
     protected AUfo(position initialPosition, angle angleOfMotion, angle angleOfRotation, speed initialSpeed)
@@ -36,22 +39,9 @@ public class AUfo : AEntity
         if (_nextShootTime == null || _nextShootTime < gameTime.TotalGameTime)
         {
             if (_nextShootTime != null) _readyToShoot = true;
-            _nextShootTime = gameTime.TotalGameTime + _minimalShootTime + _shootTimeVariation * Random.NextDouble();
+            _nextShootTime = gameTime.TotalGameTime + MinimalShootTime + ShootTimeVariation * Random.NextDouble();
         }
         base.Update(gameTime);
     }
-    public virtual Bullet Shoot(position target)
-    {
-        distance dx = target.X - Position.X;
-        distance dy = target.Y - Position.Y;
-
-        angle angle = MathF.Atan2((float)dy.Value, (float)dx.Value).Radians();
-
-        Bullet bullet = new(Position, angle, angle, 1500.MetersPerSecond())
-        {
-            Color = Color.Red
-        };
-
-        return bullet;
-    }
+    public abstract Bullet Shoot(position target);
 }

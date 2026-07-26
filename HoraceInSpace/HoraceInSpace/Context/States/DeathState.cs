@@ -5,20 +5,12 @@ using System.Text;
 
 namespace HoraceInSpace.Context.States;
 
-public class DeathState : AState
+public class DeathState(int score, GameArguments arguments) : AState(arguments)
 {
-    private readonly int _score;
     private const int MaxNameLength = 32;
 
     private readonly StringBuilder _name = new();
 
-    private bool _finished;
-
-    public DeathState(int score, GameArguments arguments) : base(arguments)
-    {
-        _score = score;
-    }
-    
     public override void TextInput(char character)
     {
         if (_name.Length >= MaxNameLength)
@@ -57,7 +49,7 @@ public class DeathState : AState
         );
 
         DrawCentered(
-            $"Score: {_score}",
+            $"Score: {score}",
             center.Y - 100,
             Color.White
         );
@@ -89,9 +81,8 @@ public class DeathState : AState
                 ? "Anonymous"
                 : _name.ToString();
 
-            Scoreboard.AddNewScore(name, _score);
+            Scoreboard.AddNewScore(name, score);
 
-            _finished = true;
             SwitchState = true;
             return;
         }
@@ -102,12 +93,16 @@ public class DeathState : AState
             if (_name.Length > 0)
                 _name.Remove(_name.Length - 1, 1);
         }
+        
+        // Remove character
+        if (KeyboardInput.Pressed(Keys.Escape))
+        {
+            SwitchState = true;
+        }
     }
 
     public override AState NewState()
     {
-        return _finished
-            ? new MenuState(Arguments)
-            : this;
+        return new MenuState(Arguments);
     }
 }

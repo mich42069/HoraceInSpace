@@ -8,8 +8,10 @@ using Microsoft.Xna.Framework.Graphics;
 namespace HoraceInSpace.Entity;
 
 public abstract class AEntity
-{   
-    public int Score { get; protected set; }
+{
+    protected abstract Texture2D Texture { get; }
+    protected abstract Vector2 TextureOrigin { get; }
+    protected float TextureScale => (float)Radius.Value * 2 / Texture.Height;
     public static bool DrawHitbox = false;
     public IHitBox Hitbox;
     public position Position;
@@ -21,8 +23,8 @@ public abstract class AEntity
     protected angle AngleOfAcceleration;
     protected angle AngleOfMotion;
     protected angle AngleOfRotation;
-    protected distance Radius;
-    protected density Density;
+    protected abstract distance Radius { get; }
+    protected abstract density Density { get; }
     protected momentum Momentum => Mass * Speed;
 
     public virtual List<AEntity> SplitUp() => new ();
@@ -83,5 +85,15 @@ public abstract class AEntity
     }
     protected virtual void Draw(position pos, SpriteBatch spriteBatch)
     {
+        spriteBatch.Draw(
+            Texture,
+            pos.ToVector2(),
+            null,
+            Color.White,
+            (float)AngleOfRotation.Value,
+            TextureOrigin,
+            TextureScale,
+            SpriteEffects.None,
+            0f);
     }
 }

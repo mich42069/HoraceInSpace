@@ -8,6 +8,8 @@ namespace HoraceInSpace.Entity;
 
 public class Bullet : AEntity
 {
+    protected override Texture2D Texture => Textures.Bullet;
+    protected override Vector2 TextureOrigin => Textures.BulletOrigin;
     private readonly TimeSpan _lifeTime = TimeSpan.FromSeconds(5);
     private TimeSpan? _timeOfCreation = null;
     public Color Color { get; set; } = Color.White;
@@ -19,8 +21,6 @@ public class Bullet : AEntity
         Speed = initialSpeed;
         
         Acceleration = 0.MetersPerSecondSquared();
-        Radius = 1.Meters();
-        Density = 7850.KilogramsPerCubicMeter();
         Hitbox = new PointHitbox(Radius);
     }
 
@@ -29,6 +29,9 @@ public class Bullet : AEntity
         if (!_timeOfCreation.HasValue) return false;
         return gameTime.TotalGameTime - _timeOfCreation.Value > _lifeTime;
     }
+
+    protected override distance Radius => SpaceValues.BulletRadius;
+    protected override density Density => SpaceValues.BulletDensity;
 
     public override void Update(GameTime gameTime)
     {
