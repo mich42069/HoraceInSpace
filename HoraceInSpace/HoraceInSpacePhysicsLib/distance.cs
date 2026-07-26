@@ -1,4 +1,6 @@
-﻿namespace HoraceInSpacePhysicsLib;
+﻿using System.Runtime.CompilerServices;
+
+namespace HoraceInSpacePhysicsLib;
 
 
 public struct distance(double value)
@@ -45,8 +47,9 @@ public struct distance(double value)
        left.Value != right.Value;
     
     public static distance operator -(distance dist) =>
-       new distance(-dist.Value);
-    
+       new (-dist.Value);
+
+    public distance Abs() => Negative ? -this : this;
 
     public static distance operator %(distance left, distance right)
     {

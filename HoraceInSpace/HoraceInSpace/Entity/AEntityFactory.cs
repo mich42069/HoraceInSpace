@@ -5,9 +5,9 @@ namespace HoraceInSpace.Entity;
 
 public static class EntityFactory
 {
-    private static readonly Random _random = new();
+    private static readonly Random Random = new();
 
-    private static readonly distance _spawnDistance = 100.Meters();
+    private static readonly distance SpawnDistance = SpaceValues.EnormousAsteroidRadius;
     
     private struct SpawnWeights
     {
@@ -75,27 +75,39 @@ public static class EntityFactory
             _ => throw new ArgumentOutOfRangeException()
         };
     }
-
     private static position GenerateSpawnPosition(position avoidPosition)
     {
         position worldSize = SpaceValues.WorldSize;
-        position spawn;
-        do
+
+        while (true)
         {
-            spawn = (_random.NextSingle() * worldSize.X, _random.NextSingle() * worldSize.Y).At();
+            position spawn = (
+                Random.NextSingle() * worldSize.X,
+                Random.NextSingle() * worldSize.Y
+            ).At();
 
-        } while (spawn.DistanceTo(avoidPosition) < _spawnDistance);
+            distance dx = (spawn.X - avoidPosition.X).Abs();
+            distance dy = (spawn.Y - avoidPosition.Y).Abs();
 
-        return spawn;
+            // Take the shortest wrapped distance
+            if (dx > worldSize.X / 2)
+                dx = worldSize.X - dx;
+
+            if (dy > worldSize.Y / 2)
+                dy = worldSize.Y - dy;
+
+            if ((dx * dx + dy * dy).SquareRoot() >= SpawnDistance)
+                return spawn;
+        }
     }
 
     private static T CreateEntity<T>(position position,
         Func<position, angle, angle, speed, T> factory)
         where T : AEntity
     {
-        angle angleOfMotion = (_random.NextSingle() * 360).Degrees();
-        angle angleOfRotation = (_random.NextSingle() * 360).Degrees();
-        speed initialSpeed = _random.NextSingle() * 200.MetersPerSecond();
+        angle angleOfMotion = (Random.NextSingle() * 360).Degrees();
+        angle angleOfRotation = (Random.NextSingle() * 360).Degrees();
+        speed initialSpeed = Random.NextSingle() * 200.MetersPerSecond();
 
         return factory(
             position,
@@ -141,7 +153,7 @@ public static class EntityFactory
             (GetWeights(difficulty).Ufo, () => CreateUfo(spawnPosition))
         };
 
-        float roll = _random.NextSingle();
+        float roll = Random.NextSingle();
 
         foreach (var choice in choices)
         {

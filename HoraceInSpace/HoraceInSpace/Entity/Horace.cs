@@ -9,16 +9,40 @@ using Microsoft.Xna.Framework.Input;
 
 namespace HoraceInSpace.Entity;
 
+public readonly struct Thruster(position offset, angle angle)
+{
+    public position Offset { get; } = offset;
+    public angle Angle { get; } = angle;
+}
+
 public class Horace : AEntity
 {
     protected override Texture2D Texture => Textures.Horace;
     protected override Vector2 TextureOrigin => Textures.HoraceOrigin;
+    protected Texture2D ThrusterTexture => Textures.Thruster;
+    protected Vector2 ThrusterTextureOrigin => Textures.ThrusterOrigin;
     private bool _isInvincible;
     private TimeSpan _invincibleUntil;
     public bool Invincible => _isInvincible;
     private int _lifes = 3;
-    private readonly force AccelerationForce = 20_000_000_000.0.Newtons();
+    private readonly force AccelerationForce = 160_000_000_000.0.Newtons();
     private readonly List<(acceleration, angle)> _accelerationControl = new ();
+    private readonly List<Thruster> _thrustersToDraw = new();
+    
+    private readonly Thruster[] _thrusters =
+    {
+        // Forward Thruster
+        new((-40.Meters(), 0.Meters()).At(), angle.Deg180),
+
+        // Left Thruster
+        new((0.Meters(), 20.Meters()).At(), angle.Deg90),
+
+        // Right Thruster
+        new((0.Meters(), -44.Meters()).At(), angle.Deg270),
+        
+        // Back Thruster
+        new((50.Meters(), 0.Meters()).At(), angle.Deg0),
+    };
     
     public Horace()
     {
@@ -32,10 +56,39 @@ public class Horace : AEntity
     public override void Update(GameTime gameTime)
     {
         if (_isInvincible && gameTime.TotalGameTime >= _invincibleUntil)
-        {
             _isInvincible = false;
-        }
+        UpdateColor();
+        UpdateThrusters();
         base.Update(gameTime);
+    }
+
+    private void UpdateThrusters()
+    {
+        _thrustersToDraw.Clear();
+
+        foreach (var accelerationAngle in _accelerationControl)
+        {
+            angle localAcceleration = accelerationAngle.Item2 - AngleOfRotation;
+
+            // Thruster points opposite the acceleration
+            angle thrusterAngle = localAcceleration + 180.Degrees();
+
+            foreach (Thruster thruster in _thrusters)
+            {
+                if (thruster.Angle.Difference(thrusterAngle).Abs() < 1f.Degrees())
+                {
+                    _thrustersToDraw.Add(thruster);
+                    break;
+                }
+            }
+        }
+    }
+
+    private void UpdateColor()
+    {
+        Color = _isInvincible 
+            ? Color.White * 0.5f 
+            : Color.White;
     }
 
     private void ResetMovementAndPosition()
@@ -117,20 +170,24 @@ public class Horace : AEntity
     
     protected override void Draw(position pos, SpriteBatch spriteBatch)
     {
-        Color color = _isInvincible 
-            ? Color.White * 0.5f 
-            : Color.White;
-        
-        spriteBatch.Draw(
-            Texture,
-            pos.ToVector2(),
-            null,
-            color,
-            (float)AngleOfRotation.Value,
-            TextureOrigin,
-            TextureScale,
-            SpriteEffects.None,
-            0f);
+        foreach (Thruster thruster in _thrustersToDraw)
+        {
+            Vector2 offset = Vector2.Transform(
+                thruster.Offset.ToVector2(),
+                Matrix.CreateRotationZ((float)AngleOfRotation.Value));
+
+            spriteBatch.Draw(
+                ThrusterTexture,
+                pos.ToVector2() + offset,
+                null,
+                Color,
+                (float)(AngleOfRotation + thruster.Angle).Value,
+                ThrusterTextureOrigin,
+                TextureScale,
+                SpriteEffects.None,
+                0f);
+        }
+        base.Draw(pos, spriteBatch);
     }
 
     public Bullet Shoot()
@@ -146,24 +203,28 @@ public class Horace : AEntity
     public void Forward()
     {
         var acceleration = AccelerationForce/Mass;
-        _accelerationControl.Add((acceleration, AngleOfRotation));
+        var accelerationAngle = AngleOfRotation;
+        _accelerationControl.Add((acceleration, accelerationAngle));
     }
 
     public void Left()
     {
         var acceleration = AccelerationForce/Mass;
-        _accelerationControl.Add((acceleration, AngleOfRotation - angle.Deg90));
+        var accelerationAngle = AngleOfRotation - angle.Deg90;
+        _accelerationControl.Add((acceleration, accelerationAngle));
     }
 
     public void Right()
     {
         var acceleration = AccelerationForce/Mass;
-        _accelerationControl.Add((acceleration, AngleOfRotation + angle.Deg90));
+        var accelerationAngle = AngleOfRotation + angle.Deg90;
+        _accelerationControl.Add((acceleration, accelerationAngle));
     }
 
     public void Back()
     {
         var acceleration = AccelerationForce/Mass;
-        _accelerationControl.Add((acceleration, AngleOfRotation + angle.Deg180));
+        var accelerationAngle = AngleOfRotation + angle.Deg180;
+        _accelerationControl.Add((acceleration, accelerationAngle));
     }
 }

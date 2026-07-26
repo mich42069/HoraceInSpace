@@ -9,6 +9,7 @@ namespace HoraceInSpace.Entity;
 
 public abstract class AEntity
 {
+    protected Color Color { get; set; } = Color.White;
     protected abstract Texture2D Texture { get; }
     protected abstract Vector2 TextureOrigin { get; }
     protected float TextureScale => (float)Radius.Value * 2 / Texture.Height;
@@ -89,7 +90,7 @@ public abstract class AEntity
             Texture,
             pos.ToVector2(),
             null,
-            Color.White,
+            Color,
             (float)AngleOfRotation.Value,
             TextureOrigin,
             TextureScale,

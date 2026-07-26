@@ -44,4 +44,6 @@ public struct area(double value)
     
     public static volume operator *(distance d, area a) =>
         new(a.Value * d.Value);
+    
+    public distance SquareRoot() => new(Math.Sqrt(Value));
 }
