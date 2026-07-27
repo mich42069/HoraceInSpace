@@ -13,6 +13,7 @@ public class ContextMachine : IContextMachine
     private readonly StarsBackground _starsBackground;
     private SpriteBatch _spriteBatch;
     private readonly GameArguments _arguments;
+    private ParallelWrapper _starsUpdater;
 
     public ContextMachine(GraphicsDevice device, Vector2 screenSize, int count, GameArguments arguments)
     {
@@ -21,9 +22,11 @@ public class ContextMachine : IContextMachine
         SpaceValues.WorldSize = screenSizeInMeters;
         _currentState = new MenuState(_arguments);
         _starsBackground = new StarsBackground(device, screenSize, count);
+        _starsUpdater = new ParallelWrapper(
+            gameTime => _starsBackground.Update(gameTime)
+        );
     }
     
-
     public void TextInput(char character)
     {
         _currentState.TextInput(character);
@@ -31,7 +34,7 @@ public class ContextMachine : IContextMachine
     
     public void Update(GameTime gameTime)
     {
-        _starsBackground.Update(gameTime);
+        _starsUpdater.TriggerUpdate(gameTime);
         
         _currentState.CheckInputs(gameTime);
         _currentState.Update(gameTime);
@@ -46,12 +49,6 @@ public class ContextMachine : IContextMachine
     {
         _starsBackground.Draw(_spriteBatch);
         _currentState.Draw(_spriteBatch);
-    }
-
-    
-    private void SwitchState(StateEnum newState)
-    {
-        
     }
 
 
