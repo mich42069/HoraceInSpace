@@ -1,15 +1,40 @@
-﻿namespace HoraceInSpacePhysicsLib;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Numerics;
 
-public struct force(double value)
+namespace HoraceInSpacePhysicsLib;
+
+public readonly struct force(double value) :
+    IEquatable<force>,
+    IComparable<force>,
+    IFormattable,
+    IParsable<force>,
+    IAdditionOperators<force, force, force>,
+    ISubtractionOperators<force, force, force>,
+    IMultiplyOperators<force, double, force>,
+    IDivisionOperators<force, double, force>,
+    IDivisionOperators<force, force, double>
 {
-    public double Value = value;
-    public override string ToString() => $"{Value} N";
+    public double Value { get; } = value;
 
-    public static force operator +(force a, force b) =>
-        new(a.Value + b.Value);
+    public bool Negative => Value < 0;
 
-    public static force operator -(force a, force b) =>
-        new(a.Value - b.Value);
+    public bool Equals(force other) =>
+        Value.Equals(other.Value);
+
+    public override bool Equals(object? obj) =>
+        obj is force other && Equals(other);
+
+    public override int GetHashCode() =>
+        Value.GetHashCode();
+
+    public override string ToString() =>
+        $"{nameof(Value)}: {Value}, {nameof(Negative)}: {Negative}";
+
+    public static force operator +(force left, force right) =>
+        new(left.Value + right.Value);
+
+    public static force operator -(force left, force right) =>
+        new(left.Value - right.Value);
 
     public static force operator *(force f, double scalar) =>
         new(f.Value * scalar);
@@ -19,10 +44,64 @@ public struct force(double value)
 
     public static force operator /(force f, double scalar) =>
         new(f.Value / scalar);
+    
+    public static double operator /(force left, force right) =>
+        left.Value / right.Value;
 
-    // force / acceleration = mass
     public static mass operator /(force f, acceleration a) =>
-        new mass(f.Value / a.Value);
+        new(f.Value / a.Value);
+    
+    // force / mass = acceleration
+    public static acceleration operator /(force f, mass m) =>
+        new(f.Value / m.Value);
+
+    public static force operator -(force f) =>
+        new(-f.Value);
+
+    public force Abs() =>
+        Negative ? -this : this;
+
+    public static bool operator >(force left, force right) =>
+        left.Value > right.Value;
+
+    public static bool operator >=(force left, force right) =>
+        left.Value >= right.Value;
+
+    public static bool operator <(force left, force right) =>
+        left.Value < right.Value;
+
+    public static bool operator <=(force left, force right) =>
+        left.Value <= right.Value;
+
+    public static bool operator ==(force left, force right) =>
+        left.Value == right.Value;
+
+    public static bool operator !=(force left, force right) =>
+        left.Value != right.Value;
+
+    public int CompareTo(force other) =>
+        Value.CompareTo(other.Value);
+
+    public string ToString(string? format, IFormatProvider? provider) =>
+        $"{Value.ToString(format, provider)} N";
+
+    public static force Parse(string s, IFormatProvider? provider) =>
+        new(double.Parse(s, provider));
+
+    public static bool TryParse(
+        [NotNullWhen(true)] string? s,
+        IFormatProvider? provider,
+        out force result)
+    {
+        if (double.TryParse(s, provider, out double value))
+        {
+            result = new force(value);
+            return true;
+        }
+
+        result = default;
+        return false;
+    }
 
     public static force AtmosphericDrag(
         density airDensity,
@@ -39,9 +118,4 @@ public struct force(double value)
 
         return new force(magnitude);
     }
-}
-
-public struct dragCoefficient(double value)
-{
-    public double Value = value;
 }

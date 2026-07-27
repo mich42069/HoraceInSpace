@@ -1,13 +1,34 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Numerics;
+using System.Runtime.CompilerServices;
 
 namespace HoraceInSpacePhysicsLib;
 
 
-public struct distance(double value)
+public readonly struct distance(double value) : 
+   IEquatable<distance>, 
+   IComparable<distance>, 
+   IFormattable,
+   IParsable<distance>,
+   IAdditionOperators<distance, distance, distance>,
+   ISubtractionOperators<distance, distance, distance>,
+   IMultiplyOperators<distance, double, distance>,
+   IDivisionOperators<distance, distance, double>,
+   IDivisionOperators<distance, double, distance>
 {
-    public double Value = value;
-    public override string ToString() => $"{Value} m";
-    
+   public double Value { get; } = value;
+
+    public bool Equals(distance other) =>
+       Value.Equals(other.Value);
+
+    public override bool Equals(object? obj) =>
+       obj is distance other && Equals(other);
+
+    public override int GetHashCode() =>
+       Value.GetHashCode();
+
+    public override string ToString() => $"{nameof(Value)}: {Value}, {nameof(Negative)}: {Negative}";
+
     public bool Negative => Value < 0;
 
     public static distance operator /(distance dist, double scalar) =>
@@ -53,8 +74,12 @@ public struct distance(double value)
 
     public static distance operator %(distance left, distance right)
     {
-       while (left.Value < 0) left.Value += right.Value;
-       return new(left.Value % right.Value);
+       double value = left.Value % right.Value;
+
+       if (value < 0)
+          value += right.Value;
+
+       return new(value);
     }
 
     // distance / time = speed
@@ -64,4 +89,25 @@ public struct distance(double value)
     // distance * distance = area
     public static area operator *(distance left, distance right) =>
        new area(left.Value * right.Value);
+
+    public int CompareTo(distance other) =>
+       Value.CompareTo(other.Value);
+
+    public string ToString(string? format, IFormatProvider? provider) =>
+       $"{Value.ToString(format, provider)} m";
+
+    public static distance Parse(string s, IFormatProvider? provider) =>
+       new(double.Parse(s, provider));
+
+    public static bool TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, out distance result)
+    {
+       if (double.TryParse(s, provider, out double value))
+       {
+          result = new distance(value);
+          return true;
+       }
+
+       result = default;
+       return false;
+    }
 }
