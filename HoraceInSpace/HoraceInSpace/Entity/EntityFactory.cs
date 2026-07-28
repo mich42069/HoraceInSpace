@@ -19,11 +19,20 @@ public static class EntityFactory
         public float GiantAsteroid;
         public float EnormousAsteroid;
         public float Ufo;
+        public float Sum => SmallAsteroid + MediumAsteroid + BigAsteroid + GiantAsteroid + EnormousAsteroid + Ufo;
+        public static SpawnWeights Default => new SpawnWeights
+        {
+            SmallAsteroid = 1 / 6f,
+            MediumAsteroid = 1 / 6f,
+            BigAsteroid = 1 / 6f,
+            EnormousAsteroid = 1 / 6f,
+            GiantAsteroid = 1 / 6f,
+            Ufo = 1 / 6f
+        };
     }
-    
     private static SpawnWeights GetWeights(Difficulty difficulty)
     {
-        return difficulty switch
+        SpawnWeights weights = difficulty switch
         {
             Difficulty.Easy => new SpawnWeights
             {
@@ -34,15 +43,6 @@ public static class EntityFactory
                 EnormousAsteroid = 0.025f,
                 Ufo = 0f
             },
-            // Difficulty.Easy => new SpawnWeights
-            // {
-            //     SmallAsteroid = 0f,
-            //     MediumAsteroid = 0f,
-            //     BigAsteroid = 0f,
-            //     GiantAsteroid = 0f,
-            //     EnormousAsteroid = 1f,
-            //     Ufo = 0f
-            // },
 
             Difficulty.Medium => new SpawnWeights
             {
@@ -76,6 +76,10 @@ public static class EntityFactory
 
             _ => throw new ArgumentOutOfRangeException()
         };
+
+        return Math.Abs(weights.Sum - 1f) < 0.0001f
+            ? weights
+            : SpawnWeights.Default;
     }
     private static position GenerateSpawnPosition(position avoidPosition)
     {
@@ -145,6 +149,7 @@ public static class EntityFactory
     {
         position spawnPosition = GenerateSpawnPosition(avoidPosition);
 
+        
         var choices = new (float Weight, Func<Entity> Create)[]
         {
             (GetWeights(difficulty).SmallAsteroid, () => CreateSmallAsteroid(spawnPosition)),
@@ -165,6 +170,6 @@ public static class EntityFactory
             roll -= choice.Weight;
         }
 
-        throw new InvalidOperationException("Spawn weights must sum to 1.");
+        throw new InvalidOperationException($"Spawn weights of {difficulty} difficulty don't sum up to 1, or Default doesn't sum up to 1.");
     }
 }
