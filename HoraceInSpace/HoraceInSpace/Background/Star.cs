@@ -29,11 +29,11 @@ public class Star : IStar
 
     public void SpecialEffect(GameTime gameTime, float intensity, TimeSpan length)
     {
+        if (intensity is < -1 or > 1) throw new ArgumentOutOfRangeException(nameof(intensity), "Is out of range, the correct value should be in interval [-1, 1]");
+
         if (_flicker) return;
         
         _flickerLength = length;
-        
-        if (intensity < -1 || intensity > 1) intensity = 0;
         int newFlickerColor = (int)(DefaultColor + intensity * (int)FlickerRange);
         _flickerColor = new (newFlickerColor, newFlickerColor, newFlickerColor);
         

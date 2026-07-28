@@ -1,4 +1,5 @@
 ﻿using System;
+using HoraceInSpacePhysicsLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -11,12 +12,12 @@ public class ShootingStar : IStar
     private readonly Texture2D _pixel;
     private readonly Vector2 _position;
 
-    private Vector2 _direction;
-    private float _rotation;
+    private readonly Vector2 _direction;
+    private readonly angle _rotation;
 
     private bool _active;
     private TimeSpan _startTime;
-    private TimeSpan _duration;
+    private readonly TimeSpan _duration = 2.Seconds();
 
     private float _progress;
     private float _alpha;
@@ -32,11 +33,27 @@ public class ShootingStar : IStar
         _currentPosition = position;
 
         _pixel = new Texture2D(graphicsDevice, 1, 1);
-        _pixel.SetData(new[] { Color.White });
+        _pixel.SetData([Color.White]);
+        
+        // Mostly downward diagonal movement
+        angle angle = Random.Next(25, 70).Degrees();
+
+        _direction = new Vector2(
+            (float)angle.Cos(),
+            (float)angle.Sin()
+        );
+
+        // Randomly shoot left or right
+        if (Random.Next(2) == 0)
+            _direction.X *= -1f;
+
+        _rotation = (MathF.Atan2(_direction.Y, _direction.X)).Radians();
     }
 
     public void SpecialEffect(GameTime gameTime, float intensity, TimeSpan length)
     {
+        if (intensity < -1 || intensity > 1) throw new ArgumentOutOfRangeException(nameof(intensity), "Is out of range, the correct value should be in interval [-1, 1]");
+
         if (_active)
             return;
 
@@ -44,24 +61,9 @@ public class ShootingStar : IStar
 
         // Shooting stars are always very short flashes
         _startTime = gameTime.TotalGameTime;
-        _duration = TimeSpan.FromSeconds(2);
 
         _progress = 0f;
         _alpha = 1f;
-
-        // Mostly downward diagonal movement
-        float angle = MathHelper.ToRadians(Random.Next(25, 70));
-
-        _direction = new Vector2(
-            MathF.Cos(angle),
-            MathF.Sin(angle)
-        );
-
-        // Randomly shoot left or right
-        if (Random.Next(2) == 0)
-            _direction.X *= -1f;
-
-        _rotation = MathF.Atan2(_direction.Y, _direction.X);
 
         _currentPosition = _position;
     }
@@ -104,7 +106,7 @@ public class ShootingStar : IStar
             center,
             null,
             Color.White * _alpha,
-            _rotation,
+            (float)_rotation.Value,
             new Vector2(0.5f, 0.5f),
             new Vector2(length, TrailWidth),
             SpriteEffects.None,
