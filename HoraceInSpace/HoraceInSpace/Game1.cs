@@ -63,31 +63,8 @@ public class Game1 : Game
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
         Assets.Font = Content.Load<SpriteFont>("Minecraft");
-        
-        Textures.Horace = LoadTexture("horace.png");
-        Textures.AsteroidSmall = LoadTexture("asteroid_small.png");
-        Textures.AsteroidMedium = LoadTexture("asteroid_medium.png");
-        Textures.AsteroidBig = LoadTexture("asteroid_big.png");
-        Textures.AsteroidGiant = LoadTexture("asteroid_giant.png");
-        Textures.AsteroidEnormous = LoadTexture("asteroid_enormous.png");
-        Textures.ShadowOverlaySmall = LoadTexture("shadow_overlay_small.png");
-        Textures.ShadowOverlayMedium = LoadTexture("shadow_overlay_medium.png");
-        Textures.ShadowOverlayBig = LoadTexture("shadow_overlay_big.png");
-        Textures.ShadowOverlayGiant = LoadTexture("shadow_overlay_giant.png");
-        Textures.ShadowOverlayEnormous = LoadTexture("shadow_overlay_enormous.png");
-        Textures.Ufo = LoadTexture("ufo.png");
-        Textures.Bullet = LoadTexture("bullet.png");
-        Textures.Thruster = LoadTexture("thruster.png");
-
+        Textures.LoadContent(Content);
         _contextMachine.SetSpriteBatch(_spriteBatch);
-    }
-
-    private Texture2D LoadTexture(string fileName)
-    {
-        string path = Path.Combine("Content", fileName);
-
-        using FileStream stream = File.OpenRead(path);
-        return Texture2D.FromStream(GraphicsDevice, stream);
     }
 
     protected override void Update(GameTime gameTime)

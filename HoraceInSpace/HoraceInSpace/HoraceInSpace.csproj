@@ -20,25 +20,25 @@
     </ItemGroup>
     <ItemGroup>
       <None Update="Content\horace.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       </None>
       <None Update="Content\asteroid_big.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       </None>
       <None Update="Content\asteroid_medium.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       </None>
       <None Update="Content\asteroid_small.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       </None>
       <None Update="Content\ufo.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       </None>
       <None Update="Content\thruster.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       </None>
       <None Update="Content\bullet.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       </None>
       <None Update="Content\minecraft_font.ttf">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -47,25 +47,25 @@
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
       <None Update="Content\asteroid_giant.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       </None>
       <None Update="Content\shadow_overlay_big.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       </None>
       <None Update="Content\shadow_overlay_medium.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       </None>
       <None Update="Content\shadow_overlay_small.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       </None>
       <None Update="Content\shadow_overlay_giant.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       </None>
       <None Update="Content\shadow_overlay_enormous.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       </None>
       <None Update="Content\asteroid_enormous.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       </None>
     </ItemGroup>
 </Project>
