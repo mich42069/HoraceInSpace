@@ -1,4 +1,5 @@
-﻿using HoraceInSpacePhysicsLib.Units;
+﻿using System.Numerics;
+using HoraceInSpacePhysicsLib.Units;
 
 namespace HoraceInSpacePhysicsLib;
 
@@ -56,6 +57,18 @@ public static class UnitExtensions
     public static force Newtons(this double n) => new force(n);
     public static force Newtons(this float n) => new force(n);
     public static force Newtons(this int n) => new force(n);
+    
+    public static force KiloNewtons(this double n) => new force((double)((BigInteger)n*1000));
+    public static force KiloNewtons(this float n) => new force((double)((BigInteger)n*1000));
+    public static force KiloNewtons(this int n) => new force((double)((BigInteger)n*1000));
+    
+    public static force MegaNewtons(this double n) => new force((double)((BigInteger)n*1_000_000));
+    public static force MegaNewtons(this float n) => new force((double)((BigInteger)n*1_000_000));
+    public static force MegaNewtons(this int n) => new force((double)((BigInteger)n*1_000_000));
+    
+    public static force GigaNewtons(this double n) => new force((double)((BigInteger)n*1_000_000_000));
+    public static force GigaNewtons(this float n) => new force((double)((BigInteger)n*1_000_000_000));
+    public static force GigaNewtons(this int n) => new force((double)((BigInteger)n * 1_000_000_000));
     
     public static angle Radians(this double radians) => new(radians);
     public static angle Radians(this float radians) => new(radians);

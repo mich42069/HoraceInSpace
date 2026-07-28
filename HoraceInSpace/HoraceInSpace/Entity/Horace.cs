@@ -29,7 +29,7 @@ public class Horace : Entity
     private TimeSpan _invincibleUntil;
     public bool Invincible => _isInvincible;
     private int _lifes = 3;
-    private readonly force AccelerationForce = 160_000_000_000.0.Newtons();
+    private readonly force _accelerationForce = 160.GigaNewtons();
     private readonly List<(acceleration, angle)> _accelerationControl = new ();
     private readonly List<Thruster> _thrustersToDraw = new();
     
@@ -216,28 +216,28 @@ public class Horace : Entity
 
     public void Forward()
     {
-        var acceleration = AccelerationForce/Mass;
+        var acceleration = _accelerationForce/Mass;
         var accelerationAngle = AngleOfRotation;
         _accelerationControl.Add((acceleration, accelerationAngle));
     }
 
     public void Left()
     {
-        var acceleration = AccelerationForce/Mass;
+        var acceleration = _accelerationForce/Mass;
         var accelerationAngle = AngleOfRotation - angle.Deg90;
         _accelerationControl.Add((acceleration, accelerationAngle));
     }
 
     public void Right()
     {
-        var acceleration = AccelerationForce/Mass;
+        var acceleration = _accelerationForce/Mass;
         var accelerationAngle = AngleOfRotation + angle.Deg90;
         _accelerationControl.Add((acceleration, accelerationAngle));
     }
 
     public void Back()
     {
-        var acceleration = AccelerationForce/Mass;
+        var acceleration = _accelerationForce/Mass;
         var accelerationAngle = AngleOfRotation + angle.Deg180;
         _accelerationControl.Add((acceleration, accelerationAngle));
     }
