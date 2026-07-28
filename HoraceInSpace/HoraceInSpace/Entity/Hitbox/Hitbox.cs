@@ -13,24 +13,14 @@ public abstract class Hitbox(distance radius) : IHitBox
 
     public virtual bool CheckHit(IHitBox hitBox)
     {
+        if (hitBox is PointHitbox point)
+            return CheckHit(point.GetPosition());
+
         if (hitBox is not CircleHitbox circle)
             return false;
 
-        distance dx = Position.X - circle.Position.X;
-        distance dy = Position.Y - circle.Position.Y;
-        
-        if (dx.Negative) dx *= -1;
-        if (dy.Negative) dx *= -1;
-
-        if (dx > SpaceValues.WorldSize.X / 2)
-            dx = SpaceValues.WorldSize.X - dx;
-
-        if (dy > SpaceValues.WorldSize.Y / 2)
-            dy = SpaceValues.WorldSize.Y - dy;
-
-        distance distanceToCircle = Math.Sqrt((dx * dx + dy * dy).Value).Meters();
-
-        return distanceToCircle <= Radius + circle.Radius;
+        return WrappedDistanceTo(circle.Position, SpaceValues.WorldSize)
+               <= Radius + circle.Radius;
     }
 
     public virtual void SetPosition(position position)
@@ -109,9 +99,21 @@ public abstract class Hitbox(distance radius) : IHitBox
             SpriteEffects.None,
             0f);
     }
-
-    public bool CheckHit(position point)
+    
+    public bool CheckHit(position point) =>
+        WrappedDistanceTo(point, SpaceValues.WorldSize) <= Radius;
+    
+    protected distance WrappedDistanceTo(position other, position worldSize)
     {
-        return !(Position.DistanceTo(point) > Radius); // TODO AROUND EDGES
+        distance dx = (Position.X - other.X).Abs();
+        distance dy = (Position.Y - other.Y).Abs();
+
+        if (dx > worldSize.X / 2)
+            dx = worldSize.X - dx;
+
+        if (dy > worldSize.Y / 2)
+            dy = worldSize.Y - dy;
+
+        return Math.Sqrt((dx * dx + dy * dy).Value).Meters();
     }
 }
