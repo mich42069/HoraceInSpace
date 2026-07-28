@@ -1,4 +1,6 @@
-﻿namespace HoraceInSpacePhysicsLib;
+﻿using HoraceInSpacePhysicsLib.Units;
+
+namespace HoraceInSpacePhysicsLib;
 
 public static class UnitExtensions
 {

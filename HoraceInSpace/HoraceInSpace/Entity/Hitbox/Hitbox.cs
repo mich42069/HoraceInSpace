@@ -1,5 +1,8 @@
 ﻿using System;
+using HoraceInSpace.Assets;
+using HoraceInSpace.Helpers;
 using HoraceInSpacePhysicsLib;
+using HoraceInSpacePhysicsLib.Units;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 

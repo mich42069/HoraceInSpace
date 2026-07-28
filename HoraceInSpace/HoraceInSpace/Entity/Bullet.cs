@@ -1,12 +1,15 @@
 ﻿using System;
+using HoraceInSpace.Assets;
 using HoraceInSpace.Entity.Hitbox;
+using HoraceInSpace.Helpers;
 using HoraceInSpacePhysicsLib;
+using HoraceInSpacePhysicsLib.Units;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace HoraceInSpace.Entity;
 
-public class Bullet : AEntity
+public class Bullet : Entity
 {
     protected override Texture2D Texture => Textures.Bullet;
     protected override Vector2 TextureOrigin => Textures.BulletOrigin;
@@ -43,7 +46,7 @@ public class Bullet : AEntity
     {
         spriteBatch.Draw(
             Textures.Bullet,
-            pos.ToVector2(),
+            PhysicsLibToMonogame.ToVector2(pos),
             null,
             Color,
             (float)AngleOfRotation.Value,

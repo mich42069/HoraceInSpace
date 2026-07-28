@@ -1,5 +1,6 @@
 ﻿using System;
 using HoraceInSpacePhysicsLib;
+using HoraceInSpacePhysicsLib.Units;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 

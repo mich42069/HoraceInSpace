@@ -1,39 +1,49 @@
 ﻿using System;
-using HoraceInSpace.Entity.Hitbox;
+using System.DirectoryServices.ActiveDirectory;
+using HoraceInSpace.Assets;
 using HoraceInSpacePhysicsLib;
+using HoraceInSpacePhysicsLib.Units;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace HoraceInSpace.Entity;
 
-public class Ufo : AUfo, IScore
+public abstract class Ufo : Entity
 {
+    protected override Texture2D Texture => Textures.Ufo;
+    protected override Vector2 TextureOrigin => Textures.UfoOrigin;
+    protected abstract TimeSpan MinimalShootTime { get; }
+    protected abstract TimeSpan ShootTimeVariation { get; }
     
-    public int Score => 1000;
-    protected override distance Radius => SpaceValues.UfoRadius;
-    protected override density Density => SpaceValues.UfoDensity;
-
-    public Ufo(position initialPosition, angle angleOfMotion, angle angleOfRotation, speed initialSpeed) : base(initialPosition, angleOfMotion, angleOfRotation, initialSpeed)
+    private static readonly Random Random = new();
+    private bool _readyToShoot = false;
+    public bool IsReadyToShoot
     {
-        Acceleration = 0.MetersPerSecondSquared();
-        Hitbox = new CircleHitbox(Radius);
-    }
-
-    protected override TimeSpan MinimalShootTime => 3.Seconds();
-    protected override TimeSpan ShootTimeVariation => 3.Seconds();
-
-    public override Bullet Shoot(position target)
-    {
-        distance dx = target.X - Position.X;
-        distance dy = target.Y - Position.Y;
-
-        angle angle = MathF.Atan2((float)dy.Value, (float)dx.Value).Radians();
-
-        Bullet bullet = new(Position, angle, angle, 1500.MetersPerSecond())
+        get
         {
-            Color = Color.Red
-        };
-
-        return bullet;
+            bool temp = _readyToShoot;
+            _readyToShoot = false;
+            return temp;
+        }
     }
+    private TimeSpan? _nextShootTime = null;
+    
+    protected Ufo(position initialPosition, angle angleOfMotion, angle angleOfRotation, speed initialSpeed)
+    {
+        Position = initialPosition;
+        AngleOfMotion = angleOfMotion;
+        AngleOfRotation = angleOfRotation;
+        Speed = initialSpeed;
+    }
+    
+    public override void Update(GameTime gameTime)
+    {
+        if (_nextShootTime == null || _nextShootTime < gameTime.TotalGameTime)
+        {
+            if (_nextShootTime != null) _readyToShoot = true;
+            _nextShootTime = gameTime.TotalGameTime + MinimalShootTime + ShootTimeVariation * Random.NextDouble();
+        }
+        base.Update(gameTime);
+    }
+    public abstract Bullet Shoot(position target);
 }

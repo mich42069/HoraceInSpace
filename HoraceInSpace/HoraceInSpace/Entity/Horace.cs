@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using HoraceInSpace.Assets;
 using HoraceInSpace.Entity.Hitbox;
+using HoraceInSpace.Helpers;
 using HoraceInSpacePhysicsLib;
+using HoraceInSpacePhysicsLib.Units;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -15,7 +18,7 @@ public readonly struct Thruster(position offset, angle angle)
     public angle Angle { get; } = angle;
 }
 
-public class Horace : AEntity
+public class Horace : Entity
 {
     protected override Texture2D Texture => Textures.Horace;
     protected override Vector2 TextureOrigin => Textures.HoraceOrigin;
@@ -173,12 +176,12 @@ public class Horace : AEntity
         foreach (Thruster thruster in _thrustersToDraw)
         {
             Vector2 offset = Vector2.Transform(
-                thruster.Offset.ToVector2(),
+                PhysicsLibToMonogame.ToVector2(thruster.Offset),
                 Matrix.CreateRotationZ((float)AngleOfRotation.Value));
 
             spriteBatch.Draw(
                 ThrusterTexture,
-                pos.ToVector2() + offset,
+                PhysicsLibToMonogame.ToVector2(pos) + offset,
                 null,
                 Color,
                 (float)(AngleOfRotation + thruster.Angle).Value,
@@ -195,7 +198,7 @@ public class Horace : AEntity
         return new Bullet(Position, AngleOfRotation, AngleOfRotation, 1500.MetersPerSecond());
     }
 
-    public override bool CheckHit(AEntity entity)
+    public override bool CheckHit(Entity entity)
     {
         return Hitbox.CheckHit(entity.Hitbox);
     }

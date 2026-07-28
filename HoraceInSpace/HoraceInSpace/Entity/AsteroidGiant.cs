@@ -1,12 +1,15 @@
 ﻿using System.Collections.Generic;
+using HoraceInSpace.Assets;
 using HoraceInSpace.Entity.Hitbox;
+using HoraceInSpace.Helpers;
 using HoraceInSpacePhysicsLib;
+using HoraceInSpacePhysicsLib.Units;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace HoraceInSpace.Entity;
 
-public class AsteroidGiant : AAsteroid, IScore
+public class AsteroidGiant : Asteroid, IScore
 {
     protected override Texture2D Texture => Textures.AsteroidGiant;
     protected override Texture2D ShadowTexture => Textures.ShadowOverlayGiant;
@@ -21,9 +24,9 @@ public class AsteroidGiant : AAsteroid, IScore
 
     protected override distance Radius => SpaceValues.GiantAsteroidRadius;
 
-    public override List<AEntity> SplitUp()
+    public override List<Entity> SplitUp()
     {
-        List<AEntity> newAsteroids = new();
+        List<Entity> newAsteroids = new();
         int numberOfNewAsteroids = 5;
         speed newAsteroidsSpeed = CalculateNewAsteroidSpeed(SpaceValues.BigAsteroidRadius);
         newAsteroidsSpeed /= numberOfNewAsteroids;

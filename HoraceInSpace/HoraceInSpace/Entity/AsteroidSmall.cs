@@ -1,12 +1,15 @@
 ﻿using System;
+using HoraceInSpace.Assets;
 using HoraceInSpace.Entity.Hitbox;
+using HoraceInSpace.Helpers;
 using HoraceInSpacePhysicsLib;
+using HoraceInSpacePhysicsLib.Units;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace HoraceInSpace.Entity;
 
-public class AsteroidSmall : AAsteroid, IScore
+public class AsteroidSmall : Asteroid, IScore
 {
     protected override Texture2D Texture => Textures.AsteroidSmall;
     protected override Texture2D ShadowTexture => Textures.ShadowOverlaySmall;

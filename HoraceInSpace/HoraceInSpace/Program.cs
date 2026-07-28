@@ -1,2 +1,2 @@
-﻿using var game = new HoraceInSpace.Game1(args);
+﻿using var game = new HoraceInSpace.HoraceInSpace(args);
 game.Run();

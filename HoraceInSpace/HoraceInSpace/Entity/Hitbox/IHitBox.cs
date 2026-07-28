@@ -1,4 +1,5 @@
 ﻿using HoraceInSpacePhysicsLib;
+using HoraceInSpacePhysicsLib.Units;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace HoraceInSpace.Entity.Hitbox;
