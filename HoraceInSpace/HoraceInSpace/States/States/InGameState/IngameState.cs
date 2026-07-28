@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace HoraceInSpace.States.States;
+namespace HoraceInSpace.States.States.InGameState;
 
 public class IngameState : State
 {
@@ -30,12 +30,15 @@ public class IngameState : State
     private TimeSpan _startInvincibility;
     private State _newState;
     private int _wave = 0;
+    private List<IDrawableStat> _drawableStat = new();
     
     public IngameState(GameArguments arguments) : base(arguments)
     {
         _timeScale = arguments.TimeScale;
         Entity.Entity.DrawHitbox = arguments.ShowHitboxes;
         _horace = new Horace();
+        _drawableStat.Add(new LiveStat(_horace));
+        _drawableStat.Add(new ScoreStat(() => _totalScore));
     }
     
     public override void Update(GameTime gameTime)
@@ -63,6 +66,9 @@ public class IngameState : State
 
         TrySpawn(adjustedGameTime);
         TrySpawnUfoBullets();
+
+        foreach (var stat in _drawableStat)
+            stat.Update(gameTime);
     }
 
     private void TrySpawnUfoBullets()
@@ -213,6 +219,7 @@ public class IngameState : State
         foreach (Entity.Entity entity in _entities) entity.Draw(spriteBatch);
         foreach (Bullet bullet in _bullets) bullet.Draw(spriteBatch);
         foreach (Bullet bullet in _ufoBullets) bullet.Draw(spriteBatch);
+        foreach (IDrawableStat stat in _drawableStat) stat.Draw(spriteBatch);
     }
 
     public override void CheckInputs(GameTime gameTime)

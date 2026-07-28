@@ -22,12 +22,7 @@ public static class EntityFactory
         public float Sum => SmallAsteroid + MediumAsteroid + BigAsteroid + GiantAsteroid + EnormousAsteroid + Ufo;
         public static SpawnWeights Default => new SpawnWeights
         {
-            SmallAsteroid = 1 / 6f,
-            MediumAsteroid = 1 / 6f,
-            BigAsteroid = 1 / 6f,
-            EnormousAsteroid = 1 / 6f,
-            GiantAsteroid = 1 / 6f,
-            Ufo = 1 / 6f
+            SmallAsteroid = 1
         };
     }
     private static SpawnWeights GetWeights(Difficulty difficulty)

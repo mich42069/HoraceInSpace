@@ -1,4 +1,5 @@
 ﻿using HoraceInSpace.Helpers;
+using HoraceInSpace.States.States.InGameState;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;

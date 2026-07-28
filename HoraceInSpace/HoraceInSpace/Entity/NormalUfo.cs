@@ -20,6 +20,7 @@ public class NormalUfo : Ufo, IScore
     {
         Acceleration = 0.MetersPerSecondSquared();
         Hitbox = new CircleHitbox(Radius);
+        Hitbox.SetPosition(Position);
     }
 
     protected override TimeSpan MinimalShootTime => 3.Seconds();

@@ -21,6 +21,7 @@ public class AsteroidEnormous : Asteroid, IScore
     {
         Acceleration = 0.MetersPerSecondSquared();
         Hitbox = new CircleHitbox(Radius);
+        Hitbox.SetPosition(initialPosition);
     }
 
     protected override distance Radius => SpaceValues.EnormousAsteroidRadius;

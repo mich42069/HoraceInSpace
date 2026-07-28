@@ -28,7 +28,8 @@ public class Horace : Entity
     private bool _isInvincible;
     private TimeSpan _invincibleUntil;
     public bool Invincible => _isInvincible;
-    private int _lifes = 3;
+    private int _lives = 3;
+    public int Lives => _lives;
     private readonly force _accelerationForce = 160.GigaNewtons();
     private readonly List<(acceleration, angle)> _accelerationControl = new ();
     private readonly List<Thruster> _thrustersToDraw = new();
@@ -54,6 +55,7 @@ public class Horace : Entity
     {
         Hitbox = new CircleHitbox(Radius);
         ResetMovementAndPosition();
+        Hitbox.SetPosition(Position);
     }
 
     protected override distance Radius => SpaceValues.HoraceRadius;
@@ -105,7 +107,7 @@ public class Horace : Entity
 
     private void ResetMovementAndPosition()
     {
-        Position = (1000, 1000).At();
+        Position = SpaceValues.WorldSize / 2f;
         Speed = 0.MetersPerSecond();
         Acceleration = 0.MetersPerSecondSquared();
         AngleOfMotion = 0.Degrees();
@@ -171,7 +173,7 @@ public class Horace : Entity
     public bool GetHit()
     {
         Sounds.HoraceGetsHit.Play();
-        return (--_lifes < 1);
+        return (--_lives < 1);
     }
 
     public void Respawn(bool isInvincible, TimeSpan invincibilityLength, TimeSpan currentGameTime)

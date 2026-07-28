@@ -25,6 +25,7 @@ public class Bullet : Entity
         
         Acceleration = 0.MetersPerSecondSquared();
         Hitbox = new PointHitbox(Radius);
+        Hitbox.SetPosition(initialPosition);
     }
 
     public bool LifeTimeOver(GameTime gameTime)
