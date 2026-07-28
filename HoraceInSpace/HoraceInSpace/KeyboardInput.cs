@@ -22,7 +22,6 @@ public static class KeyboardInput
         return _current.IsKeyDown(key) &&
                _previous.IsKeyUp(key);
     }
-
     public static bool Held(Keys key, GameTime gameTime)
     {
         if (!_buttons.TryGetValue(key, out Button button))

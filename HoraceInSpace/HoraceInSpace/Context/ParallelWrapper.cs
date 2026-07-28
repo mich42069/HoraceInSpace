@@ -12,8 +12,8 @@ public sealed class ParallelWrapper : IDisposable
     private readonly AutoResetEvent _updateSignal = new(false);
     private readonly Lock _lock = new();
 
-    private GameTime _gameTime;
-    private bool _running = true;
+    private volatile GameTime _gameTime;
+    private volatile bool _running = true;
 
     public ParallelWrapper(Action<GameTime> updateAction)
     {
