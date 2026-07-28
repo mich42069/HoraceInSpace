@@ -30,7 +30,7 @@ public abstract class Entity
     protected abstract density Density { get; }
     protected momentum Momentum => Mass * Speed;
 
-    public virtual List<Entity> SplitUp() => new ();
+    public virtual List<Entity> SplitUp() => new();
     public virtual void Update(GameTime gameTime)
     {
         UpdateRotation();

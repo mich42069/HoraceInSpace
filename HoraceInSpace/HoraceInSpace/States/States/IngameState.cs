@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using HoraceInSpace.Assets;
 using HoraceInSpace.Entity;
 using HoraceInSpace.Helpers;
 using HoraceInSpacePhysicsLib;
@@ -54,7 +55,7 @@ public class IngameState : State
 
         _totalScore += newScore;
 
-        List<Entity.Entity> newAsteroids = SplitUpHitAsteroids(hitBulletsEntities.Item2);
+        List<Entity.Entity> newAsteroids = SplitUpHitEntities(hitBulletsEntities.Item2);
         _entities.AddRange(newAsteroids);
         
         _bullets.MassDeleteFromHashset(hitBulletsEntities.Item1);
@@ -105,11 +106,12 @@ public class IngameState : State
         }
     }
 
-    private List<Entity.Entity> SplitUpHitAsteroids(HashSet<int> hits)
+    private List<Entity.Entity> SplitUpHitEntities(HashSet<int> hits)
     {
         List<Entity.Entity> newAsteroids = new();
         foreach (int i in hits)
         {
+            Sounds.Explosion.Play();
             List<Entity.Entity> splitUpAsteroid = _entities[i].SplitUp();
             newAsteroids.AddRange(splitUpAsteroid);
         }

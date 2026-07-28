@@ -66,6 +66,7 @@ public class HoraceInSpace : Game
 
         Assets.Assets.Font = Content.Load<SpriteFont>("Minecraft");
         Textures.LoadContent(Content);
+        Sounds.LoadContent(Content);
         _stateSwitcher.SetSpriteBatch(_spriteBatch);
     }
 

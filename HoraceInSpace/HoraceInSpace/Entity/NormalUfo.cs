@@ -1,4 +1,5 @@
 ﻿using System;
+using HoraceInSpace.Assets;
 using HoraceInSpace.Entity.Hitbox;
 using HoraceInSpace.Helpers;
 using HoraceInSpacePhysicsLib;
@@ -26,6 +27,8 @@ public class NormalUfo : Ufo, IScore
 
     public override Bullet Shoot(position target)
     {
+        Sounds.Shoot.Play();
+        
         distance dx = target.X - Position.X;
         distance dy = target.Y - Position.Y;
 

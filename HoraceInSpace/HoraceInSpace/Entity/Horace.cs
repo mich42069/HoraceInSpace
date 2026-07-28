@@ -7,6 +7,7 @@ using HoraceInSpace.Helpers;
 using HoraceInSpacePhysicsLib;
 using HoraceInSpacePhysicsLib.Units;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -31,6 +32,8 @@ public class Horace : Entity
     private readonly force AccelerationForce = 160_000_000_000.0.Newtons();
     private readonly List<(acceleration, angle)> _accelerationControl = new ();
     private readonly List<Thruster> _thrustersToDraw = new();
+    
+    private ThrusterSoundWrapper _thrusterSoundWrapper = new(Sounds.Thruster.CreateInstance());
     
     private readonly Thruster[] _thrusters =
     {
@@ -62,7 +65,13 @@ public class Horace : Entity
             _isInvincible = false;
         UpdateColor();
         UpdateThrusters();
+        UpdateThrusterSounds(gameTime);
         base.Update(gameTime);
+    }
+
+    private void UpdateThrusterSounds(GameTime gameTime)
+    {
+        _thrusterSoundWrapper.UpdateThrusterSound(gameTime, _accelerationControl.Count != 0);
     }
 
     private void UpdateThrusters()
@@ -161,6 +170,7 @@ public class Horace : Entity
 
     public bool GetHit()
     {
+        Sounds.HoraceGetsHit.Play();
         return (--_lifes < 1);
     }
 
@@ -195,6 +205,7 @@ public class Horace : Entity
 
     public Bullet Shoot()
     {
+        Sounds.Shoot.Play();
         return new Bullet(Position, AngleOfRotation, AngleOfRotation, 1500.MetersPerSecond());
     }
 
