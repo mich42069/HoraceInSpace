@@ -33,7 +33,7 @@ public static class Textures
     public static Vector2 UfoOrigin => new(Ufo.Width/2f, Ufo.Height/2f);
     
     public static Texture2D Bullet { get; private set; }
-    public static Vector2 BulletOrigin => new(Bullet.Width/2f, Bullet.Height/2f);
+    public static Vector2 BulletOrigin => new(Bullet.Width - 2, Bullet.Height/2f);
     
     public static Texture2D Thruster { get; private set; }
     public static Vector2 ThrusterOrigin => new(Thruster.Width/2f, Thruster.Height/2f);

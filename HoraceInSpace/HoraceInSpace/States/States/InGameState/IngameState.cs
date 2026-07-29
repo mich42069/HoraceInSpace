@@ -39,6 +39,7 @@ public class IngameState : State
         _horace = new Horace();
         _drawableStat.Add(new LiveStat(_horace));
         _drawableStat.Add(new ScoreStat(() => _totalScore));
+        _drawableStat.Add(new DifficultyStat(GetDifficulty));
     }
     
     public override void Update(GameTime gameTime)
@@ -68,7 +69,7 @@ public class IngameState : State
         TrySpawnUfoBullets();
 
         foreach (var stat in _drawableStat)
-            stat.Update(gameTime);
+            stat.Update(adjustedGameTime);
     }
 
     private void TrySpawnUfoBullets()
@@ -90,7 +91,7 @@ public class IngameState : State
 
     private Difficulty GetDifficulty(GameTime gameTime)
     {
-        TimeSpan diff = gameTime.ElapsedGameTime;
+        TimeSpan diff = gameTime.TotalGameTime;
         if (diff > _hardDifficultyTimeTreshold) return Difficulty.Extreme;
         if (diff > _mediumDifficultyTimeTreshold) return Difficulty.Hard;
         if (diff > _easyDifficultyTimeTreshold) return Difficulty.Medium;

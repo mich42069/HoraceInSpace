@@ -28,45 +28,44 @@ public static class EntityFactory
     private static SpawnWeights GetWeights(Difficulty difficulty)
     {
         SpawnWeights weights = difficulty switch
-        {
-            Difficulty.Easy => new SpawnWeights
+        {Difficulty.Easy => new SpawnWeights
             {
-                SmallAsteroid = 0.65f,
-                MediumAsteroid = 0.20f,
-                BigAsteroid = 0.10f,
-                GiantAsteroid = 0.025f,
-                EnormousAsteroid = 0.025f,
-                Ufo = 0f
+                SmallAsteroid = 0.45f,
+                MediumAsteroid = 0.15f,
+                BigAsteroid = 0.05f,
+                GiantAsteroid = 0f,
+                EnormousAsteroid = 0f,
+                Ufo = 0.35f
             },
 
             Difficulty.Medium => new SpawnWeights
             {
-                SmallAsteroid = 0.45f,
-                MediumAsteroid = 0.30f,
-                BigAsteroid = 0.15f,
-                GiantAsteroid = 0.025f,
-                EnormousAsteroid = 0.025f,
-                Ufo = 0.05f
+                SmallAsteroid = 0.20f,
+                MediumAsteroid = 0.15f,
+                BigAsteroid = 0.05f,
+                GiantAsteroid = 0f,
+                EnormousAsteroid = 0f,
+                Ufo = 0.60f
             },
 
             Difficulty.Hard => new SpawnWeights
             {
-                SmallAsteroid = 0.30f,
-                MediumAsteroid = 0.30f,
-                BigAsteroid = 0.20f,
-                GiantAsteroid = 0.075f,
-                EnormousAsteroid = 0.025f,
-                Ufo = 0.10f
+                SmallAsteroid = 0.15f,
+                MediumAsteroid = 0.15f,
+                BigAsteroid = 0.05f,
+                GiantAsteroid = 0f,
+                EnormousAsteroid = 0f,
+                Ufo = 0.65f
             },
 
             Difficulty.Extreme => new SpawnWeights
             {
                 SmallAsteroid = 0.10f,
-                MediumAsteroid = 0.30f,
-                BigAsteroid = 0.25f,
+                MediumAsteroid = 0.10f,
+                BigAsteroid = 0.10f,
                 GiantAsteroid = 0.10f,
                 EnormousAsteroid = 0.05f,
-                Ufo = 0.20f
+                Ufo = 0.55f
             },
 
             _ => throw new ArgumentOutOfRangeException()

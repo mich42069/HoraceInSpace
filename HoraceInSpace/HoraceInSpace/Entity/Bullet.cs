@@ -15,7 +15,7 @@ public class Bullet : Entity
     protected override Vector2 TextureOrigin => Textures.BulletOrigin;
     private readonly TimeSpan _lifeTime = TimeSpan.FromSeconds(5);
     private TimeSpan? _timeOfCreation = null;
-    public Color Color { get; set; } = Color.White;
+    protected override float TextureScale => 1f;
     public Bullet(position initialPosition, angle angleOfMotion, angle angleOfRotation, speed initialSpeed)
     {
         Position = initialPosition;
@@ -41,19 +41,5 @@ public class Bullet : Entity
     {
         _timeOfCreation ??= gameTime.TotalGameTime;
         base.Update(gameTime);
-    }
-
-    protected override void Draw(position pos, SpriteBatch spriteBatch)
-    {
-        spriteBatch.Draw(
-            Textures.Bullet,
-            PhysicsLibToMonogame.ToVector2(pos),
-            null,
-            Color,
-            (float)AngleOfRotation.Value,
-            Textures.BulletOrigin,
-            1f,
-            SpriteEffects.None,
-            0f);
     }
 }
