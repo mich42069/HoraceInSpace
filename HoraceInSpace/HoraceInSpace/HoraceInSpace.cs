@@ -83,7 +83,7 @@ public class HoraceInSpace : Game
         _spriteBatch.Begin(
             samplerState: SamplerState.PointClamp);
         GraphicsDevice.Clear(Color.Black);
-        _stateSwitcher.Draw(gameTime);
+        _stateSwitcher.Draw();
         base.Draw(gameTime);
         _spriteBatch.End();
     }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
@@ -7,71 +8,62 @@ namespace HoraceInSpace.Helpers;
 
 public static class Scoreboard
 {
-    private static List<(int, string)> _keptScores;
-
     private const string FileName = "scoreboard.json";
 
-    static Scoreboard()
+    private static readonly JsonSerializerOptions JsonOptions = new()
     {
-        Initialize();
-    }
+        WriteIndented = true
+    };
 
-    private static void Initialize()
-    {
-        if (!File.Exists(FileName))
-        {
-            _keptScores = new List<(int, string)>();
-            Save();
-            return;
-        }
-
-        string json = File.ReadAllText(FileName);
-
-        List<ScoreEntry>? scores = JsonSerializer.Deserialize<List<ScoreEntry>>(json);
-
-        _keptScores = scores?
-                          .Select(s => (s.Score, s.Name))
-                          .ToList()
-                      ?? new List<(int, string)>();
-    }
+    private static readonly List<ScoreEntry> _scores = Load();
 
     public static void AddNewScore(string name, int score)
     {
-        _keptScores.Add((score, name));
+        _scores.Add(new ScoreEntry(score, name));
+        _scores.Sort((a, b) => b.Score.CompareTo(a.Score));
         Save();
     }
 
-    public static List<(int, string)> GetTopX(int x)
+    public static IReadOnlyList<(int Score, string Name)> GetTopX(int count)
     {
-        return _keptScores
-            .OrderByDescending(s => s.Item1)
-            .Take(x)
+        return _scores
+            .Take(count)
+            .Select(s => (s.Score, s.Name))
             .ToList();
+    }
+
+    private static List<ScoreEntry> Load()
+    {
+        if (!File.Exists(FileName))
+        {
+            Save([]);
+            return [];
+        }
+
+        try
+        {
+            return JsonSerializer.Deserialize<List<ScoreEntry>>(
+                       File.ReadAllText(FileName))
+                   ?? [];
+        }
+        catch
+        {
+            // If the file is corrupt, start with an empty scoreboard.
+            return [];
+        }
     }
 
     private static void Save()
     {
-        List<ScoreEntry> scores = _keptScores
-            .Select(s => new ScoreEntry
-            {
-                Score = s.Item1,
-                Name = s.Item2
-            })
-            .ToList();
-
-        string json = JsonSerializer.Serialize(
-            scores,
-            new JsonSerializerOptions
-            {
-                WriteIndented = true
-            });
-
-        File.WriteAllText(FileName, json);
+        Save(_scores);
     }
 
-    private class ScoreEntry
+    private static void Save(List<ScoreEntry> scores)
     {
-        public int Score { get; set; }
-        public string Name { get; set; } = "";
+        File.WriteAllText(
+            FileName,
+            JsonSerializer.Serialize(scores, JsonOptions));
     }
+
+    private sealed record ScoreEntry(int Score, string Name);
 }

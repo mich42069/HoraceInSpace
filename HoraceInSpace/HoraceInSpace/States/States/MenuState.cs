@@ -1,5 +1,4 @@
-﻿using HoraceInSpace.Helpers;
-using HoraceInSpace.States.States.InGameState;
+﻿using HoraceInSpace.States.States.InGameState;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -17,43 +16,34 @@ public class MenuState(GameArguments arguments) : State(arguments)
     };
 
     private int _selected;
-
     private State _nextState;
+
+    private const float TitleOffsetY = -180;
+    private const float OptionsStartOffsetY = -40;
+    private const float OptionSpacing = 50;
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        Vector2 screenSize = PhysicsLibToMonogame.ToVector2(SpaceValues.WorldSize);
-        Vector2 center = screenSize / 2f;
+        DrawTitle(spriteBatch);
+        DrawOptions(spriteBatch);
+    }
 
-        // Background
-        spriteBatch.Draw(
-            Assets.Assets.Pixel,
-            new Rectangle(
-                0,
-                0,
-                (int)screenSize.X,
-                (int)screenSize.Y
-            ),
-            Color.Black
-        );
+    public override void CheckInputs(GameTime gameTime)
+    {
+        HandleNavigation(gameTime);
+        HandleSelection();
 
-        // Title
-        const string title = "Horace In Space";
+        if (KeyboardInput.Pressed(Keys.Escape))
+            Exit = true;
+    }
 
-        Vector2 titleSize = Assets.Assets.Font.MeasureString(title);
+    private void DrawTitle(SpriteBatch spriteBatch)
+    {
+        DrawCentered(spriteBatch, "Horace In Space", Center.Y + TitleOffsetY, Color.Cyan);
+    }
 
-        spriteBatch.DrawString(
-            Assets.Assets.Font,
-            title,
-            new Vector2(
-                center.X - titleSize.X / 2,
-                center.Y - 180
-            ),
-            Color.Cyan
-        );
-
-
-        // Options
+    private void DrawOptions(SpriteBatch spriteBatch)
+    {
         for (int i = 0; i < _options.Length; i++)
         {
             bool selected = i == _selected;
@@ -66,21 +56,11 @@ public class MenuState(GameArguments arguments) : State(arguments)
                 ? Color.Yellow
                 : Color.White;
 
-            Vector2 textSize = Assets.Assets.Font.MeasureString(text);
-
-            spriteBatch.DrawString(
-                Assets.Assets.Font,
-                text,
-                new Vector2(
-                    center.X - textSize.X / 2,
-                    center.Y - 40 + i * 50
-                ),
-                color
-            );
+            DrawCentered(spriteBatch, text, Center.Y + OptionsStartOffsetY + i * OptionSpacing, color);
         }
     }
 
-    public override void CheckInputs(GameTime gameTime)
+    private void HandleNavigation(GameTime gameTime)
     {
         if (KeyboardInput.Held(Keys.Up, gameTime))
         {
@@ -97,19 +77,13 @@ public class MenuState(GameArguments arguments) : State(arguments)
             if (_selected >= _options.Length)
                 _selected = 0;
         }
-
-        if (KeyboardInput.Pressed(Keys.Enter))
-        {
-            SelectOption();
-        }
-        if (KeyboardInput.Pressed(Keys.Escape))
-        {
-            Exit = true;
-        }
     }
 
-    private void SelectOption()
+    private void HandleSelection()
     {
+        if (!KeyboardInput.Pressed(Keys.Enter))
+            return;
+
         switch (_selected)
         {
             case 0:
@@ -127,7 +101,6 @@ public class MenuState(GameArguments arguments) : State(arguments)
                 break;
         }
     }
-
     public override State NewState()
     {
         return _nextState;

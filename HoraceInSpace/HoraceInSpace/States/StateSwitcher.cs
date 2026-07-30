@@ -24,8 +24,7 @@ public class StateSwitcher : IStateSwitcher
         _currentState = new MenuState(_arguments);
         _starsBackground = new StarsBackground(device, screenSize, count);
         _starsUpdater = new ParallelWrapper(
-            gameTime => _starsBackground.Update(gameTime)
-        );
+            gameTime => _starsBackground.Update(gameTime), true);
     }
     
     public void TextInput(char character)
@@ -46,7 +45,7 @@ public class StateSwitcher : IStateSwitcher
         }
     }
 
-    public void Draw(GameTime gameTime)
+    public void Draw()
     {
         _starsBackground.Draw(_spriteBatch);
         _currentState.Draw(_spriteBatch);

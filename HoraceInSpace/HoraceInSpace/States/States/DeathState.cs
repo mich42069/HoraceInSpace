@@ -7,11 +7,30 @@ using KeyboardInput = HoraceInSpace.Helpers.KeyboardInput;
 
 namespace HoraceInSpace.States.States;
 
-public class DeathState(int score, GameArguments arguments) : State(arguments)
+public class DeathState : State
 {
     private const int MaxNameLength = 32;
 
+    private readonly int _score;
     private readonly StringBuilder _name = new();
+
+    private readonly float _gameOverY;
+    private readonly float _scoreY;
+    private readonly float _enterNameY;
+    private readonly float _nameY;
+    private readonly float _hintY;
+
+    public DeathState(int score, GameArguments arguments)
+        : base(arguments)
+    {
+        _score = score;
+
+        _gameOverY = Center.Y - 160;
+        _scoreY = Center.Y - 100;
+        _enterNameY = Center.Y - 30;
+        _nameY = Center.Y + 10;
+        _hintY = Center.Y + 80;
+    }
 
     public override void TextInput(char character)
     {
@@ -19,92 +38,56 @@ public class DeathState(int score, GameArguments arguments) : State(arguments)
             return;
 
         if (char.IsLetterOrDigit(character) || character == ' ')
-        {
             _name.Append(character);
-        }
     }
-    
-    public override void Draw(SpriteBatch spriteBatch)
-    {
-        Vector2 screenSize = PhysicsLibToMonogame.ToVector2(SpaceValues.WorldSize);
-        Vector2 center = screenSize / 2f;
 
-        void DrawCentered(string text, float y, Color color)
-        {
-            Vector2 size = Assets.Assets.Font.MeasureString(text);
-
-            spriteBatch.DrawString(
-                Assets.Assets.Font,
-                text,
-                new Vector2(
-                    center.X - size.X / 2,
-                    y
-                ),
-                color
-            );
-        }
-
-        DrawCentered(
-            "GAME OVER",
-            center.Y - 160,
-            Color.Red
-        );
-
-        DrawCentered(
-            $"Score: {score}",
-            center.Y - 100,
-            Color.White
-        );
-
-        DrawCentered(
-            "Enter your name:",
-            center.Y - 30,
-            Color.White
-        );
-
-        DrawCentered(
-            _name + "_",
-            center.Y + 10,
-            Color.Yellow
-        );
-
-        DrawCentered(
-            "Press Enter to save",
-            center.Y + 80,
-            Color.Gray
-        );
-    }
     public override void CheckInputs(GameTime gameTime)
     {
-        // Save
-        if (KeyboardInput.Pressed(Keys.Enter))
-        {
-            string name = _name.Length == 0
-                ? "Anonymous"
-                : _name.ToString();
+        HandleSave();
+        HandleBackspace();
+        HandleEscape();
+    }
 
-            Scoreboard.AddNewScore(name, score);
-
-            SwitchState = true;
-            return;
-        }
-
-        // Remove character
-        if (KeyboardInput.Pressed(Keys.Back))
-        {
-            if (_name.Length > 0)
-                _name.Remove(_name.Length - 1, 1);
-        }
-        
-        // Remove character
-        if (KeyboardInput.Pressed(Keys.Escape))
-        {
-            SwitchState = true;
-        }
+    public override void Draw(SpriteBatch spriteBatch)
+    {
+        DrawCentered(spriteBatch, "GAME OVER"          , _gameOverY , Color.Red);
+        DrawCentered(spriteBatch, $"Score: {_score}"   , _scoreY    , Color.White);
+        DrawCentered(spriteBatch, "Enter your name:"   , _enterNameY, Color.White);
+        DrawCentered(spriteBatch, _name + "_"          , _nameY     , Color.Yellow);
+        DrawCentered(spriteBatch, "Press Enter to save", _hintY     , Color.Gray);
     }
 
     public override State NewState()
     {
         return new MenuState(Arguments);
+    }
+
+    private void HandleSave()
+    {
+        if (!KeyboardInput.Pressed(Keys.Enter))
+            return;
+
+        string name = _name.Length == 0
+            ? "Anonymous"
+            : _name.ToString();
+
+        Scoreboard.AddNewScore(name, _score);
+
+        SwitchState = true;
+    }
+
+    private void HandleBackspace()
+    {
+        if (!KeyboardInput.Pressed(Keys.Back))
+            return;
+
+        if (_name.Length > 0)
+            _name.Remove(_name.Length - 1, 1);
+    }
+
+    private void HandleEscape()
+    {
+        if (KeyboardInput.Pressed(Keys.Escape))
+            SwitchState = true;
     }
 }
