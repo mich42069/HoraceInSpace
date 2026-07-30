@@ -4,6 +4,10 @@ using Microsoft.Xna.Framework;
 
 namespace HoraceInSpace.States;
 
+/// <summary>
+/// ParallelWrapper runs on background and allows for the parallel update in a given class with an Update(GameTime) method.
+/// Can be configured to either run on background or not with a constructor parameter.
+/// </summary>
 public sealed class ParallelWrapper : IDisposable
 {
     private readonly Action<GameTime> _updateAction;
@@ -15,18 +19,28 @@ public sealed class ParallelWrapper : IDisposable
     private volatile GameTime _gameTime;
     private volatile bool _running = true;
 
-    public ParallelWrapper(Action<GameTime> updateAction)
+    /// <summary>
+    /// Constructor that creates and starts its thread.
+    /// </summary>
+    /// <param name="updateAction">Update method, that is then called on signal.</param>
+    /// <param name="isBackground">Sets the thread parameter IsBackground based on this parameter.</param>
+    public ParallelWrapper(Action<GameTime> updateAction, bool isBackground)
     {
         _updateAction = updateAction;
 
         _thread = new Thread(UpdateLoop)
         {
-            IsBackground = true
+            IsBackground = isBackground
         };
 
         _thread.Start();
     }
 
+    /// <summary>
+    /// Signals the Update method that was passed in the constructor.
+    /// Saves the passed gameTime safely.
+    /// </summary>
+    /// <param name="gameTime"></param>
     public void TriggerUpdate(GameTime gameTime)
     {
         lock (_lock)
@@ -37,6 +51,11 @@ public sealed class ParallelWrapper : IDisposable
         _updateSignal.Set();
     }
 
+    /// <summary>
+    /// Main loop of the thread.
+    /// Waits for a signal and then calls the Update method passed in the constructor.
+    /// Uses the last saved gameTime to pass to the Update method.
+    /// </summary>
     private void UpdateLoop()
     {
         while (_running)
@@ -58,6 +77,10 @@ public sealed class ParallelWrapper : IDisposable
         }
     }
 
+    /// <summary>
+    /// Disposes of the object, by stopping and joining the thread.
+    /// Calls Dispose on AutoResetEvent.
+    /// </summary>
     public void Dispose()
     {
         _running = false;
