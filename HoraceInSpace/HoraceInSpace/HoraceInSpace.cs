@@ -51,7 +51,6 @@ public class HoraceInSpace : Game
             GraphicsDevice.Viewport.Height);
         _stateSwitcher = new StateSwitcher(GraphicsDevice, _screenSize, NumberOfStars, _arguments);
         Textures.Initialize(GraphicsDevice);
-        Assets.Assets.Initialize(GraphicsDevice);
         base.Initialize();
     }
     

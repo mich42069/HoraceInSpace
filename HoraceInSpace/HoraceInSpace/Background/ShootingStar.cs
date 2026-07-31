@@ -1,4 +1,5 @@
 ﻿using System;
+using HoraceInSpace.Assets;
 using HoraceInSpacePhysicsLib;
 using HoraceInSpacePhysicsLib.Units;
 using Microsoft.Xna.Framework;
@@ -10,7 +11,7 @@ public class ShootingStar : IStar
 {
     private static readonly Random Random = new();
 
-    private readonly Texture2D _pixel;
+    private static Texture2D Pixel => Textures.StarColorPixel;
     private readonly Vector2 _position;
 
     private readonly Vector2 _direction;
@@ -18,7 +19,7 @@ public class ShootingStar : IStar
 
     private bool _active;
     private TimeSpan _startTime;
-    private readonly TimeSpan _duration = 2.Seconds();
+    private TimeSpan _duration;
 
     private float _progress;
     private float _alpha;
@@ -28,13 +29,10 @@ public class ShootingStar : IStar
     private const float TrailLength = 50f;
     private const float TrailWidth = 2f;
 
-    public ShootingStar(GraphicsDevice graphicsDevice, Vector2 position)
+    public ShootingStar(Vector2 position)
     {
         _position = position;
         _currentPosition = position;
-
-        _pixel = new Texture2D(graphicsDevice, 1, 1);
-        _pixel.SetData([Color.White]);
         
         // Mostly downward diagonal movement
         angle angle = Random.Next(25, 70).Degrees();
@@ -51,16 +49,22 @@ public class ShootingStar : IStar
         _rotation = (MathF.Atan2(_direction.Y, _direction.X)).Radians();
     }
 
+    /// <summary>
+    /// Special effect of a ShootingStar, draws the star for 'length' seconds.
+    /// </summary>
+    /// <param name="gameTime">Start time of the shooting star.</param>
+    /// <param name="intensity">Doesn't do anything here, still must be [-1, 1].</param>
+    /// <param name="length">Length in seconds of how long the process of the shooting star is.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Intensity was out of range [-1, 1]</exception>
     public void SpecialEffect(GameTime gameTime, float intensity, TimeSpan length)
     {
-        if (intensity < -1 || intensity > 1) throw new ArgumentOutOfRangeException(nameof(intensity), "Is out of range, the correct value should be in interval [-1, 1]");
+        if (intensity is < -1 or > 1) throw new ArgumentOutOfRangeException(nameof(intensity), "Is out of range, the correct value should be in interval [-1, 1]");
 
-        if (_active)
+        if (_active) // If triggered while active it returns.
             return;
 
         _active = true;
-
-        // Shooting stars are always very short flashes
+        _duration = length;
         _startTime = gameTime.TotalGameTime;
 
         _progress = 0f;
@@ -103,7 +107,7 @@ public class ShootingStar : IStar
         float length = Vector2.Distance(_currentPosition, tail);
 
         spriteBatch.Draw(
-            _pixel,
+            Pixel,
             center,
             null,
             Color.White * _alpha,

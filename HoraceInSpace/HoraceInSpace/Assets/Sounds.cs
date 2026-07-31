@@ -4,6 +4,9 @@ using Microsoft.Xna.Framework.Content;
 
 namespace HoraceInSpace.Assets;
 
+/// <summary>
+/// Holds all Sounds used in the game
+/// </summary>
 public static class Sounds
 {
     public static SoundEffect Shoot;

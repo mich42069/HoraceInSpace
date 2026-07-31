@@ -2,13 +2,11 @@
 
 namespace HoraceInSpace.Assets;
 
+/// <summary>
+/// Holds the every asset that isn't Sound or a Texture.
+/// Mainly fonts.
+/// </summary>
 public static class Assets
 {
     public static SpriteFont Font;
-    public static Texture2D Pixel { get; set; }
-
-    public static void Initialize(GraphicsDevice graphicsDevice)
-    {
-        Pixel = new Texture2D(graphicsDevice, 1, 1);
-    }
 }

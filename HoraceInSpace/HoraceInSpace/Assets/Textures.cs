@@ -4,6 +4,11 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace HoraceInSpace.Assets;
 
+/// <summary>
+/// Holds all the Textures.
+/// For every texture there is its origin, set in the middle of every Texture.
+/// Asteroids have their ShadowOverlay, it should to be the same dimensions as the main Texture.
+/// </summary>
 public static class Textures
 {
     public static Texture2D Horace { get; private set; }
@@ -39,12 +44,15 @@ public static class Textures
     public static Vector2 ThrusterOrigin => new(Thruster.Width/2f, Thruster.Height/2f);
     
     
-    public static Texture2D Pixel;
+    public static Texture2D HitboxColorPixel;
+    public static Texture2D StarColorPixel;
 
     public static void Initialize(GraphicsDevice graphicsDevice){
-        Pixel = new Texture2D(graphicsDevice, 1, 1);
-        Pixel.SetData([Color.LightCyan]);
-
+        HitboxColorPixel = new Texture2D(graphicsDevice, 1, 1);
+        HitboxColorPixel.SetData([Color.LightCyan]);
+        
+        StarColorPixel = new Texture2D(graphicsDevice, 1, 1);
+        StarColorPixel.SetData([Color.White]);
     }
 
     public static void LoadContent(ContentManager content)

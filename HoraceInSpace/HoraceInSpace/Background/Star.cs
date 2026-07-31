@@ -1,4 +1,5 @@
 ﻿using System;
+using HoraceInSpace.Assets;
 using HoraceInSpacePhysicsLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,7 +12,7 @@ public class Star : IStar
     private const ushort DefaultColor = 160;
     private const ushort FlickerRange = 255 - DefaultColor;
     private const ushort StarSize = 3;
-    private readonly Texture2D _pixel;
+    private static Texture2D Pixel => Textures.StarColorPixel;
     private readonly Vector2 _position;
     private readonly Color _defaultColor = new (DefaultColor, DefaultColor, DefaultColor);
     private Color _color = new (DefaultColor, DefaultColor, DefaultColor);
@@ -20,13 +21,18 @@ public class Star : IStar
     private TimeSpan _flickerTime = 0.Seconds();
     private TimeSpan _flickerLength; // Milliseconds
 
-    public Star(GraphicsDevice graphicsDevice, Vector2 position)
+    public Star(Vector2 position)
     {
         _position = position;
-        _pixel = new Texture2D(graphicsDevice, 1, 1);
-        _pixel.SetData(new[] { Color.White });
     }
 
+    /// <summary>
+    /// Special effect of a Star, flickers the star in the for length seconds.
+    /// </summary>
+    /// <param name="gameTime">Start time of the shooting star.</param>
+    /// <param name="intensity">[-1, 1] - negative number lowers light intensity, positive number highers it.</param>
+    /// <param name="length">Length of the flicker in seconds</param>
+    /// <exception cref="ArgumentOutOfRangeException">Intensity was out of range [-1, 1]</exception>
     public void SpecialEffect(GameTime gameTime, float intensity, TimeSpan length)
     {
         if (intensity is < -1 or > 1) throw new ArgumentOutOfRangeException(nameof(intensity), "Is out of range, the correct value should be in interval [-1, 1]");
@@ -43,7 +49,7 @@ public class Star : IStar
 
     public void Draw(SpriteBatch spriteBatch)
     {
-        spriteBatch.Draw(_pixel, new Rectangle((int)_position.X, (int)_position.Y, StarSize, StarSize), _color);
+        spriteBatch.Draw(Pixel, new Rectangle((int)_position.X, (int)_position.Y, StarSize, StarSize), _color);
     }
 
     public void Update(GameTime gameTime)

@@ -8,7 +8,7 @@ public abstract class State
 {
     protected readonly GameArguments Arguments;
 
-    protected readonly SpriteFont Font;
+    protected static SpriteFont Font => Assets.Assets.Font;
     protected readonly Vector2 ScreenSize;
     protected readonly Vector2 Center;
 
@@ -19,7 +19,6 @@ public abstract class State
     {
         Arguments = arguments;
 
-        Font = Assets.Assets.Font;
         ScreenSize = SpaceValues.WorldSize.ToVector2();
         Center = ScreenSize / 2f;
     }

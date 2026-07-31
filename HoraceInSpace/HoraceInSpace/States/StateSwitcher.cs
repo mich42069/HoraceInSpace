@@ -22,7 +22,7 @@ public class StateSwitcher : IStateSwitcher
         position screenSizeInMeters = ((double)screenSize.X, (double)screenSize.Y).At();
         SpaceValues.WorldSize = screenSizeInMeters;
         _currentState = new MenuState(_arguments);
-        _starsBackground = new StarsBackground(device, screenSize, count);
+        _starsBackground = new StarsBackground(screenSize, count);
         _starsUpdater = new ParallelWrapper(
             gameTime => _starsBackground.Update(gameTime), true);
     }

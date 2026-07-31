@@ -92,7 +92,7 @@ public abstract class Hitbox(distance radius) : IHitBox
         Vector2 edge = end - start;
 
         spriteBatch.Draw(
-            Textures.Pixel,
+            Textures.HitboxColorPixel,
             start,
             null,
             color,
