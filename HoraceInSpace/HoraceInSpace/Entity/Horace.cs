@@ -208,12 +208,21 @@ public class Horace : Entity
     public Bullet Shoot()
     {
         Sounds.Shoot.Play();
-        return new Bullet(Position, AngleOfRotation, AngleOfRotation, 3000.MetersPerSecond())
+
+        position bulletPosition = Position + new position(
+            (Radius.Value * AngleOfRotation.Cos()).Meters(),
+            (Radius.Value * AngleOfRotation.Sin()).Meters());
+
+        return new Bullet(
+            bulletPosition,
+            AngleOfRotation,
+            AngleOfRotation,
+            2000.MetersPerSecond())
         {
             Color = Color.Yellow
         };
     }
-
+    
     public override bool CheckHit(Entity entity)
     {
         return Hitbox.CheckHit(entity.Hitbox);

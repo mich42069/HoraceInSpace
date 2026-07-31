@@ -9,7 +9,7 @@ public static class EntityFactory
 {
     private static readonly Random Random = new();
 
-    private static readonly distance SpawnDistance = SpaceValues.EnormousAsteroidRadius;
+    private static readonly distance SpawnDistance = SpaceValues.EnormousAsteroidRadius + SpaceValues.HoraceRadius;
     
     private struct SpawnWeights
     {
