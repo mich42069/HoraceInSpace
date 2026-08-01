@@ -17,10 +17,12 @@ public class GameArguments
     {
         double timeScale = 1.0;
         bool showHitboxes = false;
-
-        foreach (string arg in args)
+        
+        for (int i = 0; i < args.Length; i++)
         {
-            if (arg == "--hitboxes" || arg == "-h")
+            string arg = args[i];
+
+            if (arg is "--hitboxes" or "-h")
             {
                 showHitboxes = true;
             }
@@ -29,6 +31,11 @@ public class GameArguments
                 string value = arg["--speed=".Length..];
 
                 if (double.TryParse(value, out double speed) && speed > 0)
+                    timeScale = speed;
+            }
+            else if (arg == "-s" && i + 1 < args.Length)
+            {
+                if (double.TryParse(args[++i], out double speed) && speed > 0)
                     timeScale = speed;
             }
         }
