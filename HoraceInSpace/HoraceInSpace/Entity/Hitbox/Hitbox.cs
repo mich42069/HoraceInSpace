@@ -8,16 +8,24 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace HoraceInSpace.Entity.Hitbox;
 
+/// <summary>
+/// Hitbox is used to identify collisions between other hitboxes
+/// </summary>
+/// <param name="radius">Half size of hitbox, can be radius of a circle or side of a square etc.</param>
 public abstract class Hitbox(distance radius) : IHitBox
 {
-    protected position Position { get; set; }
-    protected distance Radius { get; set; } = radius;
-
-
+    public position Position { get; set; }
+    protected virtual distance Radius { get; set; } = radius;
+    
+    /// <summary>
+    /// Checks collision with another hitbox.
+    /// </summary>
+    /// <param name="hitBox">Hitbox to check collision with.</param>
+    /// <returns>True if they are colliding otherwise false</returns>
     public virtual bool CheckHit(IHitBox hitBox)
     {
         if (hitBox is PointHitbox point)
-            return CheckHit(point.GetPosition());
+            return CheckHit(point.Position);
 
         if (hitBox is not CircleHitbox circle)
             return false;
@@ -26,11 +34,19 @@ public abstract class Hitbox(distance radius) : IHitBox
                <= Radius + circle.Radius;
     }
 
+    /// <summary>
+    /// Sets the position of the hitbox, should be done before checking for collision.
+    /// </summary>
+    /// <param name="position">Position to where it is on the grid</param>
     public virtual void SetPosition(position position)
     {
         this.Position = position;
     }
 
+    /// <summary>
+    /// Draws the hitbox with a cyan outline.
+    /// </summary>
+    /// <param name="spriteBatch">SpriteBatch responsible for drawing</param>
     public virtual void Draw(SpriteBatch spriteBatch)
     {
         distance worldX = SpaceValues.WorldSize.X;
@@ -103,9 +119,16 @@ public abstract class Hitbox(distance radius) : IHitBox
             0f);
     }
     
+    /// <summary>
+    /// Same as CheckHit(IHitbox) but instead of considering a whole other hitbox it is considering only one point.
+    /// </summary>
+    /// <param name="point">Point we want to check if is inside hitbox.</param>
+    /// <returns>True if point is inside the Hitbox. false otherwise</returns>
     public bool CheckHit(position point) =>
         WrappedDistanceTo(point, SpaceValues.WorldSize) <= Radius;
-    
+
+
+
     protected distance WrappedDistanceTo(position other, position worldSize)
     {
         distance dx = (Position.X - other.X).Abs();

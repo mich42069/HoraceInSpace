@@ -9,6 +9,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace HoraceInSpace.Entity;
 
+/// <summary>
+/// Represents an instance of a Small Asteroid.
+/// Is a Scorable Entity.
+/// </summary>
 public class AsteroidSmall : Asteroid, IScore
 {
     protected override Texture2D Texture => Textures.AsteroidSmall;
@@ -21,6 +25,6 @@ public class AsteroidSmall : Asteroid, IScore
     {
         Acceleration = 0.MetersPerSecondSquared();
         Hitbox = new CircleHitbox(Radius);
-        Hitbox.SetPosition(initialPosition);
+        Hitbox.Position = initialPosition;
     }
 }

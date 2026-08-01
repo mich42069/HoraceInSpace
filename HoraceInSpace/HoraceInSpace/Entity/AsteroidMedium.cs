@@ -10,6 +10,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace HoraceInSpace.Entity;
 
+/// <summary>
+/// Represents an instance of a Medium Asteroid.
+/// Is a Scorable Entity.
+/// </summary>
 public class AsteroidMedium : Asteroid, IScore
 {
     protected override Texture2D Texture => Textures.AsteroidMedium;
@@ -21,7 +25,7 @@ public class AsteroidMedium : Asteroid, IScore
     {
         Acceleration = 0.MetersPerSecondSquared();
         Hitbox = new CircleHitbox(Radius);
-        Hitbox.SetPosition(initialPosition);
+        Hitbox.Position = initialPosition;
     }
 
     protected override distance Radius => SpaceValues.MediumAsteroidRadius;

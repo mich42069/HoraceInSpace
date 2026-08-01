@@ -9,6 +9,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace HoraceInSpace.Entity;
 
+/// <summary>
+/// Represents an instance of a Bullet, defining its lifetime.
+/// </summary>
 public class Bullet : Entity
 {
     protected override Texture2D Texture => Textures.Bullet;
@@ -25,9 +28,14 @@ public class Bullet : Entity
         
         Acceleration = 0.MetersPerSecondSquared();
         Hitbox = new PointHitbox(Radius);
-        Hitbox.SetPosition(initialPosition);
+        Hitbox.Position = initialPosition;
     }
 
+    /// <summary>
+    /// Checks if the LifeTime of the bullet has been exceeded.
+    /// </summary>
+    /// <param name="gameTime">Current time of Game.</param>
+    /// <returns>True if the lifetime of the bullet has been exceeded, false if not.</returns>
     public bool LifeTimeOver(GameTime gameTime)
     {
         if (!_timeOfCreation.HasValue) return false;
@@ -37,6 +45,10 @@ public class Bullet : Entity
     protected override distance Radius => SpaceValues.BulletRadius;
     protected override density Density => SpaceValues.BulletDensity;
 
+    /// <summary>
+    /// Sets time of creation on first call. After that calls update on its base class.
+    /// </summary>
+    /// <param name="gameTime">Current GameTime to update with.</param>
     public override void Update(GameTime gameTime)
     {
         _timeOfCreation ??= gameTime.TotalGameTime;

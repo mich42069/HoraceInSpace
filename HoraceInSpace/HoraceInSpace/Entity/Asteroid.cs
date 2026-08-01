@@ -7,6 +7,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace HoraceInSpace.Entity;
 
+/// <summary>
+/// Abstract representation of an asteroid, defining density, and the existence of a ShadowTexture.
+/// Defines Asteroid specific draw, and constructor.
+/// </summary>
 public abstract class Asteroid : Entity
 {
     protected abstract Texture2D ShadowTexture { get; }

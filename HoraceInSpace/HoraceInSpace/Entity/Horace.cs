@@ -19,23 +19,35 @@ public readonly struct Thruster(position offset, angle angle)
     public angle Angle { get; } = angle;
 }
 
+/// <summary>
+/// Represents Horace the main character, and playable entity.
+/// </summary>
 public class Horace : Entity
 {
+    /// <summary>
+    /// How many lives does Horace have left.
+    /// </summary>
+    public int Lives => _lives;
+    /// <summary>
+    /// If is currently invincible, and should not be taking damage.
+    /// </summary>
+    public bool Invincible => _isInvincible;
     protected override Texture2D Texture => Textures.Horace;
     protected override Vector2 TextureOrigin => Textures.HoraceOrigin;
     protected Texture2D ThrusterTexture => Textures.Thruster;
     protected Vector2 ThrusterTextureOrigin => Textures.ThrusterOrigin;
     private bool _isInvincible;
     private TimeSpan _invincibleUntil;
-    public bool Invincible => _isInvincible;
     private int _lives = 3;
-    public int Lives => _lives;
     private readonly force _accelerationForce = 160.GigaNewtons();
     private readonly List<(acceleration, angle)> _accelerationControl = new ();
     private readonly List<Thruster> _thrustersToDraw = new();
     
-    private ThrusterSoundWrapper _thrusterSoundWrapper = new(Sounds.Thruster.CreateInstance());
+    private SoundWrapper _thrusterSoundWrapper = new(Sounds.Thruster.CreateInstance());
     
+    /// <summary>
+    /// Represents the offset of thrusters to Horace's texture.
+    /// </summary>
     private readonly Thruster[] _thrusters =
     {
         // Forward Thruster
@@ -51,16 +63,23 @@ public class Horace : Entity
         new((50.Meters(), 0.Meters()).At(), angle.Deg0),
     };
     
+    /// <summary>
+    /// Public constructor to set basic parameters, differently to other entities, all of Horaces parameters are known in advance.
+    /// </summary>
     public Horace()
     {
         Hitbox = new CircleHitbox(Radius);
         ResetMovementAndPosition();
-        Hitbox.SetPosition(Position);
+        Hitbox.Position = Position;
     }
 
     protected override distance Radius => SpaceValues.HoraceRadius;
     protected override density Density => SpaceValues.HoraceDensity;
 
+    /// <summary>
+    /// Overrides the original update to add the update of color, thrusters, invincibility, and thruster sounds.
+    /// </summary>
+    /// <param name="gameTime">Current GameTime to update with.</param>
     public override void Update(GameTime gameTime)
     {
         if (_isInvincible && gameTime.TotalGameTime >= _invincibleUntil)
@@ -73,7 +92,7 @@ public class Horace : Entity
 
     private void UpdateThrusterSounds(GameTime gameTime)
     {
-        _thrusterSoundWrapper.UpdateThrusterSound(gameTime, _accelerationControl.Count != 0);
+        _thrusterSoundWrapper.UpdateSound(gameTime, _accelerationControl.Count != 0);
     }
 
     private void UpdateThrusters()
@@ -82,10 +101,10 @@ public class Horace : Entity
 
         foreach (var accelerationAngle in _accelerationControl)
         {
-            angle localAcceleration = accelerationAngle.Item2 - AngleOfRotation;
+            angle localAccelerationAngle = accelerationAngle.Item2 - AngleOfRotation;
 
             // Thruster points opposite the acceleration
-            angle thrusterAngle = localAcceleration + 180.Degrees();
+            angle thrusterAngle = localAccelerationAngle + 180.Degrees();
 
             foreach (Thruster thruster in _thrusters)
             {
@@ -105,6 +124,9 @@ public class Horace : Entity
             : Color.White;
     }
 
+    /// <summary>
+    /// Sets base values for Horace.
+    /// </summary>
     private void ResetMovementAndPosition()
     {
         Position = SpaceValues.WorldSize / 2f;
@@ -114,6 +136,10 @@ public class Horace : Entity
         AngleOfRotation = AngleToMouse();
     }
 
+    /// <summary>
+    /// Calculates the angle of Horace to cursor position.
+    /// </summary>
+    /// <returns>The angle at which we can find the cursor.</returns>
     private angle AngleToMouse()
     {
         var mouse = Mouse.GetState();
@@ -124,6 +150,9 @@ public class Horace : Entity
         return Math.Atan2(dy, dx).Radians();
     }
 
+    /// <summary>
+    /// Overrides the update method, to add the acceleration from thrusters. (players movement)
+    /// </summary>
     protected override void UpdateAcceleration()
     {
         acceleration negativeDragAcceleration = force.AtmosphericDrag(SpaceValues.AtmosphericDensity, SpaceValues.DragCoefficient, Area, Speed) / Mass;
@@ -147,6 +176,11 @@ public class Horace : Entity
         return (new acceleration(Math.Sqrt(x * x + y * y)), new angle(Math.Atan2(y, x)));
     }
 
+    /// <summary>
+    /// Overrides the UpdateSpeed base method to account for acceleration.
+    /// Also updates the vector of speed.
+    /// </summary>
+    /// <param name="gameTime">Current GameTime to update with.</param>
     protected override void UpdateSpeed(GameTime gameTime)
     {
         var dt = gameTime.ElapsedGameTime;
@@ -164,18 +198,30 @@ public class Horace : Entity
         AngleOfMotion = Math.Atan2(sy.Value, sx.Value).Radians();
     }
     
-
+    /// <summary>
+    /// Overrides the base method, to set the rotation to look at the mouse.
+    /// </summary>
     protected override void UpdateRotation()
     {
         AngleOfRotation = AngleToMouse();
     }
 
+    /// <summary>
+    /// Plays hit sound, subtracts one life and checks if the lives Horace has left are 0.
+    /// </summary>
+    /// <returns>True if Horace has less then 1 live.</returns>
     public bool GetHit()
     {
         Sounds.HoraceGetsHit.Play();
         return (--_lives < 1);
     }
 
+    /// <summary>
+    /// Respawns Horace with invincibility.
+    /// </summary>
+    /// <param name="isInvincible">If Horace should become invincible</param>
+    /// <param name="invincibilityLength">If he is invincible, how long he should be invincible.</param>
+    /// <param name="currentGameTime">Current game time, so that the length of invincibility has a start time.</param>
     public void Respawn(bool isInvincible, TimeSpan invincibilityLength, TimeSpan currentGameTime)
     {
         _isInvincible = isInvincible;
@@ -183,17 +229,22 @@ public class Horace : Entity
         ResetMovementAndPosition();
     }
     
+    /// <summary>
+    /// Overrides the base draw method to include drawing the thrusters.
+    /// </summary>
+    /// <param name="pos">Position of where to draw Horace</param>
+    /// <param name="spriteBatch">SpriteBatch responsible for drawing Horace.</param>
     protected override void Draw(position pos, SpriteBatch spriteBatch)
     {
         foreach (Thruster thruster in _thrustersToDraw)
         {
             Vector2 offset = Vector2.Transform(
-                PhysicsLibToMonogame.ToVector2(thruster.Offset),
+                thruster.Offset.ToVector2(),
                 Matrix.CreateRotationZ((float)AngleOfRotation.Value));
 
             spriteBatch.Draw(
                 ThrusterTexture,
-                PhysicsLibToMonogame.ToVector2(pos) + offset,
+                pos.ToVector2() + offset,
                 null,
                 Color,
                 (float)(AngleOfRotation + thruster.Angle).Value,
@@ -205,6 +256,10 @@ public class Horace : Entity
         base.Draw(pos, spriteBatch);
     }
 
+    /// <summary>
+    /// Returns bullet that has been shot by this method.
+    /// </summary>
+    /// <returns>The returned bullet with same direction as where Horace is looking.</returns>
     public Bullet Shoot()
     {
         Sounds.Shoot.Play();
@@ -222,12 +277,10 @@ public class Horace : Entity
             Color = Color.Yellow
         };
     }
-    
-    public override bool CheckHit(Entity entity)
-    {
-        return Hitbox.CheckHit(entity.Hitbox);
-    }
 
+    /// <summary>
+    /// Accelerates Horace Forward, to where he is looking.
+    /// </summary>
     public void Forward()
     {
         var acceleration = _accelerationForce/Mass;
@@ -235,6 +288,9 @@ public class Horace : Entity
         _accelerationControl.Add((acceleration, accelerationAngle));
     }
 
+    /// <summary>
+    /// Accelerates Horace Left of where he is looking.
+    /// </summary>
     public void Left()
     {
         var acceleration = _accelerationForce/Mass;
@@ -242,6 +298,9 @@ public class Horace : Entity
         _accelerationControl.Add((acceleration, accelerationAngle));
     }
 
+    /// <summary>
+    /// Accelerates Horace Right of where he is looking.
+    /// </summary>
     public void Right()
     {
         var acceleration = _accelerationForce/Mass;
@@ -249,6 +308,9 @@ public class Horace : Entity
         _accelerationControl.Add((acceleration, accelerationAngle));
     }
 
+    /// <summary>
+    /// Accelerates Horace Back from where he is looking.
+    /// </summary>
     public void Back()
     {
         var acceleration = _accelerationForce/Mass;

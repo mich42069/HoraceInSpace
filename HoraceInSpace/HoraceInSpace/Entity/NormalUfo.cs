@@ -9,6 +9,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace HoraceInSpace.Entity;
 
+/// <summary>
+/// A concrete instance of a UFO.
+/// Is a Scorable Entity.
+/// </summary>
 public class NormalUfo : Ufo, IScore
 {
     
@@ -20,12 +24,17 @@ public class NormalUfo : Ufo, IScore
     {
         Acceleration = 0.MetersPerSecondSquared();
         Hitbox = new CircleHitbox(Radius);
-        Hitbox.SetPosition(Position);
+        Hitbox.Position = initialPosition;
     }
 
     protected override TimeSpan MinimalShootTime => 3.Seconds();
     protected override TimeSpan ShootTimeVariation => 3.Seconds();
 
+    /// <summary>
+    /// Plays shooting sound, and generates a new bullet that is aimed precisely at a given target.
+    /// </summary>
+    /// <param name="target">Where we want to shoot</param>
+    /// <returns>A bullet aimed precisely at a target.</returns>
     public override Bullet Shoot(position target)
     {
         Sounds.Shoot.Play();

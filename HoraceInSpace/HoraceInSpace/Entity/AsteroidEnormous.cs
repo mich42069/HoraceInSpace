@@ -9,6 +9,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace HoraceInSpace.Entity;
 
+/// <summary>
+/// Represents an instance of an Enormous Asteroid.
+/// Is a Scorable Entity.
+/// </summary>
 public class AsteroidEnormous : Asteroid, IScore
 {
     
@@ -21,7 +25,7 @@ public class AsteroidEnormous : Asteroid, IScore
     {
         Acceleration = 0.MetersPerSecondSquared();
         Hitbox = new CircleHitbox(Radius);
-        Hitbox.SetPosition(initialPosition);
+        Hitbox.Position = initialPosition;
     }
 
     protected override distance Radius => SpaceValues.EnormousAsteroidRadius;

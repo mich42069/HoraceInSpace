@@ -8,6 +8,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace HoraceInSpace.Entity;
 
+/// <summary>
+/// Abstract instance of a UFO, it's main purpose is an entity that can shoot.
+/// </summary>
 public abstract class Ufo : Entity
 {
     protected override Texture2D Texture => Textures.Ufo;
@@ -17,6 +20,9 @@ public abstract class Ufo : Entity
     
     private static readonly Random Random = new();
     private bool _readyToShoot = false;
+    /// <summary>
+    /// Returns true if the bullet is loaded and ready to shoot, time between shots is dependent on concrete UFOs.
+    /// </summary>
     public bool IsReadyToShoot
     {
         get
@@ -36,6 +42,10 @@ public abstract class Ufo : Entity
         Speed = initialSpeed;
     }
     
+    /// <summary>
+    /// Override of entity update, adding the calculation of the next shot time.
+    /// </summary>
+    /// <param name="gameTime"></param>
     public override void Update(GameTime gameTime)
     {
         if (_nextShootTime == null || _nextShootTime < gameTime.TotalGameTime)
@@ -45,5 +55,11 @@ public abstract class Ufo : Entity
         }
         base.Update(gameTime);
     }
+    
+    /// <summary>
+    /// Method giving the ability to Shoot, returning a bullet with a speed and angle.
+    /// </summary>
+    /// <param name="target">Where do we want to shoot</param>
+    /// <returns>A bullet with a speed, and direction.</returns>
     public abstract Bullet Shoot(position target);
 }
