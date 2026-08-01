@@ -4,6 +4,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace HoraceInSpace.States.States;
 
+/// <summary>
+/// Represents state that is then switched by StateSwitcher.
+/// </summary>
 public abstract class State
 {
     protected readonly GameArguments Arguments;
@@ -12,9 +15,20 @@ public abstract class State
     protected readonly Vector2 ScreenSize;
     protected readonly Vector2 Center;
 
+    /// <summary>
+    /// True if the next state has been decided and is ready to switch
+    /// </summary>
     public bool SwitchState;
+    
+    /// <summary>
+    /// True if exit has been called, to be passed upwards.
+    /// </summary>
     public bool Exit;
 
+    /// <summary>
+    /// Saves the arguments as well as initializes the ScreenSize from a static class.
+    /// </summary>
+    /// <param name="arguments">Game arguments parsed at startup.</param>
     protected State(GameArguments arguments)
     {
         Arguments = arguments;
@@ -22,14 +36,39 @@ public abstract class State
         ScreenSize = SpaceValues.WorldSize.ToVector2();
         Center = ScreenSize / 2f;
     }
+    /// <summary>
+    /// Base update method, empty by default.
+    /// </summary>
+    /// <param name="gameTime">Current GameTime to update the state by.</param>
     public virtual void Update(GameTime gameTime) { }
+    
+    /// <summary>
+    /// Draws out everything in the state, empty by default.
+    /// </summary>
+    /// <param name="spriteBatch">Spritebatch responsible for drawing out everything.</param>
     public virtual void Draw(SpriteBatch spriteBatch) { }
+    
+    /// <summary>
+    /// Checks keyboard, mouse and controller input and passes it to its members.
+    /// </summary>
+    /// <param name="gameTime">Current GameTime to account for key spam and else.</param>
     public virtual void CheckInputs(GameTime gameTime) { }
 
+    /// <summary>
+    /// Gets the text input from keyboard for writing.
+    /// </summary>
+    /// <param name="c">Character typed by the keyboard.</param>
     public virtual void TextInput(char c) { }
 
+    /// <summary>
+    /// Gives the next state, should be called only when needed.
+    /// </summary>
+    /// <returns>Returns next state that should be switched to.</returns>
     public abstract State NewState();
 
+    /// <summary>
+    /// Draws text alligned to the center
+    /// </summary>
     protected void DrawCentered(SpriteBatch spriteBatch, string text, float y, Color color)
     {
         Vector2 size = Font.MeasureString(text);

@@ -10,11 +10,14 @@ using Microsoft.Xna.Framework.Input;
 
 namespace HoraceInSpace.States.States.InGameState;
 
+/// <summary>
+/// Instance of State that is responsible for the actual gameplay.
+/// </summary>
 public class IngameState : State
 {
-    private readonly TimeSpan _easyDifficultyTimeTreshold = 20.Seconds();
-    private readonly TimeSpan _mediumDifficultyTimeTreshold = 40.Seconds();
-    private readonly TimeSpan _hardDifficultyTimeTreshold = 60.Seconds();
+    private readonly TimeSpan _easyDifficultyTimeThreshold = 20.Seconds();
+    private readonly TimeSpan _mediumDifficultyTimeThreshold = 40.Seconds();
+    private readonly TimeSpan _hardDifficultyTimeThreshold = 60.Seconds();
     private readonly TimeSpan _invincibilityLength = 2.Seconds();
     private const int MaxBullets = 10;
     
@@ -32,6 +35,10 @@ public class IngameState : State
     private int _wave = 0;
     private List<IDrawableStat> _drawableStat = new();
     
+    /// <summary>
+    /// Initializes the state, drawable stats and sets timescale and drawing of hitboxes from arguments
+    /// </summary>
+    /// <param name="arguments">Game arguments parsed at startup.</param>
     public IngameState(GameArguments arguments) : base(arguments)
     {
         _timeScale = arguments.TimeScale;
@@ -42,6 +49,13 @@ public class IngameState : State
         _drawableStat.Add(new DifficultyStat(GetDifficulty));
     }
     
+    /// <summary>
+    /// Updates the game by first updating all entity positions, then checking for collisions of horace,
+    /// then bullets, then tries to split up and give score for all entities killed in this frame.
+    /// If there are no enemies on screen tries to spawn new ones based on the difficulty.
+    /// Lastly updates all DrawableStats.
+    /// </summary>
+    /// <param name="gameTime">Current GameTime to update the state by.</param>
     public override void Update(GameTime gameTime)
     {
         GameTime adjustedGameTime = new GameTime(gameTime.TotalGameTime * _timeScale, gameTime.ElapsedGameTime * _timeScale);
@@ -92,9 +106,9 @@ public class IngameState : State
     private Difficulty GetDifficulty(GameTime gameTime)
     {
         TimeSpan diff = gameTime.TotalGameTime;
-        if (diff > _hardDifficultyTimeTreshold) return Difficulty.Extreme;
-        if (diff > _mediumDifficultyTimeTreshold) return Difficulty.Hard;
-        if (diff > _easyDifficultyTimeTreshold) return Difficulty.Medium;
+        if (diff > _hardDifficultyTimeThreshold) return Difficulty.Extreme;
+        if (diff > _mediumDifficultyTimeThreshold) return Difficulty.Hard;
+        if (diff > _easyDifficultyTimeThreshold) return Difficulty.Medium;
         return Difficulty.Easy;
     }
     
@@ -214,6 +228,10 @@ public class IngameState : State
         foreach (Bullet bullet in _ufoBullets) bullet.Update(gameTime);
     }
 
+    /// <summary>
+    /// Draws out all entities and DrawableStats.
+    /// </summary>
+    /// <param name="spriteBatch">Spritebatch responsible for drawing out everything.</param>
     public override void Draw(SpriteBatch spriteBatch)
     {
         _horace.Draw(spriteBatch);
@@ -223,6 +241,10 @@ public class IngameState : State
         foreach (IDrawableStat stat in _drawableStat) stat.Draw(spriteBatch);
     }
 
+    /// <summary>
+    /// Checks the players inputs from keyboard and mouse, to shoot move and exit the game.
+    /// </summary>
+    /// <param name="gameTime"></param>
     public override void CheckInputs(GameTime gameTime)
     {
         if (Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -240,6 +262,10 @@ public class IngameState : State
             _bullets.Add(_horace.Shoot());
     }
 
+    /// <summary>
+    /// Returns next state, it being the DeathState, when ready.
+    /// </summary>
+    /// <returns>Next state</returns>
     public override State NewState()
     {
         return _newState;

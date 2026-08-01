@@ -16,7 +16,7 @@ public class StateSwitcher : IStateSwitcher
     private readonly GameArguments _arguments;
     private ParallelWrapper _starsUpdater;
 
-    public StateSwitcher(GraphicsDevice device, Vector2 screenSize, int count, GameArguments arguments)
+    public StateSwitcher(Vector2 screenSize, int count, GameArguments arguments)
     {
         _arguments = arguments;
         position screenSizeInMeters = ((double)screenSize.X, (double)screenSize.Y).At();

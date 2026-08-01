@@ -51,4 +51,12 @@ public class SoundWrapper
             _soundEffectInstance.Stop();
         }
     }
+
+    /// <summary>
+    /// Disposes of the sound instance.
+    /// </summary>
+    public void Dispose()
+    {
+        _soundEffectInstance.Dispose();
+    }
 }

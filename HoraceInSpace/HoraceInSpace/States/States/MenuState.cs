@@ -6,14 +6,18 @@ using KeyboardInput = HoraceInSpace.Helpers.KeyboardInput;
 
 namespace HoraceInSpace.States.States;
 
+/// <summary>
+/// Concrete State instance representing menu, allowing the player to either exit the game, show scoreboard or play.
+/// </summary>
+/// <param name="arguments">Game arguments parsed at startup.</param>
 public class MenuState(GameArguments arguments) : State(arguments)
 {
     private readonly string[] _options =
-    {
+    [
         "Play",
         "Scoreboard",
         "Exit"
-    };
+    ];
 
     private int _selected;
     private State _nextState;
@@ -22,12 +26,20 @@ public class MenuState(GameArguments arguments) : State(arguments)
     private const float OptionsStartOffsetY = -40;
     private const float OptionSpacing = 50;
 
+    /// <summary>
+    /// Draws the menu, specifically all the options and game title.
+    /// </summary>
+    /// <param name="spriteBatch">Spritebatch responsible for drawing out everything.</param>
     public override void Draw(SpriteBatch spriteBatch)
     {
         DrawTitle(spriteBatch);
         DrawOptions(spriteBatch);
     }
 
+    /// <summary>
+    /// Checks inputs from keyboard to navigate the menu. 
+    /// </summary>
+    /// <param name="gameTime">Current GameTime to prevent unintentional spamming of keys.</param>
     public override void CheckInputs(GameTime gameTime)
     {
         HandleNavigation(gameTime);
@@ -101,6 +113,11 @@ public class MenuState(GameArguments arguments) : State(arguments)
                 break;
         }
     }
+    
+    /// <summary>
+    /// When ready to switch states, this holds the next instance to switch to.
+    /// </summary>
+    /// <returns>Returns an instance of the next state.</returns>
     public override State NewState()
     {
         return _nextState;

@@ -7,6 +7,9 @@ using KeyboardInput = HoraceInSpace.Helpers.KeyboardInput;
 
 namespace HoraceInSpace.States.States;
 
+/// <summary>
+/// Concrete state created for showing scoreboard.
+/// </summary>
 public class ScoreboardState : State
 {
     private readonly IReadOnlyList<(int Score, string Name)> _scores;
@@ -21,6 +24,10 @@ public class ScoreboardState : State
     private readonly float _scoreX;
     private readonly float _backHintY;
 
+    /// <summary>
+    /// Saves arguments as well as gets top 15 scores.
+    /// </summary>
+    /// <param name="arguments">Game arguments parsed at startup.</param>
     public ScoreboardState(GameArguments arguments)
         : base(arguments)
     {
@@ -31,6 +38,10 @@ public class ScoreboardState : State
         _backHintY = ScreenSize.Y - 50;
     }
 
+    /// <summary>
+    /// Draws the scores, header and back hint.
+    /// </summary>
+    /// <param name="spriteBatch">Spritebatch responsible for drawing out everything.</param>
     public override void Draw(SpriteBatch spriteBatch)
     {
         DrawTitle(spriteBatch);
@@ -38,6 +49,10 @@ public class ScoreboardState : State
         DrawBackHint(spriteBatch);
     }
 
+    /// <summary>
+    /// Checks if Escape been pressed.
+    /// </summary>
+    /// <param name="gameTime">Current GameTime to prevent unintentional spamming of keys.</param>
     public override void CheckInputs(GameTime gameTime)
     {
         if (!KeyboardInput.Pressed(Keys.Escape))
@@ -47,9 +62,13 @@ public class ScoreboardState : State
         SwitchState = true;
     }
 
+    /// <summary>
+    /// Returns new state, that should be Menu unless changed.
+    /// </summary>
+    /// <returns>New Instance of MenuState</returns>
     public override State NewState()
     {
-        return _nextState!;
+        return _nextState;
     }
 
     private void DrawTitle(SpriteBatch spriteBatch)

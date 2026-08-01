@@ -7,6 +7,10 @@ using KeyboardInput = HoraceInSpace.Helpers.KeyboardInput;
 
 namespace HoraceInSpace.States.States;
 
+/// <summary>
+/// Instance of state representing the player's death.
+/// Responsible for adding scores into scoreboard.
+/// </summary>
 public class DeathState : State
 {
     private const int MaxNameLength = 32;
@@ -20,6 +24,11 @@ public class DeathState : State
     private readonly float _nameY;
     private readonly float _hintY;
 
+    /// <summary>
+    /// Creates a new instance and saves arguments and score.
+    /// </summary>
+    /// <param name="score">Score from previous game, to be saved into scoreboard.</param>
+    /// <param name="arguments">Game arguments parsed at startup.</param>
     public DeathState(int score, GameArguments arguments)
         : base(arguments)
     {
@@ -32,6 +41,10 @@ public class DeathState : State
         _hintY = Center.Y + 80;
     }
 
+    /// <summary>
+    /// Takes in a character and writes it into the text field.
+    /// </summary>
+    /// <param name="character">Character to be written out.</param>
     public override void TextInput(char character)
     {
         if (_name.Length >= MaxNameLength)
@@ -41,6 +54,13 @@ public class DeathState : State
             _name.Append(character);
     }
 
+    /// <summary>
+    /// Checks if Enter, Escape or Backspace been pressed.
+    /// Enter saves score.
+    /// Backspace deletes character.
+    /// Escape exits and doesn't save the score.
+    /// </summary>
+    /// <param name="gameTime">Current GameTime to account for key spam and else.</param>
     public override void CheckInputs(GameTime gameTime)
     {
         HandleSave();
@@ -48,6 +68,10 @@ public class DeathState : State
         HandleEscape();
     }
 
+    /// <summary>
+    /// Draws out the state by drawing the score, name title and hint.
+    /// </summary>
+    /// <param name="spriteBatch">Spritebatch responsible for drawing out everything.</param>
     public override void Draw(SpriteBatch spriteBatch)
     {
         DrawCentered(spriteBatch, "GAME OVER"          , _gameOverY , Color.Red);
@@ -57,6 +81,10 @@ public class DeathState : State
         DrawCentered(spriteBatch, "Press Enter to save", _hintY     , Color.Gray);
     }
 
+    /// <summary>
+    /// Returns new state, that should be Menu unless changed.
+    /// </summary>
+    /// <returns>New Instance of MenuState</returns>
     public override State NewState()
     {
         return new MenuState(Arguments);

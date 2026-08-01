@@ -213,7 +213,9 @@ public class Horace : Entity
     public bool GetHit()
     {
         Sounds.HoraceGetsHit.Play();
-        return (--_lives < 1);
+        bool dead = (--_lives < 1);
+        if (dead) _thrusterSoundWrapper.Dispose();
+        return dead;
     }
 
     /// <summary>
