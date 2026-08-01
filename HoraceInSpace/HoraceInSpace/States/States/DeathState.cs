@@ -22,7 +22,12 @@ public class DeathState : State
     private readonly float _scoreY;
     private readonly float _enterNameY;
     private readonly float _nameY;
+    
     private readonly float _hintY;
+    private readonly float _controlsY;
+    
+    private const float HintBottomOffset = 80;
+    private const float ControlsBottomOffset = 50;
 
     /// <summary>
     /// Creates a new instance and saves arguments and score.
@@ -38,7 +43,8 @@ public class DeathState : State
         _scoreY = Center.Y - 100;
         _enterNameY = Center.Y - 30;
         _nameY = Center.Y + 10;
-        _hintY = Center.Y + 80;
+        _hintY = ScreenSize.Y - 95;
+        _controlsY = ScreenSize.Y - 50;
     }
 
     /// <summary>
@@ -74,12 +80,13 @@ public class DeathState : State
     /// <param name="spriteBatch">Spritebatch responsible for drawing out everything.</param>
     public override void Draw(SpriteBatch spriteBatch)
     {
-        DrawCentered(spriteBatch, "GAME OVER"          , _gameOverY , Color.Red);
-        DrawCentered(spriteBatch, $"Score: {_score}"   , _scoreY    , Color.White);
-        DrawCentered(spriteBatch, "Enter your name:"   , _enterNameY, Color.White);
-        DrawCentered(spriteBatch, _name + "_"          , _nameY     , Color.Yellow);
-        DrawCentered(spriteBatch, "Press Enter to save", _hintY     , Color.Gray);
-    }
+        DrawCentered(spriteBatch, "GAME OVER"        , _gameOverY, Color.Red);
+        DrawCentered(spriteBatch, $"Score: {_score}" , _scoreY, Color.White);
+        DrawCentered(spriteBatch, "Enter your name:" , _enterNameY, Color.White);
+        DrawCentered(spriteBatch, _name + "_"        , _nameY, Color.Yellow);
+
+        DrawCentered(spriteBatch, "Type your name"   , _hintY, Color.Gray);
+        DrawCentered(spriteBatch, "BACKSPACE Delete    ENTER Save    ESC Skip", _controlsY, Color.Gray);}
 
     /// <summary>
     /// Returns new state, that should be Menu unless changed.

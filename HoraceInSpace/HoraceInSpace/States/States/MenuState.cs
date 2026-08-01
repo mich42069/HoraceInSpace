@@ -1,4 +1,5 @@
-﻿using HoraceInSpace.States.States.InGameState;
+﻿using HoraceInSpace.Helpers;
+using HoraceInSpace.States.States.InGameState;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -18,6 +19,11 @@ public class MenuState(GameArguments arguments) : State(arguments)
         "Scoreboard",
         "Exit"
     ];
+    
+    private float _controlsHintY => (float)SpaceValues.WorldSize.Y.Value - 50;
+    
+    private const string ControlsHint =
+        "v/^ Navigate    ENTER Select    ESC Exit";
 
     private int _selected;
     private State _nextState;
@@ -34,6 +40,7 @@ public class MenuState(GameArguments arguments) : State(arguments)
     {
         DrawTitle(spriteBatch);
         DrawOptions(spriteBatch);
+        DrawControlsHint(spriteBatch);
     }
 
     /// <summary>
@@ -52,6 +59,11 @@ public class MenuState(GameArguments arguments) : State(arguments)
     private void DrawTitle(SpriteBatch spriteBatch)
     {
         DrawCentered(spriteBatch, "Horace In Space", Center.Y + TitleOffsetY, Color.Cyan);
+    }
+    
+    private void DrawControlsHint(SpriteBatch spriteBatch)
+    {
+        DrawCentered(spriteBatch, ControlsHint, _controlsHintY, Color.Gray);
     }
 
     private void DrawOptions(SpriteBatch spriteBatch)
