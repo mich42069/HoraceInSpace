@@ -1,4 +1,4 @@
-﻿namespace HoraceInSpace;
+﻿namespace HoraceInSpace.Helpers;
 
 /// <summary>
 /// Enum holding all difficulty options.
