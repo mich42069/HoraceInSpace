@@ -1,10 +1,18 @@
 ﻿namespace HoraceInSpace;
 
+/// <summary>
+/// Class that holds all arguments the game was started with.
+/// </summary>
 public class GameArguments
 {
     public double TimeScale { get; init; } = 1.0;
     public bool ShowHitboxes { get; init; }
 
+    /// <summary>
+    /// Parses the arguments and then holds them.
+    /// </summary>
+    /// <param name="args">All arguments to be parsed.</param>
+    /// <returns>An instance of GameArguments, holding the parsed arguments.</returns>
     public static GameArguments Parse(string[] args)
     {
         double timeScale = 1.0;

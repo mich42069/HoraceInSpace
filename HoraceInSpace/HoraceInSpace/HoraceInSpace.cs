@@ -11,12 +11,16 @@ using KeyboardInput = HoraceInSpace.Helpers.KeyboardInput;
 
 namespace HoraceInSpace;
 
+/// <summary>
+/// Class running the Game
+/// </summary>
 public class HoraceInSpace : Game
 {
     // No sleep when app
     [DllImport("kernel32.dll")]
     private static extern uint SetThreadExecutionState(uint esFlags);
 
+    // These are flags used to ensure that the computer doesnt go to sleep while ingame.
     private const uint ES_CONTINUOUS = 0x80000000;
     private const uint ES_SYSTEM_REQUIRED = 0x00000001;
     private const uint ES_DISPLAY_REQUIRED = 0x00000002;
@@ -43,6 +47,9 @@ public class HoraceInSpace : Game
         _graphics.ApplyChanges();
     }
 
+    /// <summary>
+    /// Initializes the window Textures and creates an instance of StateSwitcher.
+    /// </summary>
     protected override void Initialize()
     {
         Window.TextInput += TextInput;
@@ -59,6 +66,9 @@ public class HoraceInSpace : Game
         _stateSwitcher.TextInput(e.Character);
     }
 
+    /// <summary>
+    /// Loads in all content, that is Font, Textures and Sounds.
+    /// </summary>
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -69,6 +79,10 @@ public class HoraceInSpace : Game
         _stateSwitcher.SetSpriteBatch(_spriteBatch);
     }
 
+    /// <summary>
+    /// Updates Keyboard, checks if it can exit and updates StateSwitcher.
+    /// </summary>
+    /// <param name="gameTime"></param>
     protected override void Update(GameTime gameTime)
     {
         KeyboardInput.Update();
@@ -77,6 +91,10 @@ public class HoraceInSpace : Game
         base.Update(gameTime);
     }
 
+    /// <summary>
+    /// Clears the background and then draws the game, by calling StateSwitcher.
+    /// </summary>
+    /// <param name="gameTime"></param>
     protected override void Draw(GameTime gameTime)
     {
         _spriteBatch.Begin(
@@ -87,7 +105,9 @@ public class HoraceInSpace : Game
         _spriteBatch.End();
     }
     
-    // Handling that the PC won't go to sleep when focused
+    /// <summary>
+    /// Handling that the PC won't go to sleep when focused
+    /// </summary>
     protected override void OnActivated(object sender, EventArgs args)
     {
         SetThreadExecutionState(
@@ -98,7 +118,9 @@ public class HoraceInSpace : Game
         base.OnActivated(sender, args);
     }
 
-    // Re-enables sleep functionality
+    /// <summary>
+    /// Re-enables sleep functionality
+    /// </summary>
     protected override void OnDeactivated(object sender, EventArgs args)
     {
         SetThreadExecutionState(ES_CONTINUOUS);
