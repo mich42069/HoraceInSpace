@@ -3,6 +3,9 @@ using HoraceInSpacePhysicsLib.Units;
 
 namespace HoraceInSpace.Helpers;
 
+/// <summary>
+/// Class that holds constants for density and radius of most entities, as well as other otherwise non-relevant constants.
+/// </summary>
 public static class SpaceValues
 {
     public static dragCoefficient DragCoefficient => 2.DragCoefficient();

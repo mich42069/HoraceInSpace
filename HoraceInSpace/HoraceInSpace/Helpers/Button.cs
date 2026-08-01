@@ -3,14 +3,23 @@ using Microsoft.Xna.Framework;
 
 namespace HoraceInSpace.Helpers;
 
+/// <summary>
+/// A wrapper around a button, to prevent spam.
+/// </summary>
 public class Button
 {
     private bool _wasPressed;
     private double _timer;
 
-    public TimeSpan InitialDelay { get; set; } = TimeSpan.FromMilliseconds(400);
-    public TimeSpan RepeatInterval { get; set; } = TimeSpan.FromMilliseconds(100);
+    private TimeSpan InitialDelay { get; set; } = TimeSpan.FromMilliseconds(400);
+    private TimeSpan RepeatInterval { get; set; } = TimeSpan.FromMilliseconds(100);
 
+    /// <summary>
+    /// When given if button is pressed and given gametime, returns true every so often, based on internal parameters.
+    /// </summary>
+    /// <param name="isPressed">If button is pressed.</param>
+    /// <param name="gameTime">Current GameTime.</param>
+    /// <returns>true every 100ms, after first 400ms of being first held down., otherwise false</returns>
     public bool Update(bool isPressed, GameTime gameTime)
     {
         double elapsed = gameTime.ElapsedGameTime.TotalSeconds;

@@ -71,7 +71,7 @@ public class HoraceInSpace : Game
 
     protected override void Update(GameTime gameTime)
     {
-        KeyboardInput.Update(gameTime);
+        KeyboardInput.Update();
         if (_stateSwitcher.CanExit()) Exit();
         _stateSwitcher.Update(gameTime);
         base.Update(gameTime);
