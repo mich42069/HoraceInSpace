@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HoraceInSpace", "HoraceInSpace\HoraceInSpace.csproj", "{973198C7-4869-451F-93E9-D1047DAC490F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HoraceInSpacePhysicsLib", "HoraceInSpacePhysicsLib\HoraceInSpacePhysicsLib.csproj", "{71A9DEA6-CDB2-46C9-AE53-8440CCF18167}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{973198C7-4869-451F-93E9-D1047DAC490F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{973198C7-4869-451F-93E9-D1047DAC490F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{973198C7-4869-451F-93E9-D1047DAC490F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{973198C7-4869-451F-93E9-D1047DAC490F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71A9DEA6-CDB2-46C9-AE53-8440CCF18167}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71A9DEA6-CDB2-46C9-AE53-8440CCF18167}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71A9DEA6-CDB2-46C9-AE53-8440CCF18167}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71A9DEA6-CDB2-46C9-AE53-8440CCF18167}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
