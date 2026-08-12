@@ -20,7 +20,7 @@ public class MenuState(GameArguments arguments) : State(arguments)
         "Exit"
     ];
     
-    private float _controlsHintY => (float)SpaceValues.WorldSize.Y.Value - 50;
+    private float _controlsHintY => SpaceValues.ScreenSize.Y - 50;
     
     private const string ControlsHint =
         "v/^ Navigate    ENTER Select    ESC Exit";

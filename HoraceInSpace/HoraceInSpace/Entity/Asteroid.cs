@@ -36,7 +36,7 @@ public abstract class Asteroid : Entity
     {
         spriteBatch.Draw(
             Texture,
-            PhysicsLibToMonogame.ToVector2(pos),
+            pos.ToVector2(),
             null,
             Color.White,
             (float)AngleOfRotation.Value,
@@ -47,7 +47,7 @@ public abstract class Asteroid : Entity
 
         spriteBatch.Draw(
             ShadowTexture,
-            PhysicsLibToMonogame.ToVector2(pos),
+            pos.ToVector2(),
             null,
             Color.White,
             (float)AngleOfRotation.Value,

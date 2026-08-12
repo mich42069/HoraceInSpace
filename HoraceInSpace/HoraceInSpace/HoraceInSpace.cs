@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Runtime.InteropServices;
 using HoraceInSpace.Assets;
+using HoraceInSpace.Helpers;
 using HoraceInSpace.States;
 using KeyboardInput = HoraceInSpace.Helpers.KeyboardInput;
 
@@ -16,11 +17,11 @@ namespace HoraceInSpace;
 /// </summary>
 public class HoraceInSpace : Game
 {
-    // No sleep when app
+    // No sleep when app open
     [DllImport("kernel32.dll")]
     private static extern uint SetThreadExecutionState(uint esFlags);
 
-    // These are flags used to ensure that the computer doesnt go to sleep while ingame.
+    // These are flags used to ensure that the computer doesn't go to sleep while ingame.
     private const uint ES_CONTINUOUS = 0x80000000;
     private const uint ES_SYSTEM_REQUIRED = 0x00000001;
     private const uint ES_DISPLAY_REQUIRED = 0x00000002;

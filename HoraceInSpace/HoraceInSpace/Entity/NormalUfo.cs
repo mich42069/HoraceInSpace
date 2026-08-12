@@ -44,7 +44,7 @@ public class NormalUfo : Ufo, IScore
 
         angle angle = MathF.Atan2((float)dy.Value, (float)dx.Value).Radians();
 
-        Bullet bullet = new(Position, angle, angle, 1500.MetersPerSecond())
+        Bullet bullet = new(Position, angle, angle, SpaceValues.BulletInitialSpeed)
         {
             Color = Color.Red
         };

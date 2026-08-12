@@ -39,29 +39,29 @@ public class Horace : Entity
     private bool _isInvincible;
     private TimeSpan _invincibleUntil;
     private int _lives = 3;
-    private readonly force _accelerationForce = 160.GigaNewtons();
+    private force _accelerationForce => SpaceValues.HoraceThrusterForce;
     private readonly List<(acceleration, angle)> _accelerationControl = new ();
     private readonly List<Thruster> _thrustersToDraw = new();
     
     private SoundWrapper _thrusterSoundWrapper = new(Sounds.Thruster.CreateInstance());
-    
+
     /// <summary>
     /// Represents the offset of thrusters to Horace's texture.
     /// </summary>
     private readonly Thruster[] _thrusters =
-    {
+    [
         // Forward Thruster
-        new((-40.Meters(), 0.Meters()).At(), angle.Deg180),
+        new((-40, 0).At(), angle.Deg180),
 
         // Left Thruster
-        new((0.Meters(), 20.Meters()).At(), angle.Deg90),
+        new((0, 20).At(), angle.Deg90),
 
         // Right Thruster
-        new((0.Meters(), -44.Meters()).At(), angle.Deg270),
-        
+        new((0, -44).At(), angle.Deg270),
+
         // Back Thruster
-        new((50.Meters(), 0.Meters()).At(), angle.Deg0),
-    };
+        new((50, 0).At(), angle.Deg0)
+    ];
     
     /// <summary>
     /// Public constructor to set basic parameters, differently to other entities, all of Horaces parameters are known in advance.
@@ -144,8 +144,10 @@ public class Horace : Entity
     {
         var mouse = Mouse.GetState();
 
-        double dx = mouse.X - Position.X.Value;
-        double dy = mouse.Y - Position.Y.Value;
+        Vector2 onScreenPos = Position.ToVector2();
+        
+        double dx = mouse.X - onScreenPos.X;
+        double dy = mouse.Y - onScreenPos.Y;
 
         return Math.Atan2(dy, dx).Radians();
     }
@@ -246,7 +248,7 @@ public class Horace : Entity
 
             spriteBatch.Draw(
                 ThrusterTexture,
-                pos.ToVector2() + offset,
+                (pos.ToVector2() + offset) / (float)SpaceValues.ScaleConversion,
                 null,
                 Color,
                 (float)(AngleOfRotation + thruster.Angle).Value,
@@ -274,7 +276,7 @@ public class Horace : Entity
             bulletPosition,
             AngleOfRotation,
             AngleOfRotation,
-            2000.MetersPerSecond())
+            SpaceValues.BulletInitialSpeed)
         {
             Color = Color.Yellow
         };

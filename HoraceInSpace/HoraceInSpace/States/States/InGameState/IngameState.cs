@@ -34,7 +34,8 @@ public class IngameState : State
     private State _newState;
     private int _wave = 0;
     private List<IDrawableStat> _drawableStat = new();
-    
+    private int _previousScrollWheelValue = Mouse.GetState().ScrollWheelValue;
+
     /// <summary>
     /// Initializes the state, drawable stats and sets timescale and drawing of hitboxes from arguments
     /// </summary>
@@ -240,28 +241,51 @@ public class IngameState : State
         foreach (Bullet bullet in _ufoBullets) bullet.Draw(spriteBatch);
         foreach (IDrawableStat stat in _drawableStat) stat.Draw(spriteBatch);
     }
-
-    /// <summary>
-    /// Checks the players inputs from keyboard and mouse, to shoot move and exit the game.
-    /// </summary>
-    /// <param name="gameTime"></param>
     public override void CheckInputs(GameTime gameTime)
     {
-        if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+        KeyboardState keyboard = Keyboard.GetState();
+        MouseState mouse = Mouse.GetState();
+
+        if (keyboard.IsKeyDown(Keys.Escape))
             Death();
-        if (Keyboard.GetState().IsKeyDown(Keys.W))
+
+        if (keyboard.IsKeyDown(Keys.W))
             _horace.Forward();
-        if (Keyboard.GetState().IsKeyDown(Keys.S))
+
+        if (keyboard.IsKeyDown(Keys.S))
             _horace.Back();
-        if (Keyboard.GetState().IsKeyDown(Keys.D))
+
+        if (keyboard.IsKeyDown(Keys.D))
             _horace.Right();
-        if (Keyboard.GetState().IsKeyDown(Keys.A))
+
+        if (keyboard.IsKeyDown(Keys.A))
             _horace.Left();
-        if (_shootButton.Update(Mouse.GetState().LeftButton == ButtonState.Pressed, gameTime) &&
+
+        if (_shootButton.Update(
+                mouse.LeftButton == ButtonState.Pressed,
+                gameTime) &&
             _bullets.Count < MaxBullets)
+        {
             _bullets.Add(_horace.Shoot());
+        }
+        
+        CheckScrollWheel(mouse);
     }
 
+    private void CheckScrollWheel(MouseState mouse)
+    {
+        int scrollDelta = mouse.ScrollWheelValue - _previousScrollWheelValue;
+        _previousScrollWheelValue = mouse.ScrollWheelValue;
+
+        if (scrollDelta != 0)
+        {
+            SpaceValues.Scale += Math.Sign(scrollDelta);
+            SpaceValues.Scale = MathHelper.Clamp(SpaceValues.Scale, 10f, 50f);
+        }
+        
+
+    }
+    
     /// <summary>
     /// Returns next state, it being the DeathState, when ready.
     /// </summary>

@@ -18,7 +18,7 @@ public abstract class Entity
     public Color Color { get; set; } = Color.White;
     protected abstract Texture2D Texture { get; }
     protected abstract Vector2 TextureOrigin { get; }
-    protected virtual float TextureScale => (float)Radius.Value * 2 / Texture.Height;
+    protected virtual float TextureScale => (float)Radius.Value * 2 * (float)SpaceValues.ScaleConversion / Texture.Height;
     public static bool DrawHitbox = false;
     
     public IHitBox Hitbox;

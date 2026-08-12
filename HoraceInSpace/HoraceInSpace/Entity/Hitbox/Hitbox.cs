@@ -82,20 +82,19 @@ public abstract class Hitbox(distance radius) : IHitBox
     {
         const int segments = 32;
 
-        Vector2 center = new(
-            (float)Position.X.Value,
-            (float)Position.Y.Value);
+        Vector2 center = Position.ToVector2();
+        double scaledRadius = radius.Value * SpaceValues.ScaleConversion;
 
         for (int i = 0; i < segments; i++)
         {
             float a1 = MathHelper.TwoPi * i / segments;
             float a2 = MathHelper.TwoPi * (i + 1) / segments;
 
-            Vector2 p1 = center + (float)radius.Value * new Vector2(
+            Vector2 p1 = center + (float)scaledRadius * new Vector2(
                 MathF.Cos(a1),
                 MathF.Sin(a1));
 
-            Vector2 p2 = center + (float)radius.Value * new Vector2(
+            Vector2 p2 = center + (float)scaledRadius * new Vector2(
                 MathF.Cos(a2),
                 MathF.Sin(a2));
 
