@@ -33,6 +33,7 @@ The goal is to survive as long as possible, destroy enemies, and achieve the hig
 | A | Move left |
 | D | Move right |
 | ESC | End the current game |
+| MouseWheel | Change Scale |
 
 Horace moves using spaceship thrusters. Because there is very low friction in space, movement continues after accelerating, and the ship must be controlled carefully.
 
