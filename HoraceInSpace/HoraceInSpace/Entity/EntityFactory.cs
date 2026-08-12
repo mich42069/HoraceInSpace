@@ -107,7 +107,7 @@ public static class EntityFactory
     {
         angle angleOfMotion = (Random.NextSingle() * 360).Degrees();
         angle angleOfRotation = (Random.NextSingle() * 360).Degrees();
-        speed initialSpeed = Random.NextSingle() * 200.MetersPerSecond();
+        speed initialSpeed = Random.NextSingle() * SpaceValues.MaxEntitySpawnSpeed;
 
         return factory(
             Position,

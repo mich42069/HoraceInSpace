@@ -1,6 +1,7 @@
 using System;
 using System.Numerics;
 using HoraceInSpacePhysicsLib.Units;
+using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace HoraceInSpace.Helpers;
 
@@ -27,6 +28,15 @@ public readonly struct Position(distance x, distance y) :
     /// Gets the Y coordinate of this Position.
     /// </summary>
     public distance Y { get; } = y;
+
+    public Vector2 ToVector2()
+    {
+        Vector2 position = new(
+            (float)X.Value,
+            (float)Y.Value);
+
+        return position * SpaceValues.Scale;
+    }
 
     /// <summary>
     /// Returns the Position formatted as an X and Y coordinate pair.

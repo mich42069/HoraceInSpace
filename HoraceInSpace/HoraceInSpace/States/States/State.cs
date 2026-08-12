@@ -12,8 +12,8 @@ public abstract class State
     protected readonly GameArguments Arguments;
 
     protected static SpriteFont Font => Assets.Assets.Font;
-    protected readonly Vector2 ScreenSize;
-    protected readonly Vector2 Center;
+    protected Vector2 ScreenSize => SpaceValues.ScreenSize;
+    protected Vector2 Center => ScreenSize / 2f;
 
     /// <summary>
     /// True if the next state has been decided and is ready to switch
@@ -32,9 +32,6 @@ public abstract class State
     protected State(GameArguments arguments)
     {
         Arguments = arguments;
-
-        ScreenSize = SpaceValues.WorldSize.ToVector2();
-        Center = ScreenSize / 2f;
     }
     /// <summary>
     /// Base update method, empty by default.

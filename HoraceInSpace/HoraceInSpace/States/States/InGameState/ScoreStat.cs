@@ -32,7 +32,7 @@ public class ScoreStat : IDrawableStat
 
         Vector2 size = Assets.Assets.Font.MeasureString(text);
         Vector2 Position = new(
-            (float)SpaceValues.WorldSize.X.Value - size.X - 10,
+            SpaceValues.ScreenSize.X - size.X - 10,
             10);
 
         spriteBatch.DrawString(

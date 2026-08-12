@@ -18,7 +18,8 @@ public class Bullet : Entity
     protected override Vector2 TextureOrigin => Textures.BulletOrigin;
     private readonly TimeSpan _lifeTime = TimeSpan.FromSeconds(5);
     private TimeSpan? _timeOfCreation = null;
-    protected override float TextureScale => 1f;
+    protected override distance Radius => SpaceValues.BulletRadius;
+    protected override density Density => SpaceValues.BulletDensity;
     public Bullet(Position initialPosition, angle angleOfMotion, angle angleOfRotation, speed initialSpeed)
     {
         Position = initialPosition;
@@ -27,7 +28,7 @@ public class Bullet : Entity
         Speed = initialSpeed;
         
         Acceleration = 0.MetersPerSecondSquared();
-        Hitbox = new PointHitbox(Radius);
+        Hitbox = new CircleHitbox(Radius);
         Hitbox.Position = initialPosition;
     }
 
@@ -42,8 +43,6 @@ public class Bullet : Entity
         return gameTime.TotalGameTime - _timeOfCreation.Value > _lifeTime;
     }
 
-    protected override distance Radius => SpaceValues.BulletRadius;
-    protected override density Density => SpaceValues.BulletDensity;
 
     /// <summary>
     /// Sets time of creation on first call. After that calls update on its base class.
