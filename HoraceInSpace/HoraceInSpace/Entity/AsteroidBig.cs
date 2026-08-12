@@ -21,7 +21,7 @@ public class AsteroidBig : Asteroid, IScore
     protected override Vector2 TextureOrigin => Textures.AsteroidBigOrigin;
     public int Score => 500;
 
-    public AsteroidBig(position initialPosition, angle angleOfMotion, angle angleOfRotation, speed initialSpeed) : base(initialPosition, angleOfMotion, angleOfRotation, initialSpeed)
+    public AsteroidBig(Position initialPosition, angle angleOfMotion, angle angleOfRotation, speed initialSpeed) : base(initialPosition, angleOfMotion, angleOfRotation, initialSpeed)
     {
         Acceleration = 0.MetersPerSecondSquared();
         Hitbox = new CircleHitbox(Radius);

@@ -50,7 +50,7 @@ public class IngameState : State
     }
     
     /// <summary>
-    /// Updates the game by first updating all entity positions, then checking for collisions of horace,
+    /// Updates the game by first updating all entity Positions, then checking for collisions of horace,
     /// then bullets, then tries to split up and give score for all entities killed in this frame.
     /// If there are no enemies on screen tries to spawn new ones based on the difficulty.
     /// Lastly updates all DrawableStats.

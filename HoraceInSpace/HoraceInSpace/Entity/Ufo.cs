@@ -1,6 +1,7 @@
 ﻿using System;
 using System.DirectoryServices.ActiveDirectory;
 using HoraceInSpace.Assets;
+using HoraceInSpace.Helpers;
 using HoraceInSpacePhysicsLib;
 using HoraceInSpacePhysicsLib.Units;
 using Microsoft.Xna.Framework;
@@ -34,7 +35,7 @@ public abstract class Ufo : Entity
     }
     private TimeSpan? _nextShootTime = null;
     
-    protected Ufo(position initialPosition, angle angleOfMotion, angle angleOfRotation, speed initialSpeed)
+    protected Ufo(Position initialPosition, angle angleOfMotion, angle angleOfRotation, speed initialSpeed)
     {
         Position = initialPosition;
         AngleOfMotion = angleOfMotion;
@@ -61,5 +62,5 @@ public abstract class Ufo : Entity
     /// </summary>
     /// <param name="target">Where do we want to shoot</param>
     /// <returns>A bullet with a speed, and direction.</returns>
-    public abstract Bullet Shoot(position target);
+    public abstract Bullet Shoot(Position target);
 }

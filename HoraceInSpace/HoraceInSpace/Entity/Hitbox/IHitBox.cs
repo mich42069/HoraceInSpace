@@ -1,4 +1,5 @@
-﻿using HoraceInSpacePhysicsLib;
+﻿using HoraceInSpace.Helpers;
+using HoraceInSpacePhysicsLib;
 using HoraceInSpacePhysicsLib.Units;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -17,12 +18,12 @@ public interface IHitBox
     /// </summary>
     /// <param name="point"></param>
     /// <returns>True if point inside the hitbox, false otherwise.</returns>
-    public bool CheckHit(position point);
+    public bool CheckHit(Position point);
 
     /// <summary>
     /// Position with public setter, so that it can be set for use.
     /// </summary>
-    public position Position { set; }
+    public Position Position { set; }
     
     /// <summary>
     /// Draws outline of hitbox.

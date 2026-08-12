@@ -13,9 +13,9 @@ using Microsoft.Xna.Framework.Input;
 
 namespace HoraceInSpace.Entity;
 
-public readonly struct Thruster(position offset, angle angle)
+public readonly struct Thruster(Position offset, angle angle)
 {
-    public position Offset { get; } = offset;
+    public Position Offset { get; } = offset;
     public angle Angle { get; } = angle;
 }
 
@@ -137,7 +137,7 @@ public class Horace : Entity
     }
 
     /// <summary>
-    /// Calculates the angle of Horace to cursor position.
+    /// Calculates the angle of Horace to cursor Position.
     /// </summary>
     /// <returns>The angle at which we can find the cursor.</returns>
     private angle AngleToMouse()
@@ -236,7 +236,7 @@ public class Horace : Entity
     /// </summary>
     /// <param name="pos">Position of where to draw Horace</param>
     /// <param name="spriteBatch">SpriteBatch responsible for drawing Horace.</param>
-    protected override void Draw(position pos, SpriteBatch spriteBatch)
+    protected override void Draw(Position pos, SpriteBatch spriteBatch)
     {
         foreach (Thruster thruster in _thrustersToDraw)
         {
@@ -266,7 +266,7 @@ public class Horace : Entity
     {
         Sounds.Shoot.Play();
 
-        position bulletPosition = Position + new position(
+        Position bulletPosition = Position + new Position(
             (Radius.Value * AngleOfRotation.Cos()).Meters(),
             (Radius.Value * AngleOfRotation.Sin()).Meters());
 

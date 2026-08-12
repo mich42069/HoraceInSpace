@@ -15,12 +15,12 @@ public class DifficultyStat(Func<GameTime, Difficulty> getDifficulty) : IDrawabl
 
     public void Draw(SpriteBatch spriteBatch)
     {
-        Vector2 position = new(10, (float)SpaceValues.WorldSize.Y.Value - 30);
+        Vector2 Position = new(10, (float)SpaceValues.WorldSize.Y.Value - 30);
 
         spriteBatch.DrawString(
             Assets.Assets.Font,
             $"{_difficulty}",
-            position,
+            Position,
             Color.Gray);
     }
 

@@ -21,7 +21,7 @@ public class AsteroidMedium : Asteroid, IScore
     protected override Vector2 TextureOrigin => Textures.AsteroidMediumOrigin;
     public int Score => 250;
 
-    public AsteroidMedium(position initialPosition, angle angleOfMotion, angle angleOfRotation, speed initialSpeed) : base(initialPosition, angleOfMotion, angleOfRotation, initialSpeed)
+    public AsteroidMedium(Position initialPosition, angle angleOfMotion, angle angleOfRotation, speed initialSpeed) : base(initialPosition, angleOfMotion, angleOfRotation, initialSpeed)
     {
         Acceleration = 0.MetersPerSecondSquared();
         Hitbox = new CircleHitbox(Radius);

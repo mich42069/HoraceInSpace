@@ -20,7 +20,7 @@ public class NormalUfo : Ufo, IScore
     protected override distance Radius => SpaceValues.UfoRadius;
     protected override density Density => SpaceValues.UfoDensity;
 
-    public NormalUfo(position initialPosition, angle angleOfMotion, angle angleOfRotation, speed initialSpeed) : base(initialPosition, angleOfMotion, angleOfRotation, initialSpeed)
+    public NormalUfo(Position initialPosition, angle angleOfMotion, angle angleOfRotation, speed initialSpeed) : base(initialPosition, angleOfMotion, angleOfRotation, initialSpeed)
     {
         Acceleration = 0.MetersPerSecondSquared();
         Hitbox = new CircleHitbox(Radius);
@@ -35,7 +35,7 @@ public class NormalUfo : Ufo, IScore
     /// </summary>
     /// <param name="target">Where we want to shoot</param>
     /// <returns>A bullet aimed precisely at a target.</returns>
-    public override Bullet Shoot(position target)
+    public override Bullet Shoot(Position target)
     {
         Sounds.Shoot.Play();
         

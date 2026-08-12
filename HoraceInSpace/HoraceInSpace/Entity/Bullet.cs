@@ -19,7 +19,7 @@ public class Bullet : Entity
     private readonly TimeSpan _lifeTime = TimeSpan.FromSeconds(5);
     private TimeSpan? _timeOfCreation = null;
     protected override float TextureScale => 1f;
-    public Bullet(position initialPosition, angle angleOfMotion, angle angleOfRotation, speed initialSpeed)
+    public Bullet(Position initialPosition, angle angleOfMotion, angle angleOfRotation, speed initialSpeed)
     {
         Position = initialPosition;
         AngleOfMotion = angleOfMotion;

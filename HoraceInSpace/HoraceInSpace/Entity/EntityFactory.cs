@@ -75,13 +75,13 @@ public static class EntityFactory
             ? weights
             : SpawnWeights.Default;
     }
-    private static position GenerateSpawnPosition(position avoidPosition)
+    private static Position GenerateSpawnPosition(Position avoidPosition)
     {
-        position worldSize = SpaceValues.WorldSize;
+        Position worldSize = SpaceValues.WorldSize;
 
         while (true)
         {
-            position spawn = (
+            Position spawn = (
                 Random.NextSingle() * worldSize.X,
                 Random.NextSingle() * worldSize.Y
             ).At();
@@ -101,8 +101,8 @@ public static class EntityFactory
         }
     }
 
-    private static T CreateEntity<T>(position position,
-        Func<position, angle, angle, speed, T> factory)
+    private static T CreateEntity<T>(Position Position,
+        Func<Position, angle, angle, speed, T> factory)
         where T : Entity
     {
         angle angleOfMotion = (Random.NextSingle() * 360).Degrees();
@@ -110,38 +110,38 @@ public static class EntityFactory
         speed initialSpeed = Random.NextSingle() * 200.MetersPerSecond();
 
         return factory(
-            position,
+            Position,
             angleOfMotion,
             angleOfRotation,
             initialSpeed);
     }
 
-    private static NormalUfo CreateUfo(position position) => 
-        CreateEntity(position, (p, m, r, s) => 
+    private static NormalUfo CreateUfo(Position Position) => 
+        CreateEntity(Position, (p, m, r, s) => 
             new NormalUfo(p, m, r, s));
-    private static AsteroidEnormous CreateEnormousAsteroid(position position) => 
-        CreateEntity(position, (p, m, r, s) => 
+    private static AsteroidEnormous CreateEnormousAsteroid(Position Position) => 
+        CreateEntity(Position, (p, m, r, s) => 
             new AsteroidEnormous(p, m, r, s));
 
-    private static AsteroidGiant CreateGiantAsteroid(position position) => 
-        CreateEntity(position, (p, m, r, s) => 
+    private static AsteroidGiant CreateGiantAsteroid(Position Position) => 
+        CreateEntity(Position, (p, m, r, s) => 
             new AsteroidGiant(p, m, r, s));
 
-    private static AsteroidBig CreateBigAsteroid(position position) => 
-        CreateEntity(position, (p, m, r, s) => 
+    private static AsteroidBig CreateBigAsteroid(Position Position) => 
+        CreateEntity(Position, (p, m, r, s) => 
             new AsteroidBig(p, m, r, s));
 
-    private static AsteroidMedium CreateMediumAsteroid(position position) => 
-        CreateEntity(position, (p, m, r, s) => 
+    private static AsteroidMedium CreateMediumAsteroid(Position Position) => 
+        CreateEntity(Position, (p, m, r, s) => 
             new AsteroidMedium(p, m, r, s));
 
-    private static AsteroidSmall CreateSmallAsteroid(position position) => 
-        CreateEntity(position, (p, m, r, s) => 
+    private static AsteroidSmall CreateSmallAsteroid(Position Position) => 
+        CreateEntity(Position, (p, m, r, s) => 
             new AsteroidSmall(p, m, r, s));
 
-    public static Entity CreateEntity(Difficulty difficulty, position avoidPosition)
+    public static Entity CreateEntity(Difficulty difficulty, Position avoidPosition)
     {
-        position spawnPosition = GenerateSpawnPosition(avoidPosition);
+        Position spawnPosition = GenerateSpawnPosition(avoidPosition);
 
         
         var choices = new (float Weight, Func<Entity> Create)[]

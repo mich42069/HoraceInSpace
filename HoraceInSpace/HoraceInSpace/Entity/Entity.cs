@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace HoraceInSpace.Entity;
 
 /// <summary>
-/// Base Entity class, holding its position and other physical factors, color, hitbox, texture,
+/// Base Entity class, holding its Position and other physical factors, color, hitbox, texture,
 /// and basic methods like Update, Draw, SplitUp or and CheckHit.
 /// </summary>
 public abstract class Entity
@@ -22,7 +22,7 @@ public abstract class Entity
     public static bool DrawHitbox = false;
     
     public IHitBox Hitbox;
-    public position Position;
+    public Position Position;
     
     protected angle AngleOfAcceleration;
     protected angle AngleOfMotion;
@@ -45,7 +45,7 @@ public abstract class Entity
     public virtual List<Entity> SplitUp() => new();
     
     /// <summary>
-    /// Base update method that updates entities rotation, position, acceleration, speed and hitbox.
+    /// Base update method that updates entities rotation, Position, acceleration, speed and hitbox.
     /// </summary>
     /// <param name="gameTime">Current GameTime to update the entity by.</param>
     public virtual void Update(GameTime gameTime)
@@ -66,7 +66,7 @@ public abstract class Entity
     {
         TimeSpan dt = gameTime.ElapsedGameTime;
 
-        Position = new position(
+        Position = new Position(
             Position.X + Speed * dt * AngleOfMotion.Cos(),
             Position.Y + Speed * dt * AngleOfMotion.Sin());
 
@@ -88,7 +88,7 @@ public abstract class Entity
     }
     
     /// <summary>
-    /// Calls Draw(position, spritebatch) for all possible positions of the entity,
+    /// Calls Draw(Position, spritebatch) for all possible Positions of the entity,
     /// takes into consideration that it can be seen around edges of the screen.
     /// 
     /// Calls Draw on hitbox, if DrawHitBox flag is true.
@@ -117,11 +117,11 @@ public abstract class Entity
     }
     
     /// <summary>
-    /// Draws the entities Texture, with its Color, on position and TextureOrigin with given spriteBatch.
+    /// Draws the entities Texture, with its Color, on Position and TextureOrigin with given spriteBatch.
     /// </summary>
     /// <param name="pos"></param>
     /// <param name="spriteBatch"></param>
-    protected virtual void Draw(position pos, SpriteBatch spriteBatch)
+    protected virtual void Draw(Position pos, SpriteBatch spriteBatch)
     {
         spriteBatch.Draw(
             Texture,

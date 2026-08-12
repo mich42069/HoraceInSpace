@@ -21,7 +21,7 @@ public class AsteroidSmall : Asteroid, IScore
     public int Score => 125;
     protected override distance Radius => SpaceValues.SmallAsteroidRadius;
 
-    public AsteroidSmall(position initialPosition, angle angleOfMotion, angle angleOfRotation, speed initialSpeed) : base(initialPosition, angleOfMotion, angleOfRotation, initialSpeed)
+    public AsteroidSmall(Position initialPosition, angle angleOfMotion, angle angleOfRotation, speed initialSpeed) : base(initialPosition, angleOfMotion, angleOfRotation, initialSpeed)
     {
         Acceleration = 0.MetersPerSecondSquared();
         Hitbox = new CircleHitbox(Radius);

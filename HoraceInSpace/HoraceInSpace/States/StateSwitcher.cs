@@ -19,7 +19,7 @@ public class StateSwitcher : IStateSwitcher
     public StateSwitcher(Vector2 screenSize, int count, GameArguments arguments)
     {
         _arguments = arguments;
-        position screenSizeInMeters = ((double)screenSize.X, (double)screenSize.Y).At();
+        Position screenSizeInMeters = ((double)screenSize.X, (double)screenSize.Y).At();
         SpaceValues.WorldSize = screenSizeInMeters;
         _currentState = new MenuState(_arguments);
         _starsBackground = new StarsBackground(screenSize, count);

@@ -156,27 +156,6 @@ public static class UnitExtensions
     public static mass Kilograms(this int kg) => new mass(kg);
 
     /// <summary>
-    /// Creates a position from coordinate values.
-    /// </summary>
-    /// <param name="coords">The x and y coordinates in meters.</param>
-    /// <returns>A position containing the specified coordinates.</returns>
-    public static position At(this (double x, double y) coords) => new position(coords.x.Meters(), coords.y.Meters());
-
-    /// <summary>
-    /// Creates a position from distance coordinates.
-    /// </summary>
-    /// <param name="coords">The x and y distance coordinates.</param>
-    /// <returns>A position containing the specified coordinates.</returns>
-    public static position At(this (distance x, distance y) coords) => new position(coords.x, coords.y);
-
-    /// <summary>
-    /// Creates a position from integer coordinate values.
-    /// </summary>
-    /// <param name="coords">The x and y coordinates in meters.</param>
-    /// <returns>A position containing the specified coordinates.</returns>
-    public static position At(this (int x, int y) coords) => new position(coords.x.Meters(), coords.y.Meters());
-
-    /// <summary>
     /// Creates an area value in square meters.
     /// </summary>
     /// <param name="sqm">The value in square meters.</param>

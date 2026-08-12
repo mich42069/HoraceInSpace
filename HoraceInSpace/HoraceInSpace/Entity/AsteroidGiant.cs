@@ -20,7 +20,7 @@ public class AsteroidGiant : Asteroid, IScore
     protected override Vector2 TextureOrigin => Textures.AsteroidGiantOrigin;
     public int Score => 1000;
 
-    public AsteroidGiant(position initialPosition, angle angleOfMotion, angle angleOfRotation, speed initialSpeed) : base(initialPosition, angleOfMotion, angleOfRotation, initialSpeed)
+    public AsteroidGiant(Position initialPosition, angle angleOfMotion, angle angleOfRotation, speed initialSpeed) : base(initialPosition, angleOfMotion, angleOfRotation, initialSpeed)
     {
         Acceleration = 0.MetersPerSecondSquared();
         Hitbox = new CircleHitbox(Radius);

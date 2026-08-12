@@ -13,7 +13,7 @@ public class Star : IStar
     private const ushort FlickerRange = 255 - DefaultColor;
     private const ushort StarSize = 3;
     private static Texture2D Pixel => Textures.StarColorPixel;
-    private readonly Vector2 _position;
+    private readonly Vector2 _Position;
     private readonly Color _defaultColor = new (DefaultColor, DefaultColor, DefaultColor);
     private Color _color = new (DefaultColor, DefaultColor, DefaultColor);
     private Color _flickerColor;
@@ -21,9 +21,9 @@ public class Star : IStar
     private TimeSpan _flickerTime = 0.Seconds();
     private TimeSpan _flickerLength; // Milliseconds
 
-    public Star(Vector2 position)
+    public Star(Vector2 Position)
     {
-        _position = position;
+        _Position = Position;
     }
 
     /// <summary>
@@ -49,7 +49,7 @@ public class Star : IStar
 
     public void Draw(SpriteBatch spriteBatch)
     {
-        spriteBatch.Draw(Pixel, new Rectangle((int)_position.X, (int)_position.Y, StarSize, StarSize), _color);
+        spriteBatch.Draw(Pixel, new Rectangle((int)_Position.X, (int)_Position.Y, StarSize, StarSize), _color);
     }
 
     public void Update(GameTime gameTime)

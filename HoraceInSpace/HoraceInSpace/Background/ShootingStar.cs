@@ -12,7 +12,7 @@ public class ShootingStar : IStar
     private static readonly Random Random = new();
 
     private static Texture2D Pixel => Textures.StarColorPixel;
-    private readonly Vector2 _position;
+    private readonly Vector2 _Position;
 
     private readonly Vector2 _direction;
     private readonly angle _rotation;
@@ -29,10 +29,10 @@ public class ShootingStar : IStar
     private const float TrailLength = 50f;
     private const float TrailWidth = 2f;
 
-    public ShootingStar(Vector2 position)
+    public ShootingStar(Vector2 Position)
     {
-        _position = position;
-        _currentPosition = position;
+        _Position = Position;
+        _currentPosition = Position;
         
         // Mostly downward diagonal movement
         angle angle = Random.Next(25, 70).Degrees();
@@ -70,7 +70,7 @@ public class ShootingStar : IStar
         _progress = 0f;
         _alpha = 1f;
 
-        _currentPosition = _position;
+        _currentPosition = _Position;
     }
 
     public void Update(GameTime gameTime)
@@ -83,7 +83,7 @@ public class ShootingStar : IStar
 
         _progress = MathHelper.Clamp(elapsed / duration, 0f, 1f);
 
-        _currentPosition = _position + _direction * (TravelDistance * _progress);
+        _currentPosition = _Position + _direction * (TravelDistance * _progress);
 
         // Fade quickly near the end
         _alpha = 1f - _progress;
@@ -92,7 +92,7 @@ public class ShootingStar : IStar
         {
             _active = false;
             _alpha = 0f;
-            _currentPosition = _position;
+            _currentPosition = _Position;
         }
     }
 

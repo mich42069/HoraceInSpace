@@ -10,7 +10,7 @@ public static class SpaceValues
 {
     public static dragCoefficient DragCoefficient => 2.DragCoefficient();
     public static density AtmosphericDensity => 1.KilogramsPerCubicMeter();
-    public static position WorldSize {get; set;}
+    public static Position WorldSize {get; set;}
     public static density AsteroidDensity => 5_000.KilogramsPerCubicMeter();
     public static density BulletDensity => 7_850.KilogramsPerCubicMeter();
     public static density HoraceDensity => 1_200.KilogramsPerCubicMeter();

@@ -24,14 +24,14 @@ public class StarsBackground
         _nonSpecialEffectChance = 1 - SpecialEffectCoefficient / (double)numberOfStars;
         for (int i = 0; i < numberOfStars; i++)
         {
-            Vector2 position = new Vector2(_random.Next(0, (int)screenSize.X), _random.Next(0, (int)screenSize.Y));
-            _stars.Add(new Star(position));
+            Vector2 Position = new Vector2(_random.Next(0, (int)screenSize.X), _random.Next(0, (int)screenSize.Y));
+            _stars.Add(new Star(Position));
         }
 
         for (int i = 0; i < numberOfStars / 100; i++)
         {
-            Vector2 position = new Vector2(_random.Next(0, (int)screenSize.X), _random.Next(0, (int)screenSize.Y));
-            _stars.Add(new ShootingStar(position));
+            Vector2 Position = new Vector2(_random.Next(0, (int)screenSize.X), _random.Next(0, (int)screenSize.Y));
+            _stars.Add(new ShootingStar(Position));
         }
     }
 

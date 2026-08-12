@@ -14,7 +14,7 @@ namespace HoraceInSpace.Entity.Hitbox;
 /// <param name="radius">Half size of hitbox, can be radius of a circle or side of a square etc.</param>
 public abstract class Hitbox(distance radius) : IHitBox
 {
-    public position Position { get; set; }
+    public Position Position { get; set; }
     protected virtual distance Radius { get; set; } = radius;
     
     /// <summary>
@@ -35,12 +35,12 @@ public abstract class Hitbox(distance radius) : IHitBox
     }
 
     /// <summary>
-    /// Sets the position of the hitbox, should be done before checking for collision.
+    /// Sets the Position of the hitbox, should be done before checking for collision.
     /// </summary>
-    /// <param name="position">Position to where it is on the grid</param>
-    public virtual void SetPosition(position position)
+    /// <param name="Position">Position to where it is on the grid</param>
+    public virtual void SetPosition(Position Position)
     {
-        this.Position = position;
+        this.Position = Position;
     }
 
     /// <summary>
@@ -78,13 +78,13 @@ public abstract class Hitbox(distance radius) : IHitBox
         }
     }
 
-    private static void DrawCircle(SpriteBatch spriteBatch, position position, distance radius)
+    private static void DrawCircle(SpriteBatch spriteBatch, Position Position, distance radius)
     {
         const int segments = 32;
 
         Vector2 center = new(
-            (float)position.X.Value,
-            (float)position.Y.Value);
+            (float)Position.X.Value,
+            (float)Position.Y.Value);
 
         for (int i = 0; i < segments; i++)
         {
@@ -124,12 +124,12 @@ public abstract class Hitbox(distance radius) : IHitBox
     /// </summary>
     /// <param name="point">Point we want to check if is inside hitbox.</param>
     /// <returns>True if point is inside the Hitbox. false otherwise</returns>
-    public bool CheckHit(position point) =>
+    public bool CheckHit(Position point) =>
         WrappedDistanceTo(point, SpaceValues.WorldSize) <= Radius;
 
 
 
-    protected distance WrappedDistanceTo(position other, position worldSize)
+    protected distance WrappedDistanceTo(Position other, Position worldSize)
     {
         distance dx = (Position.X - other.X).Abs();
         distance dy = (Position.Y - other.Y).Abs();

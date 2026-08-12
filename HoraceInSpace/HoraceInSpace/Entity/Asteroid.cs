@@ -14,7 +14,7 @@ namespace HoraceInSpace.Entity;
 public abstract class Asteroid : Entity
 {
     protected abstract Texture2D ShadowTexture { get; }
-    protected Asteroid(position initialPosition, angle angleOfMotion, angle angleOfRotation, speed initialSpeed)
+    protected Asteroid(Position initialPosition, angle angleOfMotion, angle angleOfRotation, speed initialSpeed)
     {
         Position = initialPosition;
         AngleOfMotion = angleOfMotion;
@@ -32,7 +32,7 @@ public abstract class Asteroid : Entity
         return Momentum / newAsteroidMass;
     }
 
-    protected override void Draw(position pos, SpriteBatch spriteBatch)
+    protected override void Draw(Position pos, SpriteBatch spriteBatch)
     {
         spriteBatch.Draw(
             Texture,
