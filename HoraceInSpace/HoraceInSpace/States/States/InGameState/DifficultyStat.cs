@@ -9,7 +9,7 @@ namespace HoraceInSpace.States.States.InGameState;
 /// Drawable stat instance, that draws difficulty in bottom left corner.
 /// </summary>
 /// <param name="getDifficulty">Delegate method that allows it to see current score.</param>
-public class DifficultyStat(Func<GameTime, Difficulty> getDifficulty) : IDrawableStat
+public class DifficultyStat(Func<GameTime, TimeSpan, Difficulty> getDifficulty, TimeSpan timeOfCreation) : IDrawableStat
 {
     private Difficulty _difficulty;
 
@@ -30,6 +30,6 @@ public class DifficultyStat(Func<GameTime, Difficulty> getDifficulty) : IDrawabl
     /// <param name="gameTime">Unused.</param>
     public void Update(GameTime gameTime)
     {
-        _difficulty = getDifficulty(gameTime);
+        _difficulty = getDifficulty(gameTime, timeOfCreation);
     }
 }

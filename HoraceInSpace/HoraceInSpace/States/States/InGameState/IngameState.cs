@@ -35,6 +35,7 @@ public class IngameState : State
     private int _wave = 0;
     private List<IDrawableStat> _drawableStat = new();
     private int _previousScrollWheelValue = Mouse.GetState().ScrollWheelValue;
+    private TimeSpan? _timeOfCreation = null;
 
     /// <summary>
     /// Initializes the state, drawable stats and sets timescale and drawing of hitboxes from arguments
@@ -47,7 +48,6 @@ public class IngameState : State
         _horace = new Horace();
         _drawableStat.Add(new LiveStat(_horace));
         _drawableStat.Add(new ScoreStat(() => _totalScore));
-        _drawableStat.Add(new DifficultyStat(GetDifficulty));
     }
     
     /// <summary>
@@ -61,6 +61,13 @@ public class IngameState : State
     {
         GameTime adjustedGameTime = new GameTime(gameTime.TotalGameTime * _timeScale, gameTime.ElapsedGameTime * _timeScale);
 
+        if (_timeOfCreation == null)
+        {
+            _timeOfCreation = adjustedGameTime.ElapsedGameTime;
+            //
+            //_drawableStat.Add(new DifficultyStat(GetDifficulty, _timeOfCreation!.Value));
+        }
+        
         UpdateEntities(adjustedGameTime);
         
         HitregHorace(adjustedGameTime);
@@ -104,9 +111,9 @@ public class IngameState : State
         bullets.MassDeleteFromHashset(bulletsToDelete);
     }
 
-    private Difficulty GetDifficulty(GameTime gameTime)
+    private Difficulty GetDifficulty(GameTime gameTime, TimeSpan timeOfCreation)
     {
-        TimeSpan diff = gameTime.TotalGameTime;
+        TimeSpan diff = gameTime.TotalGameTime - timeOfCreation;
         if (diff > _hardDifficultyTimeThreshold) return Difficulty.Extreme;
         if (diff > _mediumDifficultyTimeThreshold) return Difficulty.Hard;
         if (diff > _easyDifficultyTimeThreshold) return Difficulty.Medium;
@@ -118,7 +125,7 @@ public class IngameState : State
         if (_entities.Count != 0)
             return;
         _wave++;
-        Difficulty difficulty = GetDifficulty(gameTime);
+        Difficulty difficulty = GetDifficulty(gameTime, _timeOfCreation!.Value);
 
         int enemyCount = 3 + _wave;
 
@@ -277,13 +284,9 @@ public class IngameState : State
         int scrollDelta = mouse.ScrollWheelValue - _previousScrollWheelValue;
         _previousScrollWheelValue = mouse.ScrollWheelValue;
 
-        if (scrollDelta != 0)
-        {
-            SpaceValues.Scale += Math.Sign(scrollDelta);
-            SpaceValues.Scale = MathHelper.Clamp(SpaceValues.Scale, 10f, 50f);
-        }
-        
-
+        if (scrollDelta == 0) return;
+        SpaceValues.Scale += Math.Sign(scrollDelta);
+        SpaceValues.Scale = MathHelper.Clamp(SpaceValues.Scale, 10f, 50f);
     }
     
     /// <summary>

@@ -243,12 +243,12 @@ public class Horace : Entity
         foreach (Thruster thruster in _thrustersToDraw)
         {
             Vector2 offset = Vector2.Transform(
-                thruster.Offset.ToVector2(),
+                new Vector2((float)thruster.Offset.X.Value, (float)thruster.Offset.Y.Value),
                 Matrix.CreateRotationZ((float)AngleOfRotation.Value));
 
             spriteBatch.Draw(
                 ThrusterTexture,
-                (pos.ToVector2() + offset) / (float)SpaceValues.ScaleConversion,
+                (pos.ToVector2() + offset),
                 null,
                 Color,
                 (float)(AngleOfRotation + thruster.Angle).Value,
