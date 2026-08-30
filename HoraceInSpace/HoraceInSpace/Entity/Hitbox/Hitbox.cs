@@ -127,8 +127,7 @@ public abstract class Hitbox(distance radius) : IHitBox
         WrappedDistanceTo(point, SpaceValues.WorldSize) <= Radius;
 
 
-
-    protected distance WrappedDistanceTo(Position other, Position worldSize)
+    private distance WrappedDistanceTo(Position other, Position worldSize)
     {
         distance dx = (Position.X - other.X).Abs();
         distance dy = (Position.Y - other.Y).Abs();

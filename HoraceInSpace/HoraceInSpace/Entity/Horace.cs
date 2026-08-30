@@ -51,16 +51,16 @@ public class Horace : Entity
     private readonly Thruster[] _thrusters =
     [
         // Forward Thruster
-        new((-40, 0).At(), angle.Deg180),
+        new((-10, 0).At(), angle.Deg180),
 
         // Left Thruster
-        new((0, 20).At(), angle.Deg90),
+        new((0, 5).At(), angle.Deg90),
 
         // Right Thruster
-        new((0, -44).At(), angle.Deg270),
+        new((0, -11).At(), angle.Deg270),
 
         // Back Thruster
-        new((50, 0).At(), angle.Deg0)
+        new((12, 0).At(), angle.Deg0)
     ];
     
     /// <summary>
@@ -248,7 +248,7 @@ public class Horace : Entity
 
             spriteBatch.Draw(
                 ThrusterTexture,
-                (pos.ToVector2() + offset),
+                (pos.ToVector2() + offset * TextureScale),
                 null,
                 Color,
                 (float)(AngleOfRotation + thruster.Angle).Value,
