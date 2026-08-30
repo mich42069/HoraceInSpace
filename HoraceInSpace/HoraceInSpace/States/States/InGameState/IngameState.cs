@@ -63,9 +63,9 @@ public class IngameState : State
 
         if (_timeOfCreation == null)
         {
-            _timeOfCreation = adjustedGameTime.ElapsedGameTime;
-            //
-            //_drawableStat.Add(new DifficultyStat(GetDifficulty, _timeOfCreation!.Value));
+            _timeOfCreation = adjustedGameTime.TotalGameTime;
+            
+            _drawableStat.Add(new DifficultyStat(GetDifficulty, _timeOfCreation!.Value));
         }
         
         UpdateEntities(adjustedGameTime);
