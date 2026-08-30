@@ -11,8 +11,8 @@ public static class SpaceValues
 {
     public static float Scale = 20;
     public static double ScaleConversion => ScreenSize.X / WorldSize.X.Value;
-    private static distance GameWidth => 1920.Meters();
-    private static distance GameHeight => 1080.Meters();
+    private static distance GameWidth => ScreenSize.X.Meters();
+    private static distance GameHeight => ScreenSize.Y.Meters();
     public static Position WorldSize => (GameWidth, GameHeight).At() / Scale;
     public static Vector2 ScreenSize { get; set; }
     
