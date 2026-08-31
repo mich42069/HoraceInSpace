@@ -26,4 +26,6 @@ public interface IStar
     /// </summary>
     /// <param name="gameTime">Time to advance the effect by.</param>
     public void Update(GameTime gameTime);
+
+    public double NonSpecialEffectChance { get; }
 }

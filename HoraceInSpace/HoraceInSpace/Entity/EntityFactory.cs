@@ -101,7 +101,7 @@ public static class EntityFactory
         }
     }
 
-    private static T CreateEntity<T>(Position Position,
+    private static T CreateEntity<T>(Position position,
         Func<Position, angle, angle, speed, T> factory)
         where T : Entity
     {
@@ -110,33 +110,33 @@ public static class EntityFactory
         speed initialSpeed = Random.NextSingle() * SpaceValues.MaxEntitySpawnSpeed;
 
         return factory(
-            Position,
+            position,
             angleOfMotion,
             angleOfRotation,
             initialSpeed);
     }
 
-    private static NormalUfo CreateUfo(Position Position) => 
-        CreateEntity(Position, (p, m, r, s) => 
+    private static NormalUfo CreateUfo(Position position) => 
+        CreateEntity(position, (p, m, r, s) => 
             new NormalUfo(p, m, r, s));
-    private static AsteroidEnormous CreateEnormousAsteroid(Position Position) => 
-        CreateEntity(Position, (p, m, r, s) => 
+    private static AsteroidEnormous CreateEnormousAsteroid(Position position) => 
+        CreateEntity(position, (p, m, r, s) => 
             new AsteroidEnormous(p, m, r, s));
 
-    private static AsteroidGiant CreateGiantAsteroid(Position Position) => 
-        CreateEntity(Position, (p, m, r, s) => 
+    private static AsteroidGiant CreateGiantAsteroid(Position position) => 
+        CreateEntity(position, (p, m, r, s) => 
             new AsteroidGiant(p, m, r, s));
 
-    private static AsteroidBig CreateBigAsteroid(Position Position) => 
-        CreateEntity(Position, (p, m, r, s) => 
+    private static AsteroidBig CreateBigAsteroid(Position position) => 
+        CreateEntity(position, (p, m, r, s) => 
             new AsteroidBig(p, m, r, s));
 
-    private static AsteroidMedium CreateMediumAsteroid(Position Position) => 
-        CreateEntity(Position, (p, m, r, s) => 
+    private static AsteroidMedium CreateMediumAsteroid(Position position) => 
+        CreateEntity(position, (p, m, r, s) => 
             new AsteroidMedium(p, m, r, s));
 
-    private static AsteroidSmall CreateSmallAsteroid(Position Position) => 
-        CreateEntity(Position, (p, m, r, s) => 
+    private static AsteroidSmall CreateSmallAsteroid(Position position) => 
+        CreateEntity(position, (p, m, r, s) => 
             new AsteroidSmall(p, m, r, s));
 
     public static Entity CreateEntity(Difficulty difficulty, Position avoidPosition)

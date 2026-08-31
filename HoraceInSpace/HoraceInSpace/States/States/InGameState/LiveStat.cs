@@ -24,13 +24,13 @@ public class LiveStat(Horace horace) : IDrawableStat
     {
         for (int i = 0; i < _horaceLives; i++)
         {
-            Vector2 Position = new(
+            Vector2 position = new(
                 Margin + i * (Textures.Horace.Width * Scale + Spacing),
                 Margin);
 
             spriteBatch.Draw(
                 Textures.Horace,
-                Position,
+                position,
                 null,
                 Color.White,
                 0f,

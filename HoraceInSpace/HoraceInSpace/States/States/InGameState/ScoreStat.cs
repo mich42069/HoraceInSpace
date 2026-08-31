@@ -31,14 +31,14 @@ public class ScoreStat : IDrawableStat
         string text = _score.ToString();
 
         Vector2 size = Assets.Assets.Font.MeasureString(text);
-        Vector2 Position = new(
+        Vector2 position = new(
             SpaceValues.ScreenSize.X - size.X - 10,
             10);
 
         spriteBatch.DrawString(
             Assets.Assets.Font,
             text,
-            Position,
+            position,
             Color.White);
     }
     /// <summary>

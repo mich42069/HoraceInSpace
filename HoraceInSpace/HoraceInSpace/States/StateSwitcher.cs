@@ -16,12 +16,12 @@ public class StateSwitcher : IStateSwitcher
     private readonly GameArguments _arguments;
     private ParallelWrapper _starsUpdater;
 
-    public StateSwitcher(Vector2 screenSize, int count, GameArguments arguments)
+    public StateSwitcher(Vector2 screenSize, int starsCount, GameArguments arguments)
     {
         _arguments = arguments;
         SpaceValues.ScreenSize = screenSize;
         _currentState = new MenuState(_arguments);
-        _starsBackground = new StarsBackground(screenSize, count);
+        _starsBackground = new StarsBackground(screenSize, starsCount);
         _starsUpdater = new ParallelWrapper(
             gameTime => _starsBackground.Update(gameTime), true);
     }

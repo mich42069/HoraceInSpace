@@ -20,7 +20,7 @@ public class MenuState(GameArguments arguments) : State(arguments)
         "Exit"
     ];
     
-    private float _controlsHintY => SpaceValues.ScreenSize.Y - 50;
+    private float ControlsHintY => SpaceValues.ScreenSize.Y - 50;
     
     private const string ControlsHint =
         "v/^ Navigate    ENTER Select    ESC Exit";
@@ -63,7 +63,7 @@ public class MenuState(GameArguments arguments) : State(arguments)
     
     private void DrawControlsHint(SpriteBatch spriteBatch)
     {
-        DrawCentered(spriteBatch, ControlsHint, _controlsHintY, Color.Gray);
+        DrawCentered(spriteBatch, ControlsHint, ControlsHintY, Color.Gray);
     }
 
     private void DrawOptions(SpriteBatch spriteBatch)

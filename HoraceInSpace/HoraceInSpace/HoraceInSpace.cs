@@ -22,11 +22,11 @@ public class HoraceInSpace : Game
     private static extern uint SetThreadExecutionState(uint esFlags);
 
     // These are flags used to ensure that the computer doesn't go to sleep while ingame.
-    private const uint ES_CONTINUOUS = 0x80000000;
-    private const uint ES_SYSTEM_REQUIRED = 0x00000001;
-    private const uint ES_DISPLAY_REQUIRED = 0x00000002;
+    private const uint EsContinuous = 0x80000000;
+    private const uint EsSystemRequired = 0x00000001;
+    private const uint EsDisplayRequired = 0x00000002;
 
-    private const int NumberOfStars = 1024;
+    private const int NumberOfStars = 1536;
     private readonly GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
     private Vector2 _screenSize;
@@ -112,9 +112,9 @@ public class HoraceInSpace : Game
     protected override void OnActivated(object sender, EventArgs args)
     {
         SetThreadExecutionState(
-            ES_CONTINUOUS |
-            ES_SYSTEM_REQUIRED |
-            ES_DISPLAY_REQUIRED);
+            EsContinuous |
+            EsSystemRequired |
+            EsDisplayRequired);
 
         base.OnActivated(sender, args);
     }
@@ -124,7 +124,7 @@ public class HoraceInSpace : Game
     /// </summary>
     protected override void OnDeactivated(object sender, EventArgs args)
     {
-        SetThreadExecutionState(ES_CONTINUOUS);
+        SetThreadExecutionState(EsContinuous);
 
         base.OnDeactivated(sender, args);
     }

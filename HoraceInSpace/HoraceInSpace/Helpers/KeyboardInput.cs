@@ -12,7 +12,7 @@ public static class KeyboardInput
     private static KeyboardState _current;
     private static KeyboardState _previous;
 
-    private static readonly Dictionary<Keys, Button> _buttons = new();
+    private static readonly Dictionary<Keys, Button> Buttons = new();
 
     /// <summary>
     /// Updates current and previous state.
@@ -42,10 +42,10 @@ public static class KeyboardInput
     /// <returns>True on first held down and then every 100ms after initial 400ms delay. False otherwise.</returns>
     public static bool Held(Keys key, GameTime gameTime)
     {
-        if (!_buttons.TryGetValue(key, out Button button))
+        if (!Buttons.TryGetValue(key, out Button button))
         {
             button = new Button();
-            _buttons[key] = button;
+            Buttons[key] = button;
         }
 
         return button.Update(
@@ -60,6 +60,6 @@ public static class KeyboardInput
     public static void Clear()
     {
         _previous = _current;
-        _buttons.Clear();
+        Buttons.Clear();
     }
 }

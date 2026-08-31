@@ -37,10 +37,10 @@ public abstract class Hitbox(distance radius) : IHitBox
     /// <summary>
     /// Sets the Position of the hitbox, should be done before checking for collision.
     /// </summary>
-    /// <param name="Position">Position to where it is on the grid</param>
-    public virtual void SetPosition(Position Position)
+    /// <param name="position">Position to where it is on the grid</param>
+    public virtual void SetPosition(Position position)
     {
-        this.Position = Position;
+        this.Position = position;
     }
 
     /// <summary>
@@ -78,11 +78,11 @@ public abstract class Hitbox(distance radius) : IHitBox
         }
     }
 
-    private static void DrawCircle(SpriteBatch spriteBatch, Position Position, distance radius)
+    private static void DrawCircle(SpriteBatch spriteBatch, Position position, distance radius)
     {
         const int segments = 32;
 
-        Vector2 center = Position.ToVector2();
+        Vector2 center = position.ToVector2();
         double scaledRadius = radius.Value * SpaceValues.ScaleConversion;
 
         for (int i = 0; i < segments; i++)
