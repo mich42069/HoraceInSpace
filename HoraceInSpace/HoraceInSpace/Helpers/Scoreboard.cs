@@ -7,11 +7,21 @@ using System.Text.Json;
 namespace HoraceInSpace.Helpers;
 
 /// <summary>
-/// Holds the Score of all players, is created on first startup, and loaded every other startup from a .json file.
+/// Holds the scores of all players. The scoreboard is stored in the user's
+/// AppData folder and persists independently of the game installation files.
 /// </summary>
 public static class Scoreboard
 {
+    private const string AppFolderName = "HoraceInSpace";
     private const string FileName = "scoreboard.json";
+
+    private static readonly string DirectoryPath = Path.Combine(
+        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+        AppFolderName);
+
+    private static readonly string FilePath = Path.Combine(
+        DirectoryPath,
+        FileName);
 
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
@@ -21,7 +31,7 @@ public static class Scoreboard
     private static readonly List<ScoreEntry> Scores = Load();
 
     /// <summary>
-    /// Adds the score to the leaderboard. 
+    /// Adds the score to the leaderboard.
     /// </summary>
     /// <param name="name">Name of the record.</param>
     /// <param name="score">Score of the record.</param>
@@ -29,6 +39,7 @@ public static class Scoreboard
     {
         Scores.Add(new ScoreEntry(score, name));
         Scores.Sort((a, b) => b.Score.CompareTo(a.Score));
+
         Save();
     }
 
@@ -36,7 +47,7 @@ public static class Scoreboard
     /// Returns the top X records from the scoreboard.
     /// </summary>
     /// <param name="count">How many records from the scoreboard you want.</param>
-    /// <returns>Read only list of top X records.</returns>
+    /// <returns>Read-only list of the top X records.</returns>
     public static IReadOnlyList<(int Score, string Name)> GetTopX(int count)
     {
         return Scores
@@ -47,21 +58,27 @@ public static class Scoreboard
 
     private static List<ScoreEntry> Load()
     {
-        if (!File.Exists(FileName))
-        {
-            Save([]);
-            return [];
-        }
-
         try
         {
+            if (!Directory.Exists(DirectoryPath))
+            {
+                Directory.CreateDirectory(DirectoryPath);
+            }
+
+            if (!File.Exists(FilePath))
+            {
+                Save([]);
+                return [];
+            }
+
             return JsonSerializer.Deserialize<List<ScoreEntry>>(
-                       File.ReadAllText(FileName))
+                       File.ReadAllText(FilePath))
                    ?? [];
         }
         catch
         {
-            // If the file is corrupt, start with an empty scoreboard.
+            // If the file cannot be read or is corrupt,
+            // start with an empty scoreboard.
             return [];
         }
     }
@@ -75,14 +92,15 @@ public static class Scoreboard
     {
         try
         {
+            Directory.CreateDirectory(DirectoryPath);
+
             File.WriteAllText(
-                FileName,
+                FilePath,
                 JsonSerializer.Serialize(scores, JsonOptions));
         }
         catch
         {
-            // If it fails to write the scoreboard we are not trying again,
-            // since there isn't anything we can do about it.
+            // If saving fails, there is nothing useful we can do here.
         }
     }
 
