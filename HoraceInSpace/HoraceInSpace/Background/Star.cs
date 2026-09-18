@@ -9,7 +9,7 @@ namespace HoraceInSpace.Background;
 
 public class Star : IStar
 {
-    private const ushort DefaultColor = 160;
+    private const ushort DefaultColor = 100;
     private const ushort FlickerRange = 255 - DefaultColor;
     private ushort _starSize;
     private static Texture2D Pixel => Textures.StarColorPixel;
@@ -20,9 +20,12 @@ public class Star : IStar
     private bool _flicker = false;
     private TimeSpan _flickerTime = 0.Seconds();
     private TimeSpan _flickerLength; // Milliseconds
+    private TimeSpan _loadTime;
+    private bool _drawn = false;
 
-    public Star(Vector2 position, float baseSpecialEffectChance, int size)
+    public Star(Vector2 position, float baseSpecialEffectChance, int size, TimeSpan loadTime)
     {
+        _loadTime = loadTime;
         NonSpecialEffectChance = 1 - baseSpecialEffectChance * 4;
         _starSize = (ushort)size;
         _position = position;
@@ -51,11 +54,13 @@ public class Star : IStar
 
     public void Draw(SpriteBatch spriteBatch)
     {
+        if (!_drawn) return;
         spriteBatch.Draw(Pixel, new Rectangle((int)_position.X, (int)_position.Y, _starSize, _starSize), _color);
     }
 
     public void Update(GameTime gameTime)
     {
+        if (!_drawn && _loadTime < gameTime.TotalGameTime) _drawn = true;
         if (_flicker)
         {
             TimeSpan elapsed = gameTime.TotalGameTime - _flickerTime;

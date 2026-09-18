@@ -18,7 +18,7 @@ public abstract class State
     /// <summary>
     /// True if the next state has been decided and is ready to switch
     /// </summary>
-    public bool SwitchState;
+    public bool SwitchState = false;
     
     /// <summary>
     /// True if exit has been called, to be passed upwards.

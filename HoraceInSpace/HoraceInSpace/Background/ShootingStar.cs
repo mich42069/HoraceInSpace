@@ -28,9 +28,13 @@ public class ShootingStar : IStar
     private const float TravelDistance = 1000f;
     private const float TrailLength = 50f;
     private const float TrailWidth = 2f;
+    
+    private TimeSpan _loadTime;
+    private bool _drawn = false;
 
-    public ShootingStar(Vector2 position, float baseSpecialEffectChance)
+    public ShootingStar(Vector2 position, float baseSpecialEffectChance, TimeSpan loadTime)
     {
+        _loadTime = loadTime;
         NonSpecialEffectChance = 1 - baseSpecialEffectChance / 2;
         
         _position = position;
@@ -77,6 +81,8 @@ public class ShootingStar : IStar
 
     public void Update(GameTime gameTime)
     {
+        if (!_drawn && _loadTime < gameTime.TotalGameTime) _drawn = true;
+        
         if (!_active)
             return;
 
@@ -102,8 +108,8 @@ public class ShootingStar : IStar
 
     public void Draw(SpriteBatch spriteBatch)
     {
-        if (!_active)
-            return;
+        if (!_drawn) return;
+        if (!_active) return;
 
         Vector2 tail = _currentPosition - _direction * TrailLength;
         Vector2 center = (_currentPosition + tail) * 0.5f;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using HoraceInSpacePhysicsLib;
+using MathNet.Numerics.Distributions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -10,10 +11,14 @@ public class StarsBackground
 {
     private const int MinimalStarSize = 2;
     private const int MaximalStarSize = 7;
-    private readonly Random _random = new Random();
+    private readonly Random _random = new();
     private readonly List<IStar> _stars = new();
     private const int SpecialEffectCoefficient = 1;
-
+    private readonly TimeSpan _maxLoadTime = 5.Seconds();
+    private const int LowDistributionConcentration = 6;
+    private const int HighDistributionConcentration = 5;
+    public bool AllLoaded { get; private set; }
+    
     /// <summary>
     /// Creates a new StarsBackground based on the number of Stars we want to draw.
     /// There is also 100 times less Shooting stars than normal Stars generated.
@@ -25,23 +30,29 @@ public class StarsBackground
         float baseSpecialEffectChance = SpecialEffectCoefficient / (float)numberOfStars;
         for (int i = 0; i < numberOfStars; i++)
         {
+            TimeSpan loadTime = NextLoadTimeMultiplier() * _maxLoadTime;
             int size = GenerateStarSize();
             Vector2 position = RandomScreenPosition();
-            _stars.Add(new Star(position, baseSpecialEffectChance, size));
+            _stars.Add(new Star(position, baseSpecialEffectChance, size, loadTime));
         }
 
         for (int i = 0; i < numberOfStars / 100; i++)
         {
+            TimeSpan loadTime = NextLoadTimeMultiplier() * _maxLoadTime;
             Vector2 position = RandomScreenPosition();
-            _stars.Add(new ShootingStar(position, baseSpecialEffectChance));
+            _stars.Add(new ShootingStar(position, baseSpecialEffectChance, loadTime));
         }
 
         return;
         
-        int GenerateStarSize() => _random.Next(MinimalStarSize, MaximalStarSize);
-        Vector2 RandomScreenPosition() => new Vector2(_random.Next(0, (int)screenSize.X), _random.Next(0, (int)screenSize.Y));
+        int GenerateStarSize() 
+            => _random.Next(MinimalStarSize, MaximalStarSize);
+        Vector2 RandomScreenPosition() 
+            => new Vector2(_random.Next(0, (int)screenSize.X), _random.Next(0, (int)screenSize.Y));
+        float NextLoadTimeMultiplier()
+            => (float)Beta.Sample(_random, LowDistributionConcentration, HighDistributionConcentration);;
     }
-
+    
     /// <summary>
     /// Draws all stars from background.
     /// </summary>
@@ -49,9 +60,7 @@ public class StarsBackground
     public void Draw(SpriteBatch spriteBatch)
     {
         foreach (IStar star in _stars) 
-        {
             star.Draw(spriteBatch);
-        }
     }
 
     /// <summary>
@@ -60,6 +69,7 @@ public class StarsBackground
     /// <param name="gameTime">GameTime used for updating and creating special effects on stars.</param>
     public void Update(GameTime gameTime)
     {
+        if (!AllLoaded && gameTime.TotalGameTime > _maxLoadTime) AllLoaded = true;
         foreach (IStar star in _stars)
         {
             star.Update(gameTime);

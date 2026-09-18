@@ -20,8 +20,8 @@ public class StateSwitcher : IStateSwitcher
     {
         _arguments = arguments;
         SpaceValues.ScreenSize = screenSize;
-        _currentState = new MenuState(_arguments);
         _starsBackground = new StarsBackground(screenSize, starsCount);
+        _currentState = new LoadState(arguments, _starsBackground);
         _starsUpdater = new ParallelWrapper(
             gameTime => _starsBackground.Update(gameTime), true);
     }
