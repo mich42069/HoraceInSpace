@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using HoraceInSpace.Assets;
 using HoraceInSpace.Entity.Hitbox;
 using HoraceInSpace.Helpers;
@@ -8,7 +7,7 @@ using HoraceInSpacePhysicsLib.Units;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace HoraceInSpace.Entity;
+namespace HoraceInSpace.Entity.Entities;
 
 /// <summary>
 /// Represents an instance of a Medium Asteroid.

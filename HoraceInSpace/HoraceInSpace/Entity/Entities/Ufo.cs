@@ -1,13 +1,11 @@
 ﻿using System;
-using System.DirectoryServices.ActiveDirectory;
 using HoraceInSpace.Assets;
 using HoraceInSpace.Helpers;
-using HoraceInSpacePhysicsLib;
 using HoraceInSpacePhysicsLib.Units;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace HoraceInSpace.Entity;
+namespace HoraceInSpace.Entity.Entities;
 
 /// <summary>
 /// Abstract instance of a UFO, it's main purpose is an entity that can shoot.

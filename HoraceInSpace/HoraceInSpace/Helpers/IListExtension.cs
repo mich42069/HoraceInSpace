@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace HoraceInSpace;
+namespace HoraceInSpace.Helpers;
 
 /// <summary>
 /// Extension class for IList

@@ -1,5 +1,6 @@
 ﻿using HoraceInSpace.Assets;
 using HoraceInSpace.Entity;
+using HoraceInSpace.Entity.Entities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 

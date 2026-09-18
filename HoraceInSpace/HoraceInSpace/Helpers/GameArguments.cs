@@ -1,4 +1,4 @@
-﻿namespace HoraceInSpace;
+﻿namespace HoraceInSpace.Helpers;
 
 /// <summary>
 /// Class that holds all arguments the game was started with.

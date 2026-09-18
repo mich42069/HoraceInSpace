@@ -7,11 +7,10 @@ using HoraceInSpace.Helpers;
 using HoraceInSpacePhysicsLib;
 using HoraceInSpacePhysicsLib.Units;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace HoraceInSpace.Entity;
+namespace HoraceInSpace.Entity.Entities;
 
 public readonly struct Thruster(Position offset, angle angle)
 {

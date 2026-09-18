@@ -7,7 +7,7 @@ using HoraceInSpacePhysicsLib.Units;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace HoraceInSpace.Entity;
+namespace HoraceInSpace.Entity.Entities;
 
 /// <summary>
 /// Base Entity class, holding its Position and other physical factors, color, hitbox, texture,

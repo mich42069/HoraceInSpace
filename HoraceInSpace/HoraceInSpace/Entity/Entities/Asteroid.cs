@@ -1,11 +1,10 @@
 ﻿using System;
 using HoraceInSpace.Helpers;
-using HoraceInSpacePhysicsLib;
 using HoraceInSpacePhysicsLib.Units;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace HoraceInSpace.Entity;
+namespace HoraceInSpace.Entity.Entities;
 
 /// <summary>
 /// Abstract representation of an asteroid, defining density, and the existence of a ShadowTexture.

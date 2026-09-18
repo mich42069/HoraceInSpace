@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using HoraceInSpace.Assets;
 using HoraceInSpace.Entity;
+using HoraceInSpace.Entity.Entities;
 using HoraceInSpace.Helpers;
 using HoraceInSpacePhysicsLib;
 using Microsoft.Xna.Framework;
@@ -22,7 +23,7 @@ public class IngameState : State
     private const int MaxBullets = 10;
     
     private readonly Horace _horace;
-    private List<Entity.Entity> _entities = new();
+    private List<Entity.Entities.Entity> _entities = new();
     private List<Bullet> _bullets = new();
     private List<Bullet> _ufoBullets = new();
     
@@ -44,7 +45,7 @@ public class IngameState : State
     public IngameState(GameArguments arguments) : base(arguments)
     {
         _timeScale = arguments.TimeScale;
-        Entity.Entity.DrawHitbox = arguments.ShowHitboxes;
+        Entity.Entities.Entity.DrawHitbox = arguments.ShowHitboxes;
         _horace = new Horace();
         _drawableStat.Add(new LiveStat(_horace));
         _drawableStat.Add(new ScoreStat(() => _totalScore));
@@ -81,7 +82,7 @@ public class IngameState : State
 
         _totalScore += newScore;
 
-        List<Entity.Entity> newAsteroids = SplitUpHitEntities(hitBulletsEntities.Item2);
+        List<Entity.Entities.Entity> newAsteroids = SplitUpHitEntities(hitBulletsEntities.Item2);
         _entities.AddRange(newAsteroids);
         
         _bullets.MassDeleteFromHashset(hitBulletsEntities.Item1);
@@ -135,13 +136,13 @@ public class IngameState : State
         }
     }
 
-    private List<Entity.Entity> SplitUpHitEntities(HashSet<int> hits)
+    private List<Entity.Entities.Entity> SplitUpHitEntities(HashSet<int> hits)
     {
-        List<Entity.Entity> newAsteroids = new();
+        List<Entity.Entities.Entity> newAsteroids = new();
         foreach (int i in hits)
         {
             Sounds.Explosion.Play();
-            List<Entity.Entity> splitUpAsteroid = _entities[i].SplitUp();
+            List<Entity.Entities.Entity> splitUpAsteroid = _entities[i].SplitUp();
             newAsteroids.AddRange(splitUpAsteroid);
         }
         
@@ -153,7 +154,7 @@ public class IngameState : State
         int totalScore = 0;
         foreach (int i in entities)
         {
-            Entity.Entity hitEntity = _entities[i];
+            Entity.Entities.Entity hitEntity = _entities[i];
             if (hitEntity is IScore scorableEntity)
             {
                 totalScore += scorableEntity.Score;
@@ -192,7 +193,7 @@ public class IngameState : State
             return;
         }
         
-        foreach (Entity.Entity entity in _entities)
+        foreach (Entity.Entities.Entity entity in _entities)
         {
             if (_horace.CheckHit(entity))
             {
@@ -231,7 +232,7 @@ public class IngameState : State
     private void UpdateEntities(GameTime gameTime)
     {
         _horace.Update(gameTime);
-        foreach (Entity.Entity entity in _entities) entity.Update(gameTime);
+        foreach (Entity.Entities.Entity entity in _entities) entity.Update(gameTime);
         foreach (Bullet bullet in _bullets) bullet.Update(gameTime);
         foreach (Bullet bullet in _ufoBullets) bullet.Update(gameTime);
     }
@@ -243,7 +244,7 @@ public class IngameState : State
     public override void Draw(SpriteBatch spriteBatch)
     {
         _horace.Draw(spriteBatch);
-        foreach (Entity.Entity entity in _entities) entity.Draw(spriteBatch);
+        foreach (Entity.Entities.Entity entity in _entities) entity.Draw(spriteBatch);
         foreach (Bullet bullet in _bullets) bullet.Draw(spriteBatch);
         foreach (Bullet bullet in _ufoBullets) bullet.Draw(spriteBatch);
         foreach (IDrawableStat stat in _drawableStat) stat.Draw(spriteBatch);

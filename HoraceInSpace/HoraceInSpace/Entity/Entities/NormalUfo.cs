@@ -5,9 +5,8 @@ using HoraceInSpace.Helpers;
 using HoraceInSpacePhysicsLib;
 using HoraceInSpacePhysicsLib.Units;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
-namespace HoraceInSpace.Entity;
+namespace HoraceInSpace.Entity.Entities;
 
 /// <summary>
 /// A concrete instance of a UFO.

@@ -1,4 +1,5 @@
 ﻿using System;
+using HoraceInSpace.Entity.Entities;
 using HoraceInSpace.Helpers;
 using HoraceInSpacePhysicsLib;
 using HoraceInSpacePhysicsLib.Units;
@@ -26,51 +27,50 @@ public static class EntityFactory
         };
     }
     private static SpawnWeights GetWeights(Difficulty difficulty)
-    {
-        SpawnWeights weights = difficulty switch
-        {Difficulty.Easy => new SpawnWeights
+    {SpawnWeights weights = difficulty switch
+        {
+            Difficulty.Easy => new SpawnWeights
             {
                 SmallAsteroid = 0.45f,
-                MediumAsteroid = 0.15f,
-                BigAsteroid = 0.05f,
-                GiantAsteroid = 0f,
-                EnormousAsteroid = 0f,
-                Ufo = 0.35f
+                MediumAsteroid = 0.25f,
+                BigAsteroid = 0.10f,
+                GiantAsteroid = 0.00f,
+                EnormousAsteroid = 0.00f,
+                Ufo = 0.20f
             },
 
             Difficulty.Medium => new SpawnWeights
             {
-                SmallAsteroid = 0.20f,
-                MediumAsteroid = 0.15f,
-                BigAsteroid = 0.05f,
-                GiantAsteroid = 0f,
-                EnormousAsteroid = 0f,
-                Ufo = 0.60f
+                SmallAsteroid = 0.25f,
+                MediumAsteroid = 0.25f,
+                BigAsteroid = 0.15f,
+                GiantAsteroid = 0.05f,
+                EnormousAsteroid = 0.00f,
+                Ufo = 0.30f
             },
 
             Difficulty.Hard => new SpawnWeights
             {
                 SmallAsteroid = 0.15f,
-                MediumAsteroid = 0.15f,
-                BigAsteroid = 0.05f,
-                GiantAsteroid = 0f,
-                EnormousAsteroid = 0f,
-                Ufo = 0.65f
+                MediumAsteroid = 0.20f,
+                BigAsteroid = 0.20f,
+                GiantAsteroid = 0.10f,
+                EnormousAsteroid = 0.05f,
+                Ufo = 0.30f
             },
 
             Difficulty.Extreme => new SpawnWeights
             {
                 SmallAsteroid = 0.10f,
-                MediumAsteroid = 0.10f,
-                BigAsteroid = 0.10f,
-                GiantAsteroid = 0.10f,
-                EnormousAsteroid = 0.05f,
-                Ufo = 0.55f
+                MediumAsteroid = 0.15f,
+                BigAsteroid = 0.20f,
+                GiantAsteroid = 0.20f,
+                EnormousAsteroid = 0.15f,
+                Ufo = 0.20f
             },
 
             _ => throw new ArgumentOutOfRangeException()
         };
-
         return Math.Abs(weights.Sum - 1f) < 0.0001f
             ? weights
             : SpawnWeights.Default;
@@ -103,7 +103,7 @@ public static class EntityFactory
 
     private static T CreateEntity<T>(Position position,
         Func<Position, angle, angle, speed, T> factory)
-        where T : Entity
+        where T : Entities.Entity
     {
         angle angleOfMotion = (Random.NextSingle() * 360).Degrees();
         angle angleOfRotation = (Random.NextSingle() * 360).Degrees();
@@ -139,12 +139,12 @@ public static class EntityFactory
         CreateEntity(position, (p, m, r, s) => 
             new AsteroidSmall(p, m, r, s));
 
-    public static Entity CreateEntity(Difficulty difficulty, Position avoidPosition)
+    public static Entities.Entity CreateEntity(Difficulty difficulty, Position avoidPosition)
     {
         Position spawnPosition = GenerateSpawnPosition(avoidPosition);
 
         
-        var choices = new (float Weight, Func<Entity> Create)[]
+        var choices = new (float Weight, Func<Entities.Entity> Create)[]
         {
             (GetWeights(difficulty).SmallAsteroid, () => CreateSmallAsteroid(spawnPosition)),
             (GetWeights(difficulty).MediumAsteroid, () => CreateMediumAsteroid(spawnPosition)),
