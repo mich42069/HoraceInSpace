@@ -32,5 +32,6 @@ public static class SpaceValues
     public static distance UfoRadius => 1.5.Meters();
     public static force HoraceThrusterForce => 1.MegaNewtons();
     public static speed MaxEntitySpawnSpeed => 10.MetersPerSecond();
-    public static speed BulletInitialSpeed => 40.MetersPerSecond();
+    public static speed MaxAsteroidSplitSpeed => MaxEntitySpawnSpeed * 4;
+    public static speed BulletInitialSpeed => 65.MetersPerSecond();
 }
