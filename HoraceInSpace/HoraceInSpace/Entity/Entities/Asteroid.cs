@@ -28,7 +28,8 @@ public abstract class Asteroid : Entity
         volume newAsteroidVolume =
             4 / (double)3 * Double.Pi * newAsteroidRadius * newAsteroidRadius * newAsteroidRadius;
         mass newAsteroidMass = Density * newAsteroidVolume;
-        return Momentum / newAsteroidMass;
+        speed newSpeed = Momentum / newAsteroidMass;
+        return newSpeed > SpaceValues.MaxEntitySpawnSpeed ? SpaceValues.MaxEntitySpawnSpeed : newSpeed;
     }
 
     protected override void Draw(Position pos, SpriteBatch spriteBatch)
